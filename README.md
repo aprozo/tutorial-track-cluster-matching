@@ -1,4 +1,4 @@
-EIC Tutorial: Track-Cluster Matching and PODIO
+# EIC Tutorial: Track-Cluster Matching and PODIO
 
 This repository generates the corresponding lesson website from [The Carpentries](https://carpentries.org/) repertoire of lessons. 
 

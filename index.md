@@ -8,7 +8,6 @@ illustrate the basics of PODIO and how to use it in an analysis setting via trac
 matching.
 
 > ## Prerequisites
-> ----------------
 > You will need experience/knowledge with the following topics:
 >   - Using CERN ROOT and/or Python;
 >   - Working on the command line in UNIX environments;
