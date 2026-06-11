@@ -10,7 +10,7 @@ keypoints:
 - "First key point. Brief Answer to questions. (FIXME)"
 ---
 
-# Skeleton
+# Outline
 
 Key points:
   - Illustrate basics of PODIO usage in
@@ -18,6 +18,7 @@ Key points:
   - Illustrate navigating links, associations,
     and relations
 
+Skeleton:
 
 1. Introduction
   - Goal of tutorial
