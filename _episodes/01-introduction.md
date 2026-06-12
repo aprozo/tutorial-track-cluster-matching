@@ -59,6 +59,7 @@ Skeleton:
 
 3. Track-cluster matching
     - (A) Set up basic script
+      - Show track-cluster matching efficiency 
     - (B) Select e+- based on E/p
     - (C) Plot invariant mass
     - Note: have algorithm to do this in EICrecon,
