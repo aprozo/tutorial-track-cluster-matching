@@ -20,6 +20,15 @@ xrdcp root://dtn-eic.jlab.org//volatile/eic/EPIC/RECO/26.03.0/epic_craterlake/DI
 025_hiDiv_5.0001.eicrecon.edm4eic.root ./
 ```
 
+**Note:** might be preferable to use exclusive channel (w/ or w/o background) where there will be a clear signal, e.g.
+Lambda --> pi+proton, Ks --> pi+pi
+
+**Note:** exclusive J/psi --> ee enchanced channel
+
+```
+epic:/RECO/26.04.1/epic_craterlake/EXCLUSIVE/DIFFRACTIVE_JPSI_ABCONV/lAger3.6.1-1.0/10x130/hiAcc
+```
+
 Lastly, you may want to work through some sections of the introductory analysis tutorial [here](https://eic.github.io/tutorial-analysis/).
 In particular, section [2](https://eic.github.io/tutorial-analysis/02-reconstruction-output/index.html) touches on the structure of
 the ROOT trees we'll be analyzing.
