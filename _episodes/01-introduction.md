@@ -1,13 +1,14 @@
 ---
 title: "Introduction"
-teaching: 15
+teaching: 10
 exercises: 0
 questions:
-- "FIXME?"
+- "Why should I be interested in track-cluster matching?"
 objectives:
-- "FIXME"
+- "Understand physical motivation behind examples in tutorial"
 keypoints:
-- "FIXED ME"
+- "Track-cluster is a critical part of reconstructing particles"
+- "Parent-daughter matching is needed to validate reconstructed particles"
 ---
 
 Like we noted in the Setup section, our goal in this tutorial is to understand how to use
@@ -24,6 +25,9 @@ On one hand, the former utilizes purely reconstructed objects (tracks and cluste
 illustrate the basics of PODIO and _links_.  While on the other hand, the latter utilizes purely
 simulated objects (generated particles) and will illustrate how to navigate _relations_.
 
+We'll deploy these routines to study $J/\psi$s decaying to $e^{+} + e^{-}$ pairs, a common
+decay channel used in many areas of EIC science.
+
 ## Why these?
 
 Before diving into PODIO, though, I would like to motivate _why_ you should care about these
@@ -32,16 +36,28 @@ on.  A particle will leave signals in several detectors.  The majority of partic
 typical DIS event will create hits in our trackers _and_ will shower --- forming a cluster
 --- in at least one of our calorimeters.
 
-This is illustrated in the following image, where the colored bands indicate the SVT (orange),
-hpDIRC (pink), BIC (purple), magnet solenoid (grey), and BHCal (blue) in ePIC's barrel. 
+This is illustrated in the following image, where the colored bands indicate the tracking
+layers (orange), cherenkov detector (pink), electromagnetic calorimeter (ECal, purple),
+magnet  solenoid (grey), and hadronic calorimeter (HCal, blue) in ePIC's barrel.
 
 ![Illustration of a particle leaving signals in several detectors](./../assets/img/tutorial/ParticleTrajectory.png)
 
-WE NEED TO USE ALL INFORMATION TO GET THE MOST ACCURATE MEASUREMENT. TO BALANCE ENERGY AND DO PID.
+Accurately reconstructing the particle --- its momentum, energy, charge, mass --- will require
+us to make use of all of this information.  For example, an electron will create a track and will
+usually deposit all of its energy into an ECal.  In contrast, a charged hadron  like a $\pi^{-}$),
+will frequently deposit energy into HCal, while a $\pi^{0}$ will deposit energy into an ECal without
+creating a track.  This is illustrated in the following figure.
 
 ![Diagram of particle types vs. typical survival depth in a detector](./../assets/img/tutorial/DepthVsParticleSpecies.png)
 
-ELECTRONS SHOWER LEAVE HITS IN THE TRACKER AND ONLY SHOWER IN ECAL, BUT CHARGED HADRONS CAN LEAVE SIGNALS IN BOTH.
+Therefore, track-cluster matching is a critical step in our reconstruction, which we use to
+identify leptons, measure neutral particles, and more.  In this tutorial, we'll use it identify
+decay $e^{\pm}$ which we'll reconstruct a $J/\psi$ from.
+
+To validate our reconstructed $J/\psi$, however, we'll need to identify the corresponding
+simulated particles.  That's where parent-daughter comes in.
+ 
+
 
 ## References
 
@@ -56,23 +72,5 @@ Key points:
     C++, Python
   - Illustrate navigating links, associations,
     and relations
-
-Skeleton:
-
-1. Introduction
-    - Goal of tutorial
-    - Track-cluster Matching: illustrate PODIO
-      basics + links
-      - Paradigmatic of a lot of analysis operations
-      - First step towards particle/jet/event
-        reconstruction
-      - e.g. reconstructing a J/psi, you need
-        to ID electrons
-    - Parent-Daughter Matching: illustrate
-      navigating relations
-      - Truth-level parallel of track-cluster
-        matching
-      - e.g. need to validate our reconstructed
-        J/psi
 
 {% include links.md %}
