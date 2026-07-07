@@ -25,7 +25,7 @@ On one hand, the former utilizes purely reconstructed objects (tracks and cluste
 illustrate the basics of PODIO and _links_.  While on the other hand, the latter utilizes purely
 simulated objects (generated particles) and will illustrate how to navigate _relations_.
 
-We'll deploy these routines to study $J$/$\psi$s decaying to $e^{+} + e^{-}$ pairs, a common
+We'll deploy these routines to study $J$/$ \psi$s decaying to $e^{+} + e^{-}$ pairs, a common
 decay channel used in many areas of EIC science.
 
 ## Why these?
@@ -52,9 +52,9 @@ creating a track.  This is illustrated in the following figure.
 
 Therefore, track-cluster matching is a critical step in our reconstruction, which we use to
 identify leptons, measure neutral particles, and more.  In this tutorial, we'll use it identify
-decay $e^{\pm}$ which we'll reconstruct a $J$/$\psi$ from.
+decay $e^{\pm}$ which we'll reconstruct a $J$/$ \psi$ from.
 
-To validate our reconstructed $J/\psi$, however, we'll need to identify the corresponding
+To validate our reconstructed $J$/$ \psi$, however, we'll need to identify the corresponding
 simulated particles.  That's where parent-daughter comes in.
  
 
