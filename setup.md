@@ -8,7 +8,7 @@ well before the start of the tutorial to ensure your system is ready. You will n
 
 This tutorial will cover the basics of [PODIO](https://github.com/AIDASoft/podio) and illustrate how to use it in an analysis setting
 through the lens of a critical operation in our reconstruction, matching tracks to clusters. We will also touch on other examples of how
-to use PODIO in your analysis such as identifying the decay electrons of a $J/\psi$. Examples of how to do the same analyses in other
+to use PODIO in your analysis such as identifying the decay electrons of a $J$/$\psi$. Examples of how to do the same analyses in other
 formats --- such as with `RDataFrame` or with `TTreeReader` --- are included as extras at the end of the tutorial.
 
 We will need a file to process for the example code, so if you havent done so yet, please follow the tutorial on accessing EIC/ePIC
