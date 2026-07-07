@@ -29,8 +29,8 @@ simulated objects (generated particles) and will illustrate how to navigate _rel
 Before diving into PODIO, though, I would like to motivate _why_ you should care about these
 two routines.  To start, remember that a particle is _not_ just a track, a cluster, or so
 on.  A particle will leave signals in several detectors.  The majority of particles in a
-typical DIS event will create hits in our trackers _and_ will shower &mdash forming a cluster
-&mdash in at least one of our calorimeters.
+typical DIS event will create hits in our trackers _and_ will shower --- forming a cluster
+--- in at least one of our calorimeters.
 
 This is illustrated in the following image, where the colored bands indicate the SVT (orange),
 hpDIRC (pink), BIC (purple), magnet solenoid (grey), and BHCal (blue) in ePIC's barrel. 
