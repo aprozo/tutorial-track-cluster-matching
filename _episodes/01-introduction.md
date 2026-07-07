@@ -35,11 +35,11 @@ typical DIS event will create hits in our trackers _and_ will shower &mdash form
 This is illustrated in the following image, where the colored bands indicate the SVT (orange),
 hpDIRC (pink), BIC (purple), magnet solenoid (grey), and BHCal (blue) in ePIC's barrel. 
 
-![Illustration of a particle leaving signals in several detectors](../../assets/img/tutorial/ParticleTrajectory.png)
+![Illustration of a particle leaving signals in several detectors](./../assets/img/tutorial/ParticleTrajectory.png)
 
 WE NEED TO USE ALL INFORMATION TO GET THE MOST ACCURATE MEASUREMENT. TO BALANCE ENERGY AND DO PID.
 
-![Diagram of particle types vs. typical survival depth in a detector](../../assets/img/tutorial/DepthVsParticleSpecies.png)
+![Diagram of particle types vs. typical survival depth in a detector](./../assets/img/tutorial/DepthVsParticleSpecies.png)
 
 ELECTRONS SHOWER LEAVE HITS IN THE TRACKER AND ONLY SHOWER IN ECAL, BUT CHARGED HADRONS CAN LEAVE SIGNALS IN BOTH.
 
