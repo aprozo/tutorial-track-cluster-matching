@@ -9,14 +9,10 @@ questions:
 objectives:
 - "Understand relationship between the data model and PODIO"
 - "Become familiar with PODIO concepts and synatx"
-- "Identify where to find data model documentation"
 keypoints:
 - "A data model is how represent our data in software"
 - "PODIO is a toolkit to generate and interface with data models like EDM4eic"
-- "The core concepts of PODIO are collections (lists of objects), relations (direct"
-  " connections between objects), and links/associations optional connections between"
-  " objects)"
-- "Data model
+- "The core concepts of PODIO are collections, relation, and links/associations"
 ---
 
 ## The EDM4eic Data Model
