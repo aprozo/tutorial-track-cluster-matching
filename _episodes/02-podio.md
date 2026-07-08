@@ -42,10 +42,11 @@ A few things to note before we move on:
 - And we want our model to be _predictable_ and _intuitive_: accessing the energy of
   a calorimeter cluster should be identical to accessing the energy of a particle.
 
-> Note that we also utilize the [EDM4hep][edm4hep] data model in our software.  This is a
-> data model developed by the [Key4hep][key4hep] project, which is developing common software
-> to support the FCC, ILC/CLIC, Muon Collider, and more.  Just like with our data model, the
-> EDM4hep is defined a single YAML file, [edm4hep.yaml][hepyaml]. 
+> ## `Note:`
+> We also utilize the [EDM4hep][edm4hep] data model in our software.  This is a data model
+> developed by the [Key4hep][key4hep] project, which is developing common software to support
+> the FCC, ILC/CLIC, Muon Collider, and more.  Just like with our data model, the EDM4hep
+> model is also defined in a single YAML file, [edm4hep.yaml][hepyaml]. 
 {: .callout}
 
 ## An Introduction to PODIO
@@ -89,7 +90,7 @@ ASSOCIATIONS ARE BEING DEPRECATED.
 LINKS HAVE A LOT OF BENEFITS SUCH AS MORE CONSISTENT SYNTAX. AND
 YOU HAVE THE LINK NAVIGATOR WHICH IS OUT-OF-THE-SCOPE OF THIS TUTORIAL.
 
-![Diagram of an association](./../assets/img/tutorial/MCRecoParticleAssociations.png)
+![Diagram of an association](./../assets/img/tutorial/MCRecoParticleAssociation.png)
 
 ## References
 
