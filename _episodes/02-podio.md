@@ -12,7 +12,7 @@ objectives:
 keypoints:
 - "A data model is how represent our data in software"
 - "PODIO is a toolkit to generate and interface with data models like EDM4eic"
-- "The core concepts of PODIO are collections, relation, and links/associations"
+- "Classes have their accessors prefixed by get/set, components don't"
 ---
 
 ## The EDM4eic Data Model
@@ -164,9 +164,8 @@ It has 3 data members and some extra code, which just defines some handy functio
 find this in [edm4hep.yaml][hepyaml], then you'll notice it's defined under a block labeled
 `components`.  Notice that `edm4eic::Track` is defined under a block labeled `classes`.
 
-Components are just simple `struct`s (in the C++ sense), and can't be saved to
-output.  This means that component accessors are _not_ prefixed by `get`/`set`.
-For example:
+Components are just simple `struct`s (in the C++ sense).  This means that component accessors
+are _not_ prefixed by `get`/`set`.  For example:
 
 ```python
 import math
@@ -184,14 +183,12 @@ float py = track.getMomentum().y;
 float pt = std::hypot(px, py);
 ```
 
-Also note that components can't be stored in a collection, and so can't be written out
+Also note that components can't be stored in a collection and so can't be written out
 _except_ as part of a class such as `edm4eic::Track`.
 
 POINTS TO HIT:
-- STORAGE VS USER LAYER
 - COLLECTIONS (READ-ONLY)
 - VECTOR MEMBERS
-- DOXYGEN PAGE
 
 ## Relations
 
@@ -215,14 +212,55 @@ LINKS AND ASSOCIATIONS CONNECT DISPARATE OJECTS. THESE CONNECTIONS
 MAY OR MAY NOT EXIST. LINKS HAVE DIRECTIONALITY, ASSOCIATIONS DON'T.
 ASSOCIATIONS ARE BEING DEPRECATED.
 
-![Diagram of a link](./../assets/img/tutorial/MCRecoParticleLink.png)
+![Diagram of an association](./../assets/img/tutorial/MCRecoParticleAssociation.png)
 
 LINKS HAVE A LOT OF BENEFITS SUCH AS MORE CONSISTENT SYNTAX. AND
 YOU HAVE THE LINK NAVIGATOR WHICH IS OUT-OF-THE-SCOPE OF THIS TUTORIAL.
 
-![Diagram of an association](./../assets/img/tutorial/MCRecoParticleAssociation.png)
+![Diagram of a link](./../assets/img/tutorial/MCRecoParticleLink.png)
 
 ## Vector Members
+
+TODO
+
+## User vs. Storage Layer
+
+Lastly, try opening the file we downloaded during Setup with a ROOT TBrowser:
+
+```bash
+$ root --web-display=off <FILENAME HERE>
+root [0] new TBrowser()
+```
+
+Open the tree labeled `events` and you'll see hundreds of branches!  Find the
+branch labeled `CentralCKFTracks`, open it and click on a few leaves.  This is
+how PODIO data is organized in memory, as a big array of structs holding the
+values in the leaves.  This is referred to as _the POD (or Data) Layer_.
+
+As noted in the last section, the [Analysis Tutorial][analysis] illustrates
+how to work directly with the POD Layer using a ROOT `TTreeReader`.  The syntax
+illustrated above is working with what's called _the User Layer_.  A third
+layer, _the Object Layer_, interfaces between the POD and User Layers.
+
+There are clear benefits to working with the User Layer over the POD Layer:
+- Significantly less boilerplate code to write,
+- Easy, intuitive syntax to deal with relations, associations, and vector
+  members; and
+- The User Layer synatx will remain constant, but how the POD Layer is 
+  organized _may not._
+
+The first two points will be illustrated very clearly in the following
+sections.
+
+However, there may be cases where working directly with the POD Layer
+is actually preferable.  For example:
+- You may want to histogram just one or two members directly, or
+- You're working with a ML pipeline where you'll need to load the data
+  as a dataframe.
+
+Which analysis method is ultimately up to you: our goal is to support
+as many methods as possible, and, between the POD Layer and the User
+Layer, PODIO gives us the tools to do that.
 
 ## References
 
@@ -234,6 +272,7 @@ YOU HAVE THE LINK NAVIGATOR WHICH IS OUT-OF-THE-SCOPE OF THIS TUTORIAL.
 [podio]: https://github.com/AIDASoft/podio
 [poddoc]: https://key4hep.web.cern.ch/podio/doc.html
 [eicdoc]: https://eic.github.io/EDM4eic/
+[analysis]: https://eic.github.io/tutorial-analysis/
 
 ## Outline
 
