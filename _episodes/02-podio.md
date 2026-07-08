@@ -58,7 +58,7 @@ interface with the structures defined in there.
 
 ### Classes
 
-Let's look at an example:
+Let's look at one of these structures:
 
 ```yaml
 edm4eic::Track:
@@ -82,10 +82,10 @@ edm4eic::Track:
     - edm4eic::Track         tracks       // Tracks (segments) that have been combined to create this track
 ```
 
-At the top, we see some basic info like the name of the structure, a brief description, and
-the authors.  Following this, we see a block labeled `Members`.  These are your basic class
-members.  Suppose we have an `edm4eic::Track` named `track`, how would we access its
-members?
+This is an example of a _class_.  At the top of the definition, we see some basic info like
+the name of the structure, a brief description, and the authors.  Following this, we see a
+block labeled `Members`.  These are your basic class members.  Suppose we have an `edm4eic::Track`
+named `track`, how would we access its members?
 
 ```python
 # getting data members
@@ -101,27 +101,25 @@ Or in C++:
 
 ```c++
 // getting data members
-float    trk_time = track.getTime()
-uint32_t trk_ndf  = track.getNdf()
+float    trk_time = track.getTime();
+uint32_t trk_ndf  = track.getNdf();
 
 // setting data members
-track.setCharge(-1.0)
-track.setPDG(11)
+track.setCharge(-1.0);
+track.setPDG(11);
 ```
 
 This already highlights of the big advantages of using PODIO to work with our data: the
 interface is almost identical between C++ and Python.  We'll see where they diverge in
 later sections.
 
-> ## Documentation
-> Wait! But how would I know that the accessors start with `get` or `set`?
->   1. First, look at the top of the YAML file: you'll notice under options that `getSyntax`
->      is set to `true`.  This means that the accessor functions for class members will
->      _always_ start with `get`/`set`, letting you _infer_ what the relevant functions are
->      from the YAML.
->   2. You can also look at the generated classes on our [EDM4eic doxygen page][eicdoc]. Or
->      while you're in eic-shell, you can look at them in the path `/opt/local/include/edm4eic`.
-{: .callout}
+Wait! But how would I know that the accessors start with `get` or `set`?
+  1. First, look at the top of the YAML file: you'll notice under options that `getSyntax`
+     is set to `true`.  This means that the accessor functions for class members will
+     _always_ start with `get`/`set`, letting you _infer_ what the relevant functions are
+     from the YAML.
+  2. You can also look at the generated classes on our [EDM4eic doxygen page][eicdoc]. Or
+     while you're in eic-shell, you can look at them in the path `/opt/local/include/edm4eic`.
 
 > ## `Exercise:`
 > Follow the link to [the doxygen page][eicdoc], and locate the header file for `edm4eic::Track`.
@@ -129,16 +127,71 @@ later sections.
 > compare it to the online version.
 {: .challenge}
 
+### Collections
+
+COLLECTIONS MANAGE OBJECTS. ONLY COLLECTIONS CAN BE WRITTEN TO OUTPUT. COLLECTIONS ARE
+ALSO READ ONLY. 
+
+### Components
+
+Notice that the position and momentum of the track are stored as an `edm4hep::Vector3f`.
+This is an example of a _component_.  Let's look at the definition:
+
+```yaml
+edm4hep::Vector3f:
+  Members:
+    - float x
+    - float y
+    - float z
+  ExtraCode:
+    includes: "#include <cstddef>"
+    declaration: |
+      constexpr Vector3f() : x(0),y(0),z(0) {}
+      constexpr Vector3f(float xx, float yy, float zz) : x(xx),y(yy),z(zz) {}
+      constexpr Vector3f(const float* v) : x(v[0]),y(v[1]),z(v[2]) {}
+      constexpr bool operator==(const Vector3f& v) const { return (x==v.x&&y==v.y&&z==v.z) ; }
+      constexpr bool operator!=(const Vector3f& v) const { return !(*this == v) ; }
+      constexpr float operator[](unsigned i) const {
+        static_assert(
+          (offsetof(Vector3f,x)+sizeof(Vector3f::x) == offsetof(Vector3f,y)) &&
+          (offsetof(Vector3f,y)+sizeof(Vector3f::y) == offsetof(Vector3f,z)),
+          "operator[] requires no padding");
+        return *( &x + i ) ;
+      }
+```
+
+It has 3 data members and some extra code, which just defines some handy functions.  If you
+find this in [edm4hep.yaml][hepyaml], then you'll notice it's defined under a block labeled
+`components`.  Notice that `edm4eic::Track` is defined under a block labeled `classes`.
+
+Components are just simple `struct`s (in the C++ sense), and can't be saved to
+output.  This means that component accessors are _not_ prefixed by `get`/`set`.
+For example:
+
+```python
+import math
+px = track.getMomentum().x
+py = track.getMomentum().y
+pt = math.hypot(px, py)
+```
+
+Or:
+
+```c++
+#include <cmath>
+float px = track.getMomentum().x;
+float py = track.getMomentum().y;
+float pt = std::hypot(px, py);
+```
+
+Also note that components can't be stored in a collection, and so can't be written out
+_except_ as part of a class such as `edm4eic::Track`.
+
 POINTS TO HIT:
 - STORAGE VS USER LAYER
 - COLLECTIONS (READ-ONLY)
-- COMPONENTS VS CLASSES
-- MEMBERS AND VECTOR MEMBERS
+- VECTOR MEMBERS
 - DOXYGEN PAGE
-
-### Collections
-
-Structures like `edm4eic::Track` 
 
 ## Relations
 
@@ -169,6 +222,7 @@ YOU HAVE THE LINK NAVIGATOR WHICH IS OUT-OF-THE-SCOPE OF THIS TUTORIAL.
 
 ![Diagram of an association](./../assets/img/tutorial/MCRecoParticleAssociation.png)
 
+## Vector Members
 
 ## References
 
@@ -192,13 +246,8 @@ Key points:
 Skeleton:
 
 2. PODIO
-    - Framework for generating, managing EDMs
-    - Defined in a .yml file (include link)
     - Navigating the model:
       - Example: Cluster
-        - Explanation of fields, "guessing" the
-          setter/getters
-        - Note: doxygen and /opt/include
       - Example: Track
       - Example: MCParticle 
     - Relations: "adjacent" connections between
