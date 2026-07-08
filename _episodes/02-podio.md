@@ -466,7 +466,7 @@ Which analysis method is ultimately up to you: our goal is to support
 as many methods as possible, and, between the POD Layer and the User
 Layer, PODIO gives us the tools to do that.
 
-## References
+<!-- Links --!>
 
 [edm4eic]: https://github.com/eic/EDM4eic
 [eicyaml]: https://github.com/eic/EDM4eic/blob/main/edm4eic.yaml

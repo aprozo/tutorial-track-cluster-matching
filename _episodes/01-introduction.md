@@ -55,22 +55,12 @@ identify leptons, measure neutral particles, and more.  In this tutorial, we'll 
 decay $e^{\pm}$ which we'll reconstruct a $J/\psi$ from.
 
 To validate our reconstructed $J/\psi$, however, we'll need to identify the corresponding
-simulated particles.  That's where parent-daughter comes in.
- 
+simulated particles.  That's where parent-daughter comes in. 
 
-
-## References
+<!-- Links --!>
 
 [analysis]: https://eic.github.io/tutorial-analysis
 [reader]: https://root.cern.ch/doc/master/classTTreeReader.html
 [dataframe]: https://root.cern/doc/master/classROOT_1_1RDataFrame.html
-
-## Outline
-
-Key points:
-  - Illustrate basics of PODIO usage in
-    C++, Python
-  - Illustrate navigating links, associations,
-    and relations
 
 {% include links.md %}
