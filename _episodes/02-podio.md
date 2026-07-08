@@ -34,7 +34,7 @@ connections between these structures.  The entire model is defined in a single Y
 > to the fields labeled `OneToOneRelations` or `OneToManyRelations`. 
 {: .challenge}
 
-A few things to note before we move on:
+A few things comments before we move on:
 - Using a _standardized_ set of structures helps keep our software _modular_, meaning we
   can easily swap out parts, since all our data adheres to standardized interfaces;
 - The data model does _not_ say anything about input/output formats: we write our data
@@ -51,17 +51,94 @@ A few things to note before we move on:
 
 ## An Introduction to PODIO
 
-PODIO IS A TOOLKIT TO GENERATE AND INTERFACE WITH DATA MODELS LIKE
-EDM4EIC. IT TAKES THAT YAML FILE AND TURNS IT INTO ALL OF THE C++
-CODE YOU NEED.
+So then what's PODIO? [PODIO][podio] (**P**lain-**O**old-**D**ata **I**nput/**O**utput) is
+a toolkit for _generating_ and _managing_ a data model like EDM4eic.  It reads in a YAML
+file like edm4eic.yaml and generates all the C++ and Python code needed to read, write, and
+interface with the structures defined in there.
+
+### Classes
+
+Let's look at an example:
+
+```yaml
+edm4eic::Track:
+  Description: "Track information at the vertex"
+  Author: "S. Joosten, J. Osborn"
+  Members:
+    - int32_t           type                       // Flag that defines the type of track
+    - edm4hep::Vector3f position                   // Track 3-position at the vertex 
+    - edm4hep::Vector3f momentum                   // Track 3-momentum at the vertex [GeV]
+    - edm4eic::Cov6f    positionMomentumCovariance // Covariance matrix in basis [x,y,z,px,py,pz]
+    - float             time                       // Track time at the vertex [ns]
+    - float             timeError                  // Error on the track vertex time
+    - float             charge                     // Particle charge
+    - float             chi2                       // Total chi2
+    - uint32_t          ndf                        // Number of degrees of freedom
+    - int32_t           pdg                        // PDG particle ID hypothesis
+  OneToOneRelations:
+    - edm4eic::Trajectory trajectory // Trajectory of this track
+  OneToManyRelations:
+    - edm4eic::Measurement2D measurements // Measurements that were used for this track
+    - edm4eic::Track         tracks       // Tracks (segments) that have been combined to create this track
+```
+
+At the top, we see some basic info like the name of the structure, a brief description, and
+the authors.  Following this, we see a block labeled `Members`.  These are your basic class
+members.  Suppose we have an `edm4eic::Track` named `track`, how would we access its
+members?
+
+```python
+# getting data members
+trk_time = track.getTime()
+trk_ndf  = track.getNdf()
+
+# setting data members
+track.setCharge(-1.0)
+track.setPDG(11)
+```
+
+Or in C++:
+
+```c++
+// getting data members
+float    trk_time = track.getTime()
+uint32_t trk_ndf  = track.getNdf()
+
+// setting data members
+track.setCharge(-1.0)
+track.setPDG(11)
+```
+
+This already highlights of the big advantages of using PODIO to work with our data: the
+interface is almost identical between C++ and Python.  We'll see where they diverge in
+later sections.
+
+> ## Documentation
+> Wait! But how would I know that the accessors start with `get` or `set`?
+>   1. First, look at the top of the YAML file: you'll notice under options that `getSyntax`
+>      is set to `true`.  This means that the accessor functions for class members will
+>      _always_ start with `get`/`set`, letting you _infer_ what the relevant functions are
+>      from the YAML.
+>   2. You can also look at the generated classes on our [EDM4eic doxygen page][eicdoc]. Or
+>      while you're in eic-shell, you can look at them in the path `/opt/local/include/edm4eic`.
+{: .callout}
+
+> ## `Exercise:`
+> Follow the link to [the doxygen page][eicdoc], and locate the header file for `edm4eic::Track`.
+> Once you found it, give it a quick scan.  Then in eic-shell, find the same header file and
+> compare it to the online version.
+{: .challenge}
 
 POINTS TO HIT:
 - STORAGE VS USER LAYER
 - COLLECTIONS (READ-ONLY)
 - COMPONENTS VS CLASSES
 - MEMBERS AND VECTOR MEMBERS
-- use getX, setX
 - DOXYGEN PAGE
+
+### Collections
+
+Structures like `edm4eic::Track` 
 
 ## Relations
 
@@ -92,14 +169,17 @@ YOU HAVE THE LINK NAVIGATOR WHICH IS OUT-OF-THE-SCOPE OF THIS TUTORIAL.
 
 ![Diagram of an association](./../assets/img/tutorial/MCRecoParticleAssociation.png)
 
+
 ## References
 
-[podio]: https://github.com/AIDASoft/podio
 [edm4eic]: https://github.com/eic/EDM4eic
 [eicyaml]: https://github.com/eic/EDM4eic/blob/main/edm4eic.yaml
 [edm4hep]: https://github.com/key4hep/EDM4hep
 [key4hep]: https://github.com/key4hep
 [hepyaml]: https://github.com/key4hep/EDM4hep/blob/main/edm4hep.yaml
+[podio]: https://github.com/AIDASoft/podio
+[poddoc]: https://key4hep.web.cern.ch/podio/doc.html
+[eicdoc]: https://eic.github.io/EDM4eic/
 
 ## Outline
 
