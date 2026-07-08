@@ -13,6 +13,8 @@ keypoints:
 - "A data model is how represent our data in software"
 - "PODIO is a toolkit to generate and interface with data models like EDM4eic"
 - "Classes have their accessors prefixed by get/set, components don't"
+- "Relations are references to objects in other collections"
+- "Associations/links define indirect connections between objects" 
 ---
 
 ## The EDM4eic Data Model
@@ -23,7 +25,7 @@ software stack (DD4hep, EICrecon, etc.) and between different algorithms in thos
 
 ![Overview of the EDM4eic data model](./../assets/img/tutorial/EDM4eicOverview.png)
 
-Our data model is [EDM4eic][edm4eic] (**E**vent **D**ata **M**model for EIC), and is summarized
+Our data model is [EDM4eic][edm4eic] (**E**vent **D**ata **M**odel for EIC), and is summarized
 in the above figure.  Each box corresponds to a data structure, and the arrows correspond to
 connections between these structures.  The entire model is defined in a single YAML file,
 [edm4eic.yaml][eicyaml], which we'll break down in detail below.
@@ -51,7 +53,7 @@ A few things comments before we move on:
 
 ## An Introduction to PODIO
 
-So then what's PODIO? [PODIO][podio] (**P**lain-**O**old-**D**ata **I**nput/**O**utput) is
+So then what's PODIO? [PODIO][podio] (**P**lain-**O**ld-**D**ata **I**nput/**O**utput) is
 a toolkit for _generating_ and _managing_ a data model like EDM4eic.  It reads in a YAML
 file like edm4eic.yaml and generates all the C++ and Python code needed to read, write, and
 interface with the structures defined in there.
@@ -127,10 +129,35 @@ Wait! But how would I know that the accessors start with `get` or `set`?
 > compare it to the online version.
 {: .challenge}
 
-### Collections
+### Collections and Frames
 
-COLLECTIONS MANAGE OBJECTS. ONLY COLLECTIONS CAN BE WRITTEN TO OUTPUT. COLLECTIONS ARE
-ALSO READ ONLY. 
+For reading in/writing out classes, they'll need to be placed in a _collection_.  Collections
+can be thought of as almost (but not quite!) a c++ `std::vector` or Python list of objects.
+Iterating through their contents looks like you'd expect for either of those containers:
+
+```python
+tracks = frame.get("CentralCKFTracks")
+for track in tracks:
+    chi2_ndf = track.getChi2() / track.getNdf()
+```
+
+Or:
+
+```c++
+auto& tracks = frame.get<edm4eic::TrackCollection>("CentralCKFTracks");
+for (const auto& track : tracks) {
+  chi2_ndf = track.getChi2() / track.getNdf();
+}
+```
+
+The `frame` in the above snippets is a `Frame`, which holds and organizes several
+collections.  We'll see it and collections in action in the following sections,
+However, a detailed explanation of their usage is outside the scope of this tutorial.
+
+> ## `Warning:`
+> The big thing to note here is that collections are **read-only**!  This means that
+> you _can't_ modify an object you are reading from a collection!
+{: .caution}
 
 ### Components
 
@@ -186,11 +213,63 @@ float pt = std::hypot(px, py);
 Also note that components can't be stored in a collection and so can't be written out
 _except_ as part of a class such as `edm4eic::Track`.
 
-POINTS TO HIT:
-- COLLECTIONS (READ-ONLY)
-- VECTOR MEMBERS
+### Vector Members
 
-## Relations
+Let's look at the definition of a calorimeter cluster:
+
+```yaml
+edm4eic::Cluster:
+  Description: "EIC hit cluster, reworked to more closely resemble EDM4hep"
+  Author: "W. Armstrong, S. Joosten, C.Peng"
+  Members:
+    - int32_t              type                         // Flag-word that defines the type of the cluster
+    - float                energy                       // Reconstructed energy of the cluster [GeV].
+    - float                energyError                  // Error on the cluster energy [GeV]
+    - float                time                         // [ns]
+    - float                timeError                    // Error on the cluster time
+    - uint32_t             nhits                        // Number of hits in the cluster.
+    - edm4hep::Vector3f    position                     // Global position of the cluster [mm].
+    - edm4eic::Cov3f       positionError                // Covariance matrix of the position (6 Parameters).
+    - float                radius                       // Cluster radius [mm].
+    - float                dispersion                   // Cluster dispersion [mm].
+    - std::array<float, 3> principalAxesLengthsXYZ      // Lengths along the cluster's principal axes [mm], sorted in descending order (equivalent to sqrt of eigenvalues of the position covariance). For an XY planar detector one can expect this to be [sigma_max, sigma_min, 0].
+    - std::array<float, 2> principalAxesLengthsThetaPhi // Lengths along the cluster's principal axes [rad], sorted in descending order.
+    - float                intrinsicTheta               // Intrinsic cluster propagation direction polar angle [rad].
+    - float                intrinsicPhi                 // Intrinsic cluster propagation direction azimuthal angle [rad]. For an XY planar detector one can expect this to be the tilt of "sigma_max" axis.
+    - edm4eic::Cov2f        intrinsicDirectionError // Error on the intrinsic cluster propagation direction
+  VectorMembers:
+    - float shapeParameters     // [DEPRECATED] use radius, dispersion, principalAxesLengthsXYZ/ThetaPhi instead.
+    - float hitContributions    // Energy contributions of the hits. Runs parallel to ::hits()
+    - float subdetectorEnergies // Energies observed in each subdetector used for this cluster.
+  OneToManyRelations:
+    - edm4eic::Cluster        clusters    // Clusters that have been combined to form this cluster
+    - edm4eic::CalorimeterHit hits        // Hits that have been combined to form this cluster
+    - edm4hep::ParticleID     particleIDs // Particle IDs sorted by likelihood
+```
+
+You'll see a block labeled `VectorMembers`. These are just `std::vector`s of data.  For
+example, `hitContributions` holds the weighted energy of the calorimeter cells (a.k.a _hits_)
+that make up a given cluster.
+
+The accessors are the same as for normal members, except they'll return a `std::vector`
+(C++) or `List` (Python).  Suppose we have an `edm4eic::Cluster` named `cluster`:
+
+```python
+total_energy = 0.0
+for weighted_energy in cluster.getHitContributions():
+    total_energy += weighted_energy
+```
+
+Or:
+
+``c++
+float total_energy = 0.0;
+for (const float weighted_energy : cluster.getHitContributions()) {
+  total_energy += weighted_energy;
+} 
+```
+
+### Relations
 
 Now, let's consider the `OneToOneRelations` and `OneToManyRelations` blocks.  These
 are examples of _relations_, references to objects in other collections.  We use
@@ -223,9 +302,8 @@ uint32_t n_points_used = trajectory.getNMeasurements();
 ![Diagram of a one-to-many relation](./../assets/img/tutorial/OneToManyRelation.png)
 
 Then the above figure schematically illustrates a one-to-many relation.  For example,
-a calorimeter cluster is group of calorimeter cells in a calorimeter (referred to as
-_hits_ in our software).  The cells that make up a cluster are recorded in its
-one-to-many relation to `edm4eic::CalorimeterHit`s.
+a calorimeter cluster is group of calorimeter cells (hits).  The cells that make up a
+given cluster are recorded in its one-to-many relation to `edm4eic::CalorimeterHit`s.
 
 Objects referred to in a one-to-many relation are retrieved like you'd expect:
 
@@ -242,7 +320,8 @@ for (const auto& hit : cluster.getHits()) {
 }
 ```
 When you call `getHits()` in the above snippets, it returns a `List` (Python)
-or `std::vector` (C++) of `edm4eic::CalorimeterHit`s.
+or `std::vector` (C++) of `edm4eic::CalorimeterHit`s just like with vector
+members.
 
 ## Associations/Links
 
@@ -350,10 +429,6 @@ of this tutorial.
 > in the near future remove associations and write out only links
 {: .caution}
 
-## Vector Members
-
-TODO
-
 ## User vs. Storage Layer
 
 Lastly, try opening the file we downloaded during Setup with a ROOT TBrowser:
@@ -399,24 +474,8 @@ Layer, PODIO gives us the tools to do that.
 [key4hep]: https://github.com/key4hep
 [hepyaml]: https://github.com/key4hep/EDM4hep/blob/main/edm4hep.yaml
 [podio]: https://github.com/AIDASoft/podio
-[poddoc]: https://key4hep.web.cern.ch/podio/doc.html
 [eicdoc]: https://eic.github.io/EDM4eic/
 [navigator]: https://key4hep.web.cern.ch/podio/links.html#the-linknavigator-utility
 [analysis]: https://eic.github.io/tutorial-analysis/
-
-## Outline
-
-Key points:
-  - Illustrate basics of PODIO usage in
-    C++, Python
-  - Illustrate navigating links, associations,
-    and relations
-
-Skeleton:
-
-2. PODIO
-    - Navigating the model:
-      - Example: Cluster
-      - Example: Track
 
 {% include links.md %}
