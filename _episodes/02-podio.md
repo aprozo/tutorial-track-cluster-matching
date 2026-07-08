@@ -244,16 +244,109 @@ for (const auto& hit : cluster.getHits()) {
 When you call `getHits()` in the above snippets, it returns a `List` (Python)
 or `std::vector` (C++) of `edm4eic::CalorimeterHit`s.
 
-## Links/Associations
+## Associations/Links
 
-LINKS AND ASSOCIATIONS CONNECT DISPARATE OJECTS. THESE CONNECTIONS
-MAY OR MAY NOT EXIST. LINKS HAVE DIRECTIONALITY, ASSOCIATIONS DON'T.
-ASSOCIATIONS ARE BEING DEPRECATED.
+In contrast to relations, which express a direct connection between two or more
+objects, _associations_ express an indirect connection which might or might not
+exist.  For example, the connection between a monte carlo particle and its
+reconstructed counterpart:
 
 ![Diagram of an association](./../assets/img/tutorial/MCRecoParticleAssociation.png)
 
-LINKS HAVE A LOT OF BENEFITS SUCH AS MORE CONSISTENT SYNTAX. AND
-YOU HAVE THE LINK NAVIGATOR WHICH IS OUT-OF-THE-SCOPE OF THIS TUTORIAL.
+This is defined in edm4eic.yaml as:
+
+```yaml
+edm4eic::MCRecoParticleAssociation:
+  Description: "Used to keep track of the correspondence between MC and reconstructed particles"
+  Author: "S. Joosten"
+  Members:
+    - float weight // weight of this association
+  OneToOneRelations:
+    - edm4eic::ReconstructedParticle rec  // reference to the reconstructed particle
+    - edm4hep::MCParticle            sim  // reference to the Monte-Carlo particle
+  ExtraCode:
+    includes: "
+    #include <edm4eic/ReconstructedParticle.h>\n
+    #include <edm4hep/MCParticle.h>\n
+    "
+    declaration: "
+    [[deprecated(\"use getSim().getObjectID().index instead\")]]
+    int getSimID() const { return getSim().getObjectID().index; }\n
+    [[deprecated(\"use getRec().getObjectID().index instead\")]]
+    int getRecID() const { return getRec().getObjectID().index; }\n
+      "
+```
+
+The `weight` here is nominally a measure of the goodness of the correspondence between the
+reconstructed and MC particles, and the `rec` and `sim` fields store the references to
+the corresponding particles.  Let's assume we have an `edm4eic::MCRecoParticleAssociation`
+called `assoc`.  Accessing its members is exactly like you'd expect:
+
+```python
+rec_par = assoc.getRec()
+sim_par = assoc.getSim()
+weight  = assoc.getWeight()
+e_frac  = (sim_par.getEnergy() - rec_par.getEnergy()) / sim_par.getEnergy()
+```
+
+Or:
+
+```c++
+auto  rec_par = assoc.getRec();
+auto  sim_par = assoc.getSim();
+float weight  = assoc.getWeight();
+float e_frac  = (sim_par.getEnergy() - rec_par.getEnergy()) / sim_par.getEnergy();
+```
+
+Now let's consider the equivalent link:
+
+```yaml
+
+edm4eic::MCRecoParticleLink:
+  Description: "Used to keep track of the correspondence between MC and reconstructed particles"
+  Author: "S. Joosten"
+  From: edm4eic::ReconstructedParticle
+  To: edm4hep::MCParticle
+```
+
+There's a lot less!  _Links_ are defined in their own specific block (labeled `links`), and only
+need you to specify which types they're connecting (`edm4eic::ReconstructedParticle` and
+`edm4hep::MCParticle` in this case).
+
+They provide the same functionality as association, but there are a few key differences:
+1. Links _always_ have the same fields: `from`, `to`, and `weight` (which is implied);
+2. And they have _directionality_.
+
+Point 1 means the accessors will always be the same for any link.  The link equivalents of
+the above snippets are:
+
+```python
+rec_par = link.getFrom()
+sim_par = link.getTo()
+weight  = link.getWeight()
+e_frac  = (sim_par.getEnergy() - rec_par.getEnergy()) / sim_par.getEnergy()
+```
+
+And:
+
+```c++
+auto  rec_par = link.getFrom();
+auto  sim_par = link.getTo();
+float weight  = link.getWeight();
+float e_frac  = (sim_par.getEnergy() - rec_par.getEnergy()) / sim_par.getEnergy();
+```
+
+The directionality comes into play with the `podio::LinkNavigator`, which enables
+extremely fast lookup of linked objects.  This is, however, outside the scope
+of this tutorial.
+
+
+> ## `Warning:`
+> We're in the process of deprecating of associations in favor of links (EDM4hep
+> has already done this).  Currently we write out both associations and their
+> equivalent links where needed to not break analysis code.  However, we will
+> in the near future remove associations and write out only links
+{: .caution}
 
 ![Diagram of a link](./../assets/img/tutorial/MCRecoParticleLink.png)
 
@@ -308,6 +401,7 @@ Layer, PODIO gives us the tools to do that.
 [podio]: https://github.com/AIDASoft/podio
 [poddoc]: https://key4hep.web.cern.ch/podio/doc.html
 [eicdoc]: https://eic.github.io/EDM4eic/
+[navigator]: https://key4hep.web.cern.ch/podio/links.html#the-linknavigator-utility
 [analysis]: https://eic.github.io/tutorial-analysis/
 
 ## Outline
@@ -324,13 +418,5 @@ Skeleton:
     - Navigating the model:
       - Example: Cluster
       - Example: Track
-      - Example: MCParticle 
-    - Relations: "adjacent" connections between
-      objects
-      - Encode "causal" connections
-      - Or "combinatorial" connections
-    - Links/Associations: "orthogonal" connections
-      - Encodes connections which may (or may not)
-        be present
 
 {% include links.md %}
