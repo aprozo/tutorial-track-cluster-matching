@@ -17,15 +17,38 @@ keypoints:
 
 ## The EDM4eic Data Model
 
+A _data model_ is how we represent our data in our software.  In other words, a standardized
+set of data structures that we use to pass information between different parts of our
+software stack (DD4hep, EICrecon, etc.) and between different algorithms in those parts.
+
 ![Overview of the EDM4eic data model](./../assets/img/tutorial/EDM4eicOverview.png)
 
-DATA MODEL IS HOW WE REPRESENT OUR DATA IN MEMORY. WE WANT IT TO
-BE STANDARDIZED, POD, INTUITIVE, AND MORE. DEFINED IN A YAML FILE.
+Our data model is [EDM4eic][edm4eic] (**E**vent **D**ata **M**model for EIC), and is summarized
+in the above figure.  Each box corresponds to a data structure, and the arrows correspond to
+connections between these structures.  The entire model is defined in a single YAML file,
+[edm4eic.yaml][eicyaml], which we'll break down in detail below.
 
-WE ALSO USE EDM4HEP, WHICH IS FOR THE KEY4HEP PROJECT AND IS WIDELY
-USED AT OTHER FUTURE COLLIDERS.
+> Exercise
+> Take a moment to scan the figure, paying attention to the names of structures.  Then pick
+> a structure and find it in the YAML file mentioned above: notice how the arrows correspond
+> to the fields labeled `OneToOneRelations` or `OneToManyRelations`. 
+{: .challenge}
 
-## PODIO Introduction
+A few things to note before we move on:
+- Using a _standardized_ set of structures helps keep our software _modular_, meaning we
+  can easily swap out parts, since all our data adheres to standardized interfaces;
+- The data model does _not_ say anything about input/output formats: we write our data
+  using ROOT, but we could also write it in other formats like HDF5;
+- And we want our model to be _predictable_ and _intuitive_: accessing the energy of
+  a calorimeter cluster should be identical to accessing the energy of a particle.
+
+> Note that we also utilize the [EDM4hep][edm4hep] data model in our software.  This is a
+> data model developed by the [Key4hep][key4hep] project, which is developing common software
+> to support the FCC, ILC/CLIC, Muon Collider, and more.  Just like with our data model, the
+> EDM4hep is defined a single YAML file, [edm4hep.yaml][hepyaml]. 
+{: .callout}
+
+## An Introduction to PODIO
 
 PODIO IS A TOOLKIT TO GENERATE AND INTERFACE WITH DATA MODELS LIKE
 EDM4EIC. IT TAKES THAT YAML FILE AND TURNS IT INTO ALL OF THE C++
@@ -72,7 +95,10 @@ YOU HAVE THE LINK NAVIGATOR WHICH IS OUT-OF-THE-SCOPE OF THIS TUTORIAL.
 
 [podio]: https://github.com/AIDASoft/podio
 [edm4eic]: https://github.com/eic/EDM4eic
+[eicyaml]: https://github.com/eic/EDM4eic/blob/main/edm4eic.yaml
 [edm4hep]: https://github.com/key4hep/EDM4hep
+[key4hep]: https://github.com/key4hep
+[hepyaml]: https://github.com/key4hep/EDM4hep/blob/main/edm4hep.yaml
 
 ## Outline
 
