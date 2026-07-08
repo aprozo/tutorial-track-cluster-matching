@@ -151,7 +151,7 @@ for (const auto& track : tracks) {
 ```
 
 The `frame` in the above snippets is a `Frame`, which holds and organizes several
-collections.  We'll see it and collections in action in the following sections,
+collections.  We'll see frames and collections in action in the following episodes.
 However, a detailed explanation of their usage is outside the scope of this tutorial.
 
 > ## `Warning:`
@@ -262,11 +262,11 @@ for weighted_energy in cluster.getHitContributions():
 
 Or:
 
-``c++
+```c++
 float total_energy = 0.0;
 for (const float weighted_energy : cluster.getHitContributions()) {
   total_energy += weighted_energy;
-} 
+}
 ```
 
 ### Relations
@@ -456,7 +456,7 @@ There are clear benefits to working with the User Layer over the POD Layer:
   organized _may not._
 
 The first two points will be illustrated very clearly in the following
-sections.  However, there may be cases where working directly with the 
+episodes.  However, there may be cases where working directly with the 
 POD Layer is actually preferable.  For example:
 - You may want to histogram just one or two members directly, or
 - You're working with a ML pipeline where you'll need to load the data
