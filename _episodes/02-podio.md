@@ -192,19 +192,57 @@ POINTS TO HIT:
 
 ## Relations
 
-RELATIONS DIRECTLY CONNECT ONE OBJECT TO ANOTHER.
-
-### One-to-One Relations
-
-NAME SAYS IT ALL
+Now, let's consider the `OneToOneRelations` and `OneToManyRelations` blocks.  These
+are examples of _relations_, references to objects in other collections.  We use
+these to define a direct, _necessary_ relationship between an object and one other
+object (one-to-one) or many other objects (one-to-many).
 
 ![Diagram of a one-to-one relation](./../assets/img/tutorial/OneToOneRelation.png)
 
-### One-to-Many Relations
+The above figure schematically illustrates a one-to-one relation.  A _track_ should
+correspond to a charged particle with a defined momentum and charge.  It's computed
+from a _trajectory_, a path fit to a set of points from our trackers.  This
+relationship is expressed in the one-to-one relation from our `edm4eic::Track` to
+an `edm4eic::Trajectory`.
 
-NAME SAYS IT ALL
+Retrieving the object from a relation is done the same way you would get a value
+from a member:
+
+```python
+trajectory    = track.getTrajectory()
+n_points_used = trajectory.getNMeasurements()
+```
+
+Or:
+
+```C++
+auto     trajectory    = track.getTrajectory();
+uint32_t n_points_used = trajectory.getNMeasurements();
+```
 
 ![Diagram of a one-to-many relation](./../assets/img/tutorial/OneToManyRelation.png)
+
+Then the above figure schematically illustrates a one-to-many relation.  For example,
+a calorimeter cluster is group of calorimeter cells in a calorimeter (referred to as
+_hits_ in our software).  The cells that make up a cluster are recorded in its
+one-to-many relation to `edm4eic::CalorimeterHit`s.
+
+Objects referred to in a one-to-many relation are retrieved like you'd expect:
+
+```python
+for hit in cluster.getHits():
+    energy = hit.getEnergy()
+```
+
+Or:
+
+```c++
+for (const auto& hit : cluster.getHits()) {
+  double energy = hit.getEnergy();
+}
+```
+When you call `getHits()` in the above snippets, it returns a `List` (Python)
+or `std::vector` (C++) of `edm4eic::CalorimeterHit`s.
 
 ## Links/Associations
 
@@ -250,10 +288,8 @@ There are clear benefits to working with the User Layer over the POD Layer:
   organized _may not._
 
 The first two points will be illustrated very clearly in the following
-sections.
-
-However, there may be cases where working directly with the POD Layer
-is actually preferable.  For example:
+sections.  However, there may be cases where working directly with the 
+POD Layer is actually preferable.  For example:
 - You may want to histogram just one or two members directly, or
 - You're working with a ML pipeline where you'll need to load the data
   as a dataframe.
