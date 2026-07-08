@@ -28,7 +28,7 @@ in the above figure.  Each box corresponds to a data structure, and the arrows c
 connections between these structures.  The entire model is defined in a single YAML file,
 [edm4eic.yaml][eicyaml], which we'll break down in detail below.
 
-> Exercise
+> ## `Exercise:`
 > Take a moment to scan the figure, paying attention to the names of structures.  Then pick
 > a structure and find it in the YAML file mentioned above: notice how the arrows correspond
 > to the fields labeled `OneToOneRelations` or `OneToManyRelations`. 
