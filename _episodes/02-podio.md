@@ -434,7 +434,7 @@ of this tutorial.
 Lastly, try opening the file we downloaded during Setup with a ROOT TBrowser:
 
 ```bash
-$ root --web-display=off <FILENAME HERE>
+$ root --web-display=off lAger3.6.1-1.0_jpsi_10x130_hiAcc_run1.0009.eicrecon.edm4eic.root
 root [0] new TBrowser()
 ```
 
