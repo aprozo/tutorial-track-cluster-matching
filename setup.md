@@ -16,8 +16,7 @@ simulation data with Rucio [here](https://eic.github.io/tutorial-file-access/). 
 events will have many particles in them. For example, you can run the following command in the `eic-shell`:
 
 ```
-xrdcp root://dtn-eic.jlab.org//volatile/eic/EPIC/RECO/26.03.0/epic_craterlake/DIS/NC/10x100/minQ2=100/pythia8NCDIS_10x100_minQ2=100_beamEffects_xAngle=-0.
-025_hiDiv_5.0001.eicrecon.edm4eic.root ./
+xrdcp root://dtn-eic.jlab.org//volatile/eic/EPIC/RECO/26.03.0/epic_craterlake/DIS/NC/10x100/minQ2=100/pythia8NCDIS_10x100_minQ2=100_beamEffects_xAngle=-0.025_hiDiv_5.0001.eicrecon.edm4eic.root ./
 ```
 
 **Note:** might be preferable to use exclusive channel (w/ or w/o background) where there will be a clear signal, e.g.
