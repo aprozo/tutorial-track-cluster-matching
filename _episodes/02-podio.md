@@ -313,9 +313,11 @@ There's a lot less!  _Links_ are defined in their own specific block (labeled `l
 need you to specify which types they're connecting (`edm4eic::ReconstructedParticle` and
 `edm4hep::MCParticle` in this case).
 
+![Diagram of a link](./../assets/img/tutorial/MCRecoParticleLink.png)
+
 They provide the same functionality as association, but there are a few key differences:
 1. Links _always_ have the same fields: `from`, `to`, and `weight` (which is implied);
-2. And they have _directionality_.
+2. And they have _directionality_ (illustrated in the above figure).
 
 Point 1 means the accessors will always be the same for any link.  The link equivalents of
 the above snippets are:
@@ -347,8 +349,6 @@ of this tutorial.
 > equivalent links where needed to not break analysis code.  However, we will
 > in the near future remove associations and write out only links
 {: .caution}
-
-![Diagram of a link](./../assets/img/tutorial/MCRecoParticleLink.png)
 
 ## Vector Members
 
