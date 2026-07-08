@@ -57,7 +57,11 @@ decay $e^{\pm}$ which we'll reconstruct a $J/\psi$ from.
 To validate our reconstructed $J/\psi$, however, we'll need to identify the corresponding
 simulated particles.  That's where parent-daughter comes in. 
 
-<!-- Links --!>
+## References
+
+- [Analysis Tutorial][analysis]
+- [TTreeReader Documentation][reader]
+- [RDataFrame Documentation][dataframe]
 
 [analysis]: https://eic.github.io/tutorial-analysis
 [reader]: https://root.cern.ch/doc/master/classTTreeReader.html

@@ -466,7 +466,18 @@ Which analysis method is ultimately up to you: our goal is to support
 as many methods as possible, and, between the POD Layer and the User
 Layer, PODIO gives us the tools to do that.
 
-<!-- Links --!>
+## References
+
+- [EDM4eic][edm4eic]
+- [EDM4eic YAML File][eicyaml]
+- [EDM4hep][edm4hep]
+- [Key4hep Project][key4hep]
+- [EDM4hep YAML File][hepyaml]
+- [PODIO][podio]
+- [EDM4eic Doxygen][eicdoc]
+- [PODIO Documentation][poddoc]
+- [Link Navigator Documentation][navigator]
+- [Analysis Tutorial][analysis]
 
 [edm4eic]: https://github.com/eic/EDM4eic
 [eicyaml]: https://github.com/eic/EDM4eic/blob/main/edm4eic.yaml
@@ -475,6 +486,7 @@ Layer, PODIO gives us the tools to do that.
 [hepyaml]: https://github.com/key4hep/EDM4hep/blob/main/edm4hep.yaml
 [podio]: https://github.com/AIDASoft/podio
 [eicdoc]: https://eic.github.io/EDM4eic/
+[poddoc]: https://key4hep.web.cern.ch/podio/index.html
 [navigator]: https://key4hep.web.cern.ch/podio/links.html#the-linknavigator-utility
 [analysis]: https://eic.github.io/tutorial-analysis/
 
