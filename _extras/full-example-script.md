@@ -443,15 +443,14 @@ And the full script:
 #include <utility>
 
 
-
 void FindJPsi(
-  const std::string& in_file = "lAger3.6.1-1.0_jpsi_10x130_hiAcc_run1.0009.eicrecon.edm4eic.root",
-  const std::string& out_file = "jpsi_search_cxx.analysis.root",
-  const float match_cut = 0.2,
-  const float ep_min = 0.8,
-  const float ep_max = 1.2,
-  const float mass_min = 2.5,
-  const float mass_max = 3.5
+  const std::string& in_file   = "lAger3.6.1-1.0_jpsi_10x130_hiAcc_run1.0009.eicrecon.edm4eic.root",
+  const std::string& out_file  = "jpsi_search_cxx.analysis.root",
+  const float        match_cut = 0.2,
+  const float        ep_min    = 0.8,
+  const float        ep_max    = 1.2,
+  const float        mass_min  = 2.5,
+  const float        mass_max  = 3.5
 ) {
 
   // Open reader and output file ==============================================
@@ -522,7 +521,7 @@ void FindJPsi(
       }
     };
 
-    // loop over tracks -------------------------------------------------------
+    // Loop over tracks -------------------------------------------------------
 
     std::vector<edm4eic::Track> rec_electrons;
     std::set<podio::ObjectID, decltype(compare_object_ids)> used_clusters;
@@ -541,13 +540,14 @@ void FindJPsi(
       // Compare track against negative ECal ----------------------------------
 
       for (const auto& cluster : clusters_neg) {
+
         if (used_clusters.contains(cluster.getObjectID())) {
           continue;
         }
 
         const auto  clust_pos = convert_vector_float(cluster.getPosition());
         const auto  clust_mom = get_momentum(clust_pos, cluster.getEnergy());
-        const float distance = get_distance(trk_mom, clust_mom);
+        const float distance  = get_distance(trk_mom, clust_mom);
 
         if ((distance < match_cut) && (distance < best_distance)) {
           best_distance = distance;
@@ -559,6 +559,7 @@ void FindJPsi(
       // Compare track against central ECal -----------------------------------
 
       for (const auto& cluster : clusters_cen) {
+
         if (used_clusters.contains(cluster.getObjectID())) {
           continue;
         }
@@ -577,6 +578,7 @@ void FindJPsi(
       // Compare track against positive ECal ----------------------------------
 
       for (const auto& cluster : clusters_pos) {
+
         if (used_clusters.contains(cluster.getObjectID())) {
           continue;
         }
@@ -812,7 +814,7 @@ void FindJPsi(
 
   TH1D* h_jpsi_eta_efficiency = (TH1D*) h_jpsi_eta_all->Clone();
   h_jpsi_eta_efficiency->SetNameTitle("h_jpsi_eta_efficiency", "Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #eta");
-  h_jpsi_eta_efficiency->Divide(h_jpsi_eta_rreco, h_jpsi_eta_all);
+  h_jpsi_eta_efficiency->Divide(h_jpsi_eta_reco, h_jpsi_eta_all);
 
   output->cd();
   output->Write();
@@ -820,7 +822,6 @@ void FindJPsi(
   return;
 
 }
-
 ```
 
 {% include links.md %}
