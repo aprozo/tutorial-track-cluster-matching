@@ -28,7 +28,7 @@ for guidance.
 
 Overall, our strategy will proceed in two steps:
 
-1. Match tracks to EMCal clusters and identify electrons with an E/p cut; and then
+1. Match tracks to ECal clusters and identify electrons with an E/p cut; and then
 2. Form pairs of electrons and identify J/psi with an invariant mass cut.
 
 The code below will illustrate how to do this using (1) Python and ROOT, and (2)
@@ -202,12 +202,11 @@ of course --- free to name the file what you want.
 During the event loop, notice how we 1st grab a `frame` and then grab all of
 the relevant collections we need from it.  Like we mentioned in the previous
 episode, a PODIO `Frame` aggregates all of the data for all collections in
-a given category.
+a given category.  In this context, we can think of a single frame as an "event"
+(a simulated diffractive event).  In our actual data-taking operations, a frame
+might be a "timeframe" of streamed data.
 
-In this context, we can think of a single frame as an MC event.  In our actual
-data-taking operations, a frame might be a "timeframe" of streamed data.
-
-Lastly, a couple notes:
+A couple notes:
 - For thsoe following along in Python who haven't seen this before, the chunk at
   the bottom under `if __name__ == "__main__":` is there just make it easy to
   specify command line arguments.
@@ -288,7 +287,331 @@ ones!
 
 ## Step 1: Find Electrons
 
-TODO
+Now let's start filling in our skeleton.  We'll first need some
+helper functions.
+
+> ## `Exercise: Electron-Finding Helpers`
+> Copy and paste the following snippets into your code just
+> after you get the necessary collections.
+>
+> ```python
+>
+>         # Step 1: match tracks-to-cluster to find electrons ===================
+>
+>         # Convert edm4hep::Vector3f into a ROOT::Math::XZYVector
+>         #    --> Useful for some vector calculations
+>         def convert_vector(edm_vec):
+>             return ROOT.Math.XYZVector(edm_vec.x, edm_vec.y, edm_vec.z)
+>
+>         # Get cluster 3-momentum using its position and energy
+>         #   --> Assuming interaction vetex is at origin!
+>         def get_momentum(position, energy):
+>             unit = position.Unit()
+>             return ROOT.Math.XYZVector(  # * operator not implemented
+>                 energy * unit.X(),
+>                 energy * unit.Y(),
+>                 energy * unit.Z(),
+>             )
+>
+>         # Get distance in eta-phi space between 2 3-vectors
+>         #   --> For matching tracks and clusters
+>         def get_distance(vec_1, vec_2):
+>             return np.hypot(vec_1.Eta() - vec_2.Eta(), vec_1.Phi() - vec_2.Phi());
+> ```
+>
+> ```c++
+>
+>     // Step 1: match tracks-to-cluster to find electrons ======================
+>
+>     // Convert edm4hep::Vector3f into a ROOT::Math::XZYVector
+>     //   --> Useful for some vector calculations
+>     auto convert_vector_float = [](const edm4hep::Vector3f& edm_vec) {
+>       return ROOT::Math::XYZVector(edm_vec.x, edm_vec.y, edm_vec.z);
+>     };
+>
+>     // Get cluster 3-momentum using its position and energy
+>     //   --> Assuming interaction vetex is at origin!
+>     auto get_momentum = [](const ROOT::Math::XYZVector& position, const double energy) {
+>       return energy * position.Unit();
+>     };
+>
+>     // Get distance in eta-phi space between 2 3-vectors
+>     //   --> For matching tracks and clusters
+>     auto get_distance = [](const ROOT::Math::XYZVector& vec_1, const ROOT::Math::XYZVector& vec_2) {
+>       return std::hypot(vec_1.Eta() - vec_2.Eta(), vec_1.Phi() - vec_2.Phi());
+>     };
+>
+>     // Compare 2 object IDs
+>     //   --> Needed for bookkeeping
+>     auto compare_object_ids = [](const podio::ObjectID& lhs, const podio::ObjectID& rhs) {
+>       if (lhs.collectionID == rhs.collectionID) {
+>         return (lhs.index < rhs.index);
+>       } else {
+>         return (lhs.collectionID < rhs.collectionID);
+>       }
+>     };
+> ```
+>
+> And rerun your codes to make sure everything still works.
+{: .challenge}
+
+For those following along in C++ who haven't seen these before, these are examples
+of _lambdas_, "anonymous functions."  These are functions we declare inline and
+can use like we would other objects.  They're great for small functionality that
+you only need locally, or for passing functions as arguments to other functions.
+
+Also note that the ROOT `XYZVector` (and similar vectors below) are examples of
+ROOT's successor to the older `TVector3` and related, the [`GenVector`](https://root.cern/doc/v640/group__GenVector.html).  There are still some quirks with their implementation,
+which you'll see as we work through this.
+
+### Track-Cluster Matching
+
+Now, let's add our loop over tracks and start trying to match tracks and
+clusters.  We'll start by just considering the EEEMCal.
+
+> ## `Exercise: Track Loop`
+> Copy and paste these snippets just after our helper functions above.
+>
+> ```python
+>         # Loop over tracks ----------------------------------------------------
+>
+>         rec_electrons = list()
+>         used_clusters = set()
+>         for track in tracks:
+>
+>             trk_mom = convert_vector(track.getMomentum())
+>             trk_eta = trk_mom.Eta()
+>             trk_mag = np.sqrt(trk_mom.Mag2())  # Mag() isn't implemented for XYZVectors
+>             h_track_momentum_all.Fill(trk_mag)
+>             h_track_eta_all.Fill(trk_eta)
+>
+>             best_distance = 999.0
+>             best_match    = None
+>
+>             # Compare track against negative ECal -----------------------------
+>
+>             for cluster in clusters_neg:
+>
+>                 if cluster in used_clusters:
+>                     continue
+>
+>                 clust_pos = convert_vector(cluster.getPosition())
+>                 clust_mom = get_momentum(clust_pos, cluster.getEnergy())
+>                 distance  = get_distance(trk_mom, clust_mom)
+>
+>                 if (distance < match_cut) and (distance < best_distance):
+>                     best_distance = distance
+>                    best_match    = cluster
+>                    used_clusters.add(cluster)
+> ```
+>
+> ```c++
+>     // Loop over tracks -------------------------------------------------------
+>
+>     std::vector<edm4eic::Track> rec_electrons;
+>     std::set<podio::ObjectID, decltype(compare_object_ids)> used_clusters;
+>
+>     for (const auto& track : tracks) {
+>
+>       const auto  trk_mom = convert_vector_float(track.getMomentum());
+>       const float trk_eta = trk_mom.Eta();
+>       const float trk_mag = std::sqrt(trk_mom.Mag2());  // Mag() isn't implemented for XYZVectors
+>       h_track_momentum_all->Fill(trk_mag);
+>       h_track_eta_all->Fill(trk_eta);
+>
+>       // Compare track against negative ECal ----------------------------------
+>
+>       for (const auto& cluster : clusters_neg) {
+>
+>         if (used_clusters.contains(cluster.getObjectID())) {
+>           continue;
+>         }
+>
+>         const auto  clust_pos = convert_vector_float(cluster.getPosition());
+>         const auto  clust_mom = get_momentum(clust_pos, cluster.getEnergy());
+>         const float distance = get_distance(trk_mom, clust_mom);
+>
+>         if ((distance < match_cut) && (distance < best_distance)) {
+>           best_distance = distance;
+>           best_match    = cluster;
+>           used_clusters.insert(cluster.getObjectID());
+>         }
+>       }
+> ```
+>
+> As always, run your code after the changes to make sure things work.
+{: .challenge}
+
+You'll see how we're comparing the distance between the track and
+cluster vectors in eta-phi space.  There are 3 points to emphasize
+on the matching here:
+1. Notice how we apply a cut on distance with `match_cut: we shouldn't
+   consider clusters that are too far away from our track.
+2. We also want to make sure we're taking the _best_ cluster (i.e. the one
+   closest to the track in eta-phi space), not just the first one that
+   falls in our match cut.  That's why we update the match iteratively.
+3. We also need to avoid double-counting clusters: we use a `set`
+   (both in Python and C++) to keep tabs of which clusters we've used since
+   it doesn't allow duplicates.
+
+After confirming the changes work, we can be lazy and just copy-and-paste
+the EEEMCal loop two more times to get the BIC and FEMC (updateing the
+collection names, of course):
+
+```python
+            # Compare track against central ECal ------------------------------
+
+            for cluster in clusters_cen:
+
+                if cluster in used_clusters:
+                    continue
+
+                clust_pos = convert_vector(cluster.getPosition())
+                clust_mom = get_momentum(clust_pos, cluster.getEnergy())
+                distance  = get_distance(trk_mom, clust_mom)
+
+                if (distance < match_cut) and (distance < best_distance):
+                    best_distance = distance
+                    best_match    = cluster
+                    used_clusters.add(cluster)
+
+            # Compare track against positive ECal -----------------------------
+
+            for cluster in clusters_pos:
+
+                if cluster in used_clusters:
+                    continue
+
+                clust_pos = convert_vector(cluster.getPosition())
+                clust_mom = get_momentum(clust_pos, cluster.getEnergy())
+                distance  = get_distance(trk_mom, clust_mom)
+
+                if (distance < match_cut) and (distance < best_distance):
+                    best_distance = distance
+                    best_match    = cluster
+                    used_clusters.add(cluster)
+```
+
+```c++
+      // Compare track against central ECal -----------------------------------
+
+      for (const auto& cluster : clusters_cen) {
+
+        if (used_clusters.contains(cluster.getObjectID())) {
+          continue;
+        }
+
+        const auto  clust_pos = convert_vector_float(cluster.getPosition());
+        const auto  clust_mom = get_momentum(clust_pos, cluster.getEnergy());
+        const float distance = get_distance(trk_mom, clust_mom);
+
+        if ((distance < match_cut) && (distance < best_distance)) {
+          best_distance = distance;
+          best_match    = cluster;
+          used_clusters.insert(cluster.getObjectID());
+        }
+      }
+
+      // Compare track against positive ECal ----------------------------------
+
+      for (const auto& cluster : clusters_pos) {
+
+        if (used_clusters.contains(cluster.getObjectID())) {
+          continue;
+        }
+
+        const auto  clust_pos = convert_vector_float(cluster.getPosition());
+        const auto  clust_mom = get_momentum(clust_pos, cluster.getEnergy());
+        const float distance = get_distance(trk_mom, clust_mom);
+
+        if ((distance < match_cut) && (distance < best_distance)) {
+          best_distance = distance;
+          best_match    = cluster;
+          used_clusters.insert(cluster.getObjectID());
+        }
+      }
+```
+
+There are a couple of caveats here:
+1. We're just comparing the track/cluster eta, phi at _the vertex_ in the
+   above snippets.  This isn't necessarily the best approach: it would be
+   more prefereable to _project_ the tracks to the calorimeters and compare
+   the eta, phi at the projections.
+2. And we actually have an EICrecon algorithm which does just this!  The
+   corresponding branches for the 3 calorimeters here are:
+       - `EcalEndcapNTrackClusterMatches`
+       - `EcalBarrelTrackClusterMatches`
+       - `EcalEndcapPTrackClusterMatches`
+
+A final note before moving on to the electron identification: if you're
+following the C++ and haven't seen `std::optional` before, it's a way
+to express data that may _or may not_ be present.  We express the same
+idea in Python snippets using `None`.  You can also do the same thing
+with a true/false flag.
+
+### Electron Identification
+
+And now, let's use our matches to identify electrons using an E/p
+(cluster energy over track momentum) cut:
+
+> ## `Exercise: Electron Identification`
+> Copy and paste the following snippets in your code just after the
+> last track-cluster matching loop.
+>
+> ```python
+>             # Compare track vs. matched cluster, identify e- candidates -------
+>
+>             if best_match is not None:
+>                 h_track_momentum_match.Fill(trk_mag)
+>                 h_track_eta_match.Fill(trk_eta)
+>             else:
+>                 continue
+>
+>             match_ene = best_match.getEnergy()
+>             trk_ep    = match_ene / trk_mag
+>             if trk_mag > 0.0:
+>                 h_track_cluster_eop.Fill(trk_ep)
+>             else:
+>                 continue
+>      
+>             if (trk_ep > ep_min) and (trk_ep < ep_max):
+>                 rec_electrons.append(track)
+> ```
+>
+> ```c++
+>       // Compare track vs. matched cluster, identify e- candidates ------------
+>
+>       if (best_match.has_value()) {
+>         h_track_momentum_match->Fill(trk_mag);
+>         h_track_eta_match->Fill(trk_eta);
+>       } else {
+>         continue;
+>       }
+>
+>       const float match_ene = best_match.value().getEnergy();
+>       const float trk_ep    = match_ene / trk_mag;
+>       if (trk_mag > 0.0) {
+>         h_track_cluster_eop->Fill(trk_ep);
+>       } else {
+>         continue;
+>       }
+>      
+>       if ((trk_ep > ep_min) && (trk_ep < ep_max)) {
+>         rec_electrons.push_back(track);
+>       }
+> ```
+>
+> And then confirm the changes work.
+{: .challenge}
+
+This works because electrons (and positrons) on average deposit a characteristic
+amount of their energy in an ECal.  Ideally, this should be roughly 100%
+of their energy, which would mean $E/p \sim 1$ .  You should be able to see this
+peak very clearly in your `h_track_cluster_eop` histogram.
+
+So as a rough way to identify which tracks are electrons, we can check which
+tracks fall within some window around this average value.  Here, we assume
+the average is 1.
 
 ## Step 2: Find J/Psi
 
