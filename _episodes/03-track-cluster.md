@@ -636,26 +636,21 @@ candidates.
 >                 momentum.z,
 >                 energy
 >             )
+> ```
 >
 > ```c++
->     // Step 3: Compare against truth info =====================================
+>    // Step 2: reconstruct J/psi ==============================================
 >
->     // Convert edm4hep::Vector3d into a ROOT::Math::XZYVector
->     //   --> edm4hep stores momentum values as doubles, not floats
->     auto convert_vector_double = [](const edm4hep::Vector3d& edm_vec) {
->       return ROOT::Math::XYZVector(edm_vec.x, edm_vec.y, edm_vec.z);
->     };
->
->     // Get 4-vector for a particle
->     //   --> Will need to compare rec vs. sim momentum/eta 
->     auto get_lorentz_particle = [](const edm4hep::MCParticle& particle) {
->       return ROOT::Math::PxPyPzM4D(
->         particle.getMomentum().x,
->         particle.getMomentum().y,
->         particle.getMomentum().z,
->         particle.getMass()
->       );
->     };
+>    // Get 4-vector for a track with a certain mass
+>    //   --> Will need for invariant mass!
+>    auto get_lorentz_track = [](const edm4eic::Track& track, const float mass) {
+>      return ROOT::Math::PxPyPzM4D(
+>        track.getMomentum().x,
+>        track.getMomentum().y,
+>        track.getMomentum().z,
+>        mass
+>      );
+>    };
 > ```
 >
 > And, as always, confirm that it works ;)
@@ -772,6 +767,6 @@ here are parameters that you can tweak to improve things like the purity
 of our $J/\psi$ candidates or our efficiency!
 
 The next episode will fold in comparisons against the truth level, which
-will give you the tools to do this.
+will give you some tools to do this.
 
 {% include links.md %}
