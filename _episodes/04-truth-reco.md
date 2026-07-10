@@ -13,16 +13,16 @@ keypoints:
 
 ## Step 3: Match Truth-Reco J/psi
 
-Now, remember how we found our $J/\psi$ last time: by picking out pairs of $e^{#pm}$
+Now, remember how we found our $J/\psi$ last time: by picking out pairs of $e^{\pm}$
 which had the right invariant mass.  To emphasize: we never measure the $J/\psi$
 directly.  We only measure their decay products.  Meaning that our $J/\psi$ are
 _dileptons_, pairs of leptons.
 
 This means that we have 3 levels of information to keep track of when we're
 trying to compare our reconstructed $J/\psi$ against the truth ones:
-1. Which $J/\psi$ decayed to $e^{#pm}$ ?
-2. Which decay $e^{#pm}$ are related?
-3. And which tracks are associated to these decay $e^{#pm}$ ?
+1. Which $J/\psi$ decayed to $e^{\pm}$ ?
+2. Which decay $e^{\pm}$ are related?
+3. And which tracks are associated to these decay $e^{\pm}$ ?
 
 ### Helpers and Bookkeepers
 
@@ -95,7 +95,7 @@ these structures for these types of problems.
 
 ### Find Decay Products
 
-Now, let's fill these structures by finding the daughters (decay $e^{#pm}$ ) and their
+Now, let's fill these structures by finding the daughters (decay $e^{\pm}$ ) and their
 corresponding tracks.
 
 > ## `Exercise: Find Decay Products`
@@ -214,7 +214,7 @@ biggest advantages using the PODIO interface brings over analysis methods.
 We're now in the home stretch!  All that's left to do is compare truth vs. reco using
 the structures we've already filled.  For now, all we're going to do is calculate our
 $J/\psi$ reconstruction efficiency.  This folds in 3 sources of efficiency:
-1. Were our decay $e^{#pm}$ reconstructed as tracks?
+1. Were our decay $e^{\pm}$ reconstructed as tracks?
 2. Were these tracks successfully matched to clusters?
 3. And how much did our analysis cuts eat into our signal?
 

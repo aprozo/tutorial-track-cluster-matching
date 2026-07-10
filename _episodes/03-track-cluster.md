@@ -657,12 +657,12 @@ candidates.
 {: .challenge}
 
 We'll need the 4-vectors here to calculate the invariant mass for
-pairs of electrons/positrons.  If the pair are the $J/\psi$ decay $e^{#pm}$ ,
+pairs of electrons/positrons.  If the pair are the $J/\psi$ decay $e^{\pm}$ ,
 then this will be mass of the $J/\psi$ (modulo detector effects and
 analysis biases, of course).  So we'll calculate the invariant mass
 for all our electron candidates!
 
-> ## `Exercise: Find J/Psi Identification`
+> ## `Exercise: J/Psi Identification`
 > Copy these snippets just after your new helper functions.
 >
 > ```python
