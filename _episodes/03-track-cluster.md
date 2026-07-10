@@ -605,7 +605,7 @@ And now, let's use our matches to identify electrons using an E/p
 {: .challenge}
 
 This works because electrons (and positrons) on average deposit a characteristic
-amount of their energy in an ECal.  Ideally, this should be roughly 100%
+amount of their energy in a given ECal.  Ideally, this should be roughly 100%
 of their energy, which would mean $E/p \sim 1$ .  You should be able to see this
 peak very clearly in your `h_track_cluster_eop` histogram.
 
@@ -615,24 +615,163 @@ the average is 1.
 
 ## Step 2: Find J/Psi
 
-TODO
+And now that we have our electron candidates, we can find our $J/\psi$
+candidates.
 
-## Outline
+> ## `Exercise: J/psi-Finding Helpers`
+> Like with step 1, we'll start with setting up some helper functions.  Paste
+> these snippets just after your track loop is done.
+>
+> ```python
+>         # Step 2: reconstruct J/psi ===========================================
+>
+>         # Get 4-vector for a track with a certain mass
+>         #   --> Will need for invariant mass!
+>         def get_lorentz_track(track, mass):
+>             momentum = track.getMomentum()
+>             energy   = np.sqrt(mass**2 + momentum.x**2 + momentum.y**2 + momentum.z**2)
+>             return ROOT.Math.XYZTVector(
+>                 momentum.x,
+>                 momentum.y,
+>                 momentum.z,
+>                 energy
+>             )
+>
+> ```c++
+>     // Step 3: Compare against truth info =====================================
+>
+>     // Convert edm4hep::Vector3d into a ROOT::Math::XZYVector
+>     //   --> edm4hep stores momentum values as doubles, not floats
+>     auto convert_vector_double = [](const edm4hep::Vector3d& edm_vec) {
+>       return ROOT::Math::XYZVector(edm_vec.x, edm_vec.y, edm_vec.z);
+>     };
+>
+>     // Get 4-vector for a particle
+>     //   --> Will need to compare rec vs. sim momentum/eta 
+>     auto get_lorentz_particle = [](const edm4hep::MCParticle& particle) {
+>       return ROOT::Math::PxPyPzM4D(
+>         particle.getMomentum().x,
+>         particle.getMomentum().y,
+>         particle.getMomentum().z,
+>         particle.getMass()
+>       );
+>     };
+> ```
+>
+> And, as always, confirm that it works ;)
+{: .challenge}
 
-Key points:
-  - Illustrate basics of PODIO usage in
-    C++, Python
-  - Illustrate navigating links, associations,
-    and relations
+We'll need the 4-vectors here to calculate the invariant mass for
+pairs of electrons/positrons.  If the pair are the $J/\psi$ decay $e^{#pm}$ ,
+then this will be mass of the $J/\psi$ (modulo detector effects and
+analysis biases, of course).  So we'll calculate the invariant mass
+for all our electron candidates!
 
-Skeleton:
+> ## `Exercise: Find J/Psi Identification`
+> Copy these snippets just after your new helper functions.
+>
+> ```python
+>         # Loop over pairs of electrons ----------------------------------------
+>
+>         # Our J/psi candidates will be pairs of identified electrons
+>         #   --> So need list of pairs of tracks
+>         used_electrons  = set()
+>         jpsi_candidates = list()
+>
+>         for electron_1 in rec_electrons:
+>             for electron_2 in rec_electrons:
+>
+>                 # Skip diagonal, make sure we don't double count tracks
+>                 if electron_1 == electron_2:
+>                     continue
+>
+>                 # Make sure we don't double count tracks
+>                 if electron_1 in used_electrons:
+>                     continue
+>                 if electron_2 in used_electrons:
+>                     continue
+>
+>                 # Calculate invariant mass to find J/psi ----------------------
+>
+>                 lorentz_1 = get_lorentz_track(electron_1, 0.000511)
+>                 lorentz_2 = get_lorentz_track(electron_2, 0.000511)
+>
+>                 total_mom = ROOT.Math.XYZTVector(
+>                     lorentz_1.Px() + lorentz_2.Px(),
+>                     lorentz_1.Py() + lorentz_2.Py(),
+>                     lorentz_1.Pz() + lorentz_2.Pz(),
+>                     lorentz_1.E() + lorentz_2.E()
+>                 )
+>                 inv_mass = total_mom.M();
+>                 h_invariant_mass.Fill(inv_mass);
+>
+>                 if (inv_mass > mass_min) and (inv_mass < mass_max):
+>                     jpsi_candidates.append(
+>                         (electron_1, electron_2)
+>                     )
+>                     used_electrons.add(electron_1)
+>                     used_electrons.add(electron_2)
+> ```
+>
+> ```c++
+>     // Loop over pairs of electrons ------------------------------------------
+>
+>     // Our J/psi candidates will be pairs of identified electrons
+>     //   --> So need vector of pairs of tracks
+>     std::set<podio::ObjectID, decltype(compare_object_ids)> used_electrons;
+>     std::vector<std::pair<edm4eic::Track, edm4eic::Track>> jpsi_candidates;
+>
+>     for (const auto& electron_1 : rec_electrons) {
+>       for (const auto& electron_2 : rec_electrons) {
+>
+>          // Skip diagonal, make sure we don't double count tracks
+>          if (electron_1.getObjectID() == electron_2.getObjectID()) {
+>            continue;
+>          }
+>          if (used_electrons.contains(electron_1.getObjectID())) {
+>            continue;
+>          }
+>          if (used_electrons.contains(electron_2.getObjectID())) {
+>            continue;
+>          }
+>
+>          // Calculate invariant mass to find J/psi ----------------------------
+>
+>          const auto lorentz_1 = get_lorentz_track(electron_1, 0.000511);
+>          const auto lorentz_2 = get_lorentz_track(electron_2, 0.000511);
+>
+>          const ROOT::Math::PxPyPzE4D total_mom(
+>            lorentz_1.Px() + lorentz_2.Px(),
+>            lorentz_1.Py() + lorentz_2.Py(),
+>            lorentz_1.Pz() + lorentz_2.Pz(),
+>            lorentz_1.E() + lorentz_2.E()
+>          );
+>          const float inv_mass = total_mom.M();
+>          h_invariant_mass->Fill(inv_mass);
+>
+>          if ((inv_mass > mass_min) && (inv_mass < mass_max)) {
+>            jpsi_candidates.push_back(
+>             {electron_1, electron_2}
+>            );
+>            used_electrons.insert(electron_1.getObjectID());
+>            used_electrons.insert(electron_2.getObjectID());
+>          }
+>        }
+>     }
+> ```
+>
+> Then, after rerunning the code (and ironing out any bugs), check the
+> `h_inv_mass` histogram.  Do you see a peak near the $J/\psi$ mass of
+> 3.0969 GeV?
+{: .challenge}
 
-3. Track-cluster matching
-    - (A) Set up basic script
-      - Show track-cluster matching efficiency 
-    - (B) Select e+- based on E/p
-    - (C) Plot invariant mass
-    - Note: have algorithm to do this in EICrecon,
-      can make use of premade branches
+Just like with the electrons, we'll select our reconstructed $J/\psi$ by
+picking out the pairs of electrons that have an invariant mass which
+falls in some range including the actual mass.  All three cuts applied
+here are parameters that you can tweak to improve things like the purity
+of our $J/\psi$ candidates or our efficiency!
+
+The next episode will fold in comparisons against the truth level, which
+will give you the tools to do this.
 
 {% include links.md %}
