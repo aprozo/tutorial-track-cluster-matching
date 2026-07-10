@@ -445,8 +445,9 @@ values in the leaves.  This is referred to as _the POD (or Data) Layer_.
 
 As noted in the last section, the [Analysis Tutorial][analysis] illustrates
 how to work directly with the POD Layer using a ROOT `TTreeReader`.  The syntax
-illustrated above is working with what's called _the User Layer_.  A third
-layer, _the Object Layer_, interfaces between the POD and User Layers.
+illustrated above is working with what's called _the User Layer_, a think layer
+of interfaces to make working with the data easy.  A third layer, _the Object
+Layer_, interfaces between the POD and User Layers.
 
 There are clear benefits to working with the User Layer over the POD Layer:
 - Significantly less boilerplate code to write,
