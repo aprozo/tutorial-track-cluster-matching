@@ -8,7 +8,7 @@ objectives:
 - "Understand physical motivation behind examples in tutorial"
 keypoints:
 - "Track-cluster is a critical part of reconstructing particles"
-- "Parent-daughter matching is needed to validate reconstructed particles"
+- "Truth-reconstructed matching is needed to validate reconstructed particles"
 ---
 
 Like we noted in the Setup section, our goal in this tutorial is to understand how to use
@@ -19,13 +19,14 @@ the ROOT [TTreeReader][reader] and [RDataFrame][dataframe].
 Our vehicle for doing so will be two commmon and complementary analysis routines:
 
 1. Matching tracks and clusters; and
-2. Matching decay products to their parents.
+2. Matching truth objects to their reconstructed counterparts.
 
 On one hand, the former utilizes purely reconstructed objects (tracks and clusters) and will
-illustrate the basics of PODIO and _links_.  While on the other hand, the latter utilizes purely
-simulated objects (generated particles) and will illustrate how to navigate _relations_.
+illustrate the basics of PODIO.  While on the other hand, the latter utilizes purely
+simulated objects (generated particles) and will illustrate how to navigate _relations_ and
+_associations_.
 
-We'll deploy these routines to study $J/\psi$s decaying to $e^{+} + e^{-}$ pairs, a common
+We'll deploy these routines to study $J/\psi$ decaying to $e^{+} + e^{-}$ pairs, a common
 decay channel used in many areas of EIC science.
 
 ## Why these?
@@ -55,7 +56,7 @@ identify leptons, measure neutral particles, and more.  In this tutorial, we'll 
 decay $e^{\pm}$ which we'll reconstruct a $J/\psi$ from.
 
 To validate our reconstructed $J/\psi$, however, we'll need to identify the corresponding
-simulated particles.  That's where parent-daughter comes in. 
+simulated particles and compare them.  That's where the truth-reco matching comes in.
 
 ## References
 
