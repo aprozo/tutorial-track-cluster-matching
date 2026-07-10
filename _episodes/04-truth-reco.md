@@ -147,7 +147,7 @@ corresponding tracks.
 >                 h_jpsi_eta_all.Fill(jpsi_lorentz.Eta())
 > ```
 >
-> ``c++
+> ```c++
 >     for (const auto& particle : particles) {
 >       if (particle.getPDG() == 443) {
 >
