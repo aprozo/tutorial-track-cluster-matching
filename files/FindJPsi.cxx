@@ -39,20 +39,34 @@ void FindJPsi(
 
   // Create histograms ========================================================
 
-  TH1D* h_track_momentum_all     = new TH1D("h_track_momentum_all", "Track #it{p} (all)", 50, 0.0, 10.0);
-  TH1D* h_track_momentum_match   = new TH1D("h_track_momentum_match", "Track #it{p} (matched to cluster)", 50, 0.0, 10.0);
-  TH1D* h_track_eta_all          = new TH1D("h_track_eta_all", "Track #eta (all)", 250, -5.0, 5.0);
-  TH1D* h_track_eta_match        = new TH1D("h_track_eta_match", "Track #eta (matched to cluster)", 250, -5.0, 5.0);
-  TH1D* h_track_cluster_eop      = new TH1D("h_track_cluster_eop", "Track-cluster E/p", 40, 0.0, 2.0);
-  TH1D* h_invariant_mass         = new TH1D("h_invariant_mass", "Reconstructed invariant mass", 50, 0.0, 5.0);
-  TH1D* h_daughter_momentum_all  = new TH1D("h_daughter_momentum_all", "Daughter e^{#pm} #it{p} (all)", 50, 0.0, 10.0);
-  TH1D* h_daughter_momentum_reco = new TH1D("h_daughter_momentum_reco", "Daughter e^{#pm} #it{p} (reconstructed)", 50, 0.0, 10.0);
-  TH1D* h_daughter_eta_all       = new TH1D("h_daughter_eta_all", "Daughter e^{#pm} #eta (all)", 250, -5.0, 5.0);
-  TH1D* h_daughter_eta_reco      = new TH1D("h_daughter_eta_reco", "Daughter e^{#pm} #eta (reconstructed)", 250, -5.0, 5.0);
-  TH1D* h_jpsi_momentum_all      = new TH1D("h_jpsi_momentum_all", "J/#psi #it{p} (all e^{#pm} decays)", 50, 0.0, 10.0);
-  TH1D* h_jpsi_momentum_reco     = new TH1D("h_jpsi_momentum_reco", "J/#psi #it{p} (reconstructed e^{#pm} decays)", 50, 0.0, 10.0);
-  TH1D* h_jpsi_eta_all           = new TH1D("h_jpsi_eta_all", "J/#psi #eta (all e^{#pm} decays)", 250, -5.0, 5.0);
-  TH1D* h_jpsi_eta_reco          = new TH1D("h_jpsi_eta_reco", "J/#psi #eta (reconstructed e^{#pm} decays)", 250, -5.0, 5.0);
+  TH1D* h_track_momentum_all = new TH1D(
+    "h_track_momentum_all", "Track #it{p} (all)", 50, 0.0, 10.0);
+  TH1D* h_track_momentum_match = new TH1D(
+    "h_track_momentum_match", "Track #it{p} (matched to cluster)", 50, 0.0, 10.0);
+  TH1D* h_track_eta_all = new TH1D(
+    "h_track_eta_all", "Track #eta (all)", 250, -5.0, 5.0);
+  TH1D* h_track_eta_match = new TH1D(
+    "h_track_eta_match", "Track #eta (matched to cluster)", 250, -5.0, 5.0);
+  TH1D* h_track_cluster_eop = new TH1D(
+    "h_track_cluster_eop", "Track-cluster E/p", 40, 0.0, 2.0);
+  TH1D* h_invariant_mass = new TH1D(
+    "h_invariant_mass", "Reconstructed invariant mass", 50, 0.0, 5.0);
+  TH1D* h_daughter_momentum_all = new TH1D(
+    "h_daughter_momentum_all", "Daughter e^{#pm} #it{p} (all)", 50, 0.0, 10.0);
+  TH1D* h_daughter_momentum_reco = new TH1D(
+    "h_daughter_momentum_reco", "Daughter e^{#pm} #it{p} (reconstructed)", 50, 0.0, 10.0);
+  TH1D* h_daughter_eta_all = new TH1D(
+    "h_daughter_eta_all", "Daughter e^{#pm} #eta (all)", 250, -5.0, 5.0);
+  TH1D* h_daughter_eta_reco = new TH1D(
+    "h_daughter_eta_reco", "Daughter e^{#pm} #eta (reconstructed)", 250, -5.0, 5.0);
+  TH1D* h_jpsi_momentum_all = new TH1D(
+    "h_jpsi_momentum_all", "J/#psi #it{p} (all e^{#pm} decays)", 50, 0.0, 10.0);
+  TH1D* h_jpsi_momentum_reco = new TH1D(
+    "h_jpsi_momentum_reco", "J/#psi #it{p} (reconstructed e^{#pm} decays)", 50, 0.0, 10.0);
+  TH1D* h_jpsi_eta_all = new TH1D(
+    "h_jpsi_eta_all", "J/#psi #eta (all e^{#pm} decays)", 250, -5.0, 5.0);
+  TH1D* h_jpsi_eta_reco = new TH1D(
+    "h_jpsi_eta_reco", "J/#psi #eta (reconstructed e^{#pm} decays)", 250, -5.0, 5.0);
 
   // Event loop ===============================================================
 
@@ -66,7 +80,8 @@ void FindJPsi(
     auto& clusters_neg = frame.get<edm4eic::ClusterCollection>("EcalEndcapNClusters");
     auto& clusters_cen = frame.get<edm4eic::ClusterCollection>("EcalBarrelClusters");
     auto& clusters_pos = frame.get<edm4eic::ClusterCollection>("EcalEndcapPClusters");
-    auto& associations = frame.get<edm4eic::MCRecoTrackParticleAssociationCollection>("CentralCKFTrackAssociations");
+    auto& associations = frame.get<edm4eic::MCRecoTrackParticleAssociationCollection>(
+      "CentralCKFTrackAssociations");
 
     // Step 1: match tracks-to-cluster to find electrons ======================
 
@@ -296,7 +311,8 @@ void FindJPsi(
 
             const auto  ele_mom = convert_vector_double(particle.getMomentum());
             const float ele_eta = ele_mom.Eta();
-            const float ele_mag = std::sqrt(ele_mom.Mag2());  // Mag() isn't implemented for XYZVector
+            // Mag() isn't implemented for XYZVector
+            const float ele_mag = std::sqrt(ele_mom.Mag2());
             h_daughter_momentum_all->Fill(ele_mag);
             h_daughter_eta_all->Fill(ele_eta);
 
@@ -370,27 +386,39 @@ void FindJPsi(
   // Calculate efficiencies and save output ===================================
 
   TH1D* h_track_momentum_efficiency = (TH1D*) h_track_momentum_all->Clone();
-  h_track_momentum_efficiency->SetNameTitle("h_track_momentum_efficiency", "Efficiency of matching tracks to clusters vs. track #it{p}");
+  h_track_momentum_efficiency->SetNameTitle(
+    "h_track_momentum_efficiency",
+    "Efficiency of matching tracks to clusters vs. track #it{p}");
   h_track_momentum_efficiency->Divide(h_track_momentum_match, h_track_momentum_all);
 
   TH1D* h_track_eta_efficiency = (TH1D*) h_track_eta_all->Clone();
-  h_track_eta_efficiency->SetNameTitle("h_track_eta_efficiency", "Efficiency of matching of tracks to clusters vs. track #eta");
+  h_track_eta_efficiency->SetNameTitle(
+    "h_track_eta_efficiency",
+    "Efficiency of matching of tracks to clusters vs. track #eta");
   h_track_eta_efficiency->Divide(h_track_eta_match, h_track_eta_all);
 
   TH1D* h_daughter_momentum_efficiency = (TH1D*) h_daughter_momentum_all->Clone();
-  h_daughter_momentum_efficiency->SetNameTitle("h_daughter_momentum_efficiency", "Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #it{p}");
+  h_daughter_momentum_efficiency->SetNameTitle(
+    "h_daughter_momentum_efficiency",
+    "Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #it{p}");
   h_daughter_momentum_efficiency->Divide(h_daughter_momentum_reco, h_daughter_momentum_all);
 
   TH1D* h_daughter_eta_efficiency = (TH1D*) h_daughter_eta_all->Clone();
-  h_daughter_eta_efficiency->SetNameTitle("h_daughter_eta_efficiency", "Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #eta");
+  h_daughter_eta_efficiency->SetNameTitle(
+    "h_daughter_eta_efficiency",
+    "Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #eta");
   h_daughter_eta_efficiency->Divide(h_daughter_eta_reco, h_daughter_eta_all);
 
   TH1D* h_jpsi_momentum_efficiency = (TH1D*) h_jpsi_momentum_all->Clone();
-  h_jpsi_momentum_efficiency->SetNameTitle("h_jpsi_momentum_efficiency", "Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #it{p}");
+  h_jpsi_momentum_efficiency->SetNameTitle(
+    "h_jpsi_momentum_efficiency",
+    "Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #it{p}");
   h_jpsi_momentum_efficiency->Divide(h_jpsi_momentum_reco, h_jpsi_momentum_all);
 
   TH1D* h_jpsi_eta_efficiency = (TH1D*) h_jpsi_eta_all->Clone();
-  h_jpsi_eta_efficiency->SetNameTitle("h_jpsi_eta_efficiency", "Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #eta");
+  h_jpsi_eta_efficiency->SetNameTitle(
+    "h_jpsi_eta_efficiency",
+    "Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #eta");
   h_jpsi_eta_efficiency->Divide(h_jpsi_eta_reco, h_jpsi_eta_all);
 
   output->cd();

@@ -428,7 +428,7 @@ electron-pairs.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>The code should run exactly as before: the maps are declared but not
 filled until the next exercise.</p>
@@ -525,40 +525,41 @@ helpers/bookkeepers.</p>
 <span id="cb4-16"><a href="#cb4-16" tabindex="-1" aria-label="code-block-4-16"></a></span>
 <span id="cb4-17"><a href="#cb4-17" tabindex="-1" aria-label="code-block-4-17"></a>            <span class="at">const</span> <span class="kw">auto</span>  ele_mom <span class="op">=</span> convert_vector_double<span class="op">(</span>particle<span class="op">.</span>getMomentum<span class="op">());</span></span>
 <span id="cb4-18"><a href="#cb4-18" tabindex="-1" aria-label="code-block-4-18"></a>            <span class="at">const</span> <span class="dt">float</span> ele_eta <span class="op">=</span> ele_mom<span class="op">.</span>Eta<span class="op">();</span></span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1" aria-label="code-block-4-19"></a>            <span class="at">const</span> <span class="dt">float</span> ele_mag <span class="op">=</span> <span class="bu">std::</span>sqrt<span class="op">(</span>ele_mom<span class="op">.</span>Mag2<span class="op">());</span>  <span class="co">// Mag() isn't implemented for XYZVector</span></span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1" aria-label="code-block-4-20"></a>            h_daughter_momentum_all<span class="op">-&gt;</span>Fill<span class="op">(</span>ele_mag<span class="op">);</span></span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1" aria-label="code-block-4-21"></a>            h_daughter_eta_all<span class="op">-&gt;</span>Fill<span class="op">(</span>ele_eta<span class="op">);</span></span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1" aria-label="code-block-4-22"></a></span>
-<span id="cb4-23"><a href="#cb4-23" tabindex="-1" aria-label="code-block-4-23"></a>            <span class="bu">std::</span>optional<span class="op">&lt;</span>edm4eic<span class="op">::</span>Track<span class="op">&gt;</span> rec_ele<span class="op">;</span></span>
-<span id="cb4-24"><a href="#cb4-24" tabindex="-1" aria-label="code-block-4-24"></a>            <span class="cf">for</span> <span class="op">(</span><span class="at">const</span> <span class="kw">auto</span><span class="op">&amp;</span> association <span class="op">:</span> associations<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb4-25"><a href="#cb4-25" tabindex="-1" aria-label="code-block-4-25"></a>              <span class="cf">if</span> <span class="op">(</span>association<span class="op">.</span>getSim<span class="op">()</span> <span class="op">==</span> daughter<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb4-26"><a href="#cb4-26" tabindex="-1" aria-label="code-block-4-26"></a>                rec_ele <span class="op">=</span> association<span class="op">.</span>getRec<span class="op">();</span></span>
-<span id="cb4-27"><a href="#cb4-27" tabindex="-1" aria-label="code-block-4-27"></a>                <span class="cf">break</span><span class="op">;</span></span>
-<span id="cb4-28"><a href="#cb4-28" tabindex="-1" aria-label="code-block-4-28"></a>              <span class="op">}</span></span>
-<span id="cb4-29"><a href="#cb4-29" tabindex="-1" aria-label="code-block-4-29"></a>            <span class="op">}</span></span>
-<span id="cb4-30"><a href="#cb4-30" tabindex="-1" aria-label="code-block-4-30"></a></span>
-<span id="cb4-31"><a href="#cb4-31" tabindex="-1" aria-label="code-block-4-31"></a>            <span class="cf">if</span> <span class="op">(</span>rec_ele<span class="op">.</span>has_value<span class="op">())</span> <span class="op">{</span></span>
-<span id="cb4-32"><a href="#cb4-32" tabindex="-1" aria-label="code-block-4-32"></a>              h_daughter_momentum_reco<span class="op">-&gt;</span>Fill<span class="op">(</span>ele_mag<span class="op">);</span></span>
-<span id="cb4-33"><a href="#cb4-33" tabindex="-1" aria-label="code-block-4-33"></a>              h_daughter_eta_reco<span class="op">-&gt;</span>Fill<span class="op">(</span>ele_eta<span class="op">);</span></span>
-<span id="cb4-34"><a href="#cb4-34" tabindex="-1" aria-label="code-block-4-34"></a>              track_to_daughter<span class="op">[</span>rec_ele<span class="op">.</span>value<span class="op">().</span>getObjectID<span class="op">()]</span> <span class="op">=</span> daughter<span class="op">.</span>getObjectID<span class="op">();</span></span>
-<span id="cb4-35"><a href="#cb4-35" tabindex="-1" aria-label="code-block-4-35"></a>            <span class="op">}</span></span>
-<span id="cb4-36"><a href="#cb4-36" tabindex="-1" aria-label="code-block-4-36"></a>          <span class="op">}</span></span>
-<span id="cb4-37"><a href="#cb4-37" tabindex="-1" aria-label="code-block-4-37"></a>        <span class="op">}</span>  <span class="co">// end daughter loop</span></span>
-<span id="cb4-38"><a href="#cb4-38" tabindex="-1" aria-label="code-block-4-38"></a></span>
-<span id="cb4-39"><a href="#cb4-39" tabindex="-1" aria-label="code-block-4-39"></a>        <span class="co">// Sanity check: should have found 2 leptons</span></span>
-<span id="cb4-40"><a href="#cb4-40" tabindex="-1" aria-label="code-block-4-40"></a>        <span class="co">//   --&gt; If so, add their object IDs to map and fill histograms</span></span>
-<span id="cb4-41"><a href="#cb4-41" tabindex="-1" aria-label="code-block-4-41"></a>        <span class="cf">if</span> <span class="op">(</span>decays<span class="op">.</span>size<span class="op">()</span> <span class="op">==</span> <span class="dv">2</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb4-42"><a href="#cb4-42" tabindex="-1" aria-label="code-block-4-42"></a>          daughter_to_daughter<span class="op">[</span>decays<span class="op">.</span>front<span class="op">().</span>getObjectID<span class="op">()]</span> <span class="op">=</span> decays<span class="op">.</span>back<span class="op">().</span>getObjectID<span class="op">();</span></span>
-<span id="cb4-43"><a href="#cb4-43" tabindex="-1" aria-label="code-block-4-43"></a>          daughter_to_daughter<span class="op">[</span>decays<span class="op">.</span>back<span class="op">().</span>getObjectID<span class="op">()]</span>  <span class="op">=</span> decays<span class="op">.</span>front<span class="op">().</span>getObjectID<span class="op">();</span></span>
-<span id="cb4-44"><a href="#cb4-44" tabindex="-1" aria-label="code-block-4-44"></a>          daughter_to_parent<span class="op">[</span>decays<span class="op">.</span>front<span class="op">().</span>getObjectID<span class="op">()]</span>   <span class="op">=</span> particle<span class="op">;</span></span>
-<span id="cb4-45"><a href="#cb4-45" tabindex="-1" aria-label="code-block-4-45"></a>          daughter_to_parent<span class="op">[</span>decays<span class="op">.</span>back<span class="op">().</span>getObjectID<span class="op">()]</span>    <span class="op">=</span> particle<span class="op">;</span></span>
-<span id="cb4-46"><a href="#cb4-46" tabindex="-1" aria-label="code-block-4-46"></a></span>
-<span id="cb4-47"><a href="#cb4-47" tabindex="-1" aria-label="code-block-4-47"></a>          <span class="at">const</span> <span class="kw">auto</span> jpsi_lorentz <span class="op">=</span> get_lorentz_particle<span class="op">(</span>particle<span class="op">);</span></span>
-<span id="cb4-48"><a href="#cb4-48" tabindex="-1" aria-label="code-block-4-48"></a>          h_jpsi_momentum_all<span class="op">-&gt;</span>Fill<span class="op">(</span>jpsi_lorentz<span class="op">.</span>P<span class="op">());</span></span>
-<span id="cb4-49"><a href="#cb4-49" tabindex="-1" aria-label="code-block-4-49"></a>          h_jpsi_eta_all<span class="op">-&gt;</span>Fill<span class="op">(</span>jpsi_lorentz<span class="op">.</span>Eta<span class="op">());</span></span>
-<span id="cb4-50"><a href="#cb4-50" tabindex="-1" aria-label="code-block-4-50"></a>        <span class="op">}</span></span>
-<span id="cb4-51"><a href="#cb4-51" tabindex="-1" aria-label="code-block-4-51"></a>      <span class="op">}</span></span>
-<span id="cb4-52"><a href="#cb4-52" tabindex="-1" aria-label="code-block-4-52"></a>    <span class="op">}</span>  <span class="co">// end particle loop</span></span></code></pre>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1" aria-label="code-block-4-19"></a>            <span class="co">// Mag() isn't implemented for XYZVector</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1" aria-label="code-block-4-20"></a>            <span class="at">const</span> <span class="dt">float</span> ele_mag <span class="op">=</span> <span class="bu">std::</span>sqrt<span class="op">(</span>ele_mom<span class="op">.</span>Mag2<span class="op">());</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1" aria-label="code-block-4-21"></a>            h_daughter_momentum_all<span class="op">-&gt;</span>Fill<span class="op">(</span>ele_mag<span class="op">);</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1" aria-label="code-block-4-22"></a>            h_daughter_eta_all<span class="op">-&gt;</span>Fill<span class="op">(</span>ele_eta<span class="op">);</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1" aria-label="code-block-4-23"></a></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1" aria-label="code-block-4-24"></a>            <span class="bu">std::</span>optional<span class="op">&lt;</span>edm4eic<span class="op">::</span>Track<span class="op">&gt;</span> rec_ele<span class="op">;</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1" aria-label="code-block-4-25"></a>            <span class="cf">for</span> <span class="op">(</span><span class="at">const</span> <span class="kw">auto</span><span class="op">&amp;</span> association <span class="op">:</span> associations<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1" aria-label="code-block-4-26"></a>              <span class="cf">if</span> <span class="op">(</span>association<span class="op">.</span>getSim<span class="op">()</span> <span class="op">==</span> daughter<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1" aria-label="code-block-4-27"></a>                rec_ele <span class="op">=</span> association<span class="op">.</span>getRec<span class="op">();</span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1" aria-label="code-block-4-28"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1" aria-label="code-block-4-29"></a>              <span class="op">}</span></span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1" aria-label="code-block-4-30"></a>            <span class="op">}</span></span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1" aria-label="code-block-4-31"></a></span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1" aria-label="code-block-4-32"></a>            <span class="cf">if</span> <span class="op">(</span>rec_ele<span class="op">.</span>has_value<span class="op">())</span> <span class="op">{</span></span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1" aria-label="code-block-4-33"></a>              h_daughter_momentum_reco<span class="op">-&gt;</span>Fill<span class="op">(</span>ele_mag<span class="op">);</span></span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1" aria-label="code-block-4-34"></a>              h_daughter_eta_reco<span class="op">-&gt;</span>Fill<span class="op">(</span>ele_eta<span class="op">);</span></span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1" aria-label="code-block-4-35"></a>              track_to_daughter<span class="op">[</span>rec_ele<span class="op">.</span>value<span class="op">().</span>getObjectID<span class="op">()]</span> <span class="op">=</span> daughter<span class="op">.</span>getObjectID<span class="op">();</span></span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1" aria-label="code-block-4-36"></a>            <span class="op">}</span></span>
+<span id="cb4-37"><a href="#cb4-37" tabindex="-1" aria-label="code-block-4-37"></a>          <span class="op">}</span></span>
+<span id="cb4-38"><a href="#cb4-38" tabindex="-1" aria-label="code-block-4-38"></a>        <span class="op">}</span>  <span class="co">// end daughter loop</span></span>
+<span id="cb4-39"><a href="#cb4-39" tabindex="-1" aria-label="code-block-4-39"></a></span>
+<span id="cb4-40"><a href="#cb4-40" tabindex="-1" aria-label="code-block-4-40"></a>        <span class="co">// Sanity check: should have found 2 leptons</span></span>
+<span id="cb4-41"><a href="#cb4-41" tabindex="-1" aria-label="code-block-4-41"></a>        <span class="co">//   --&gt; If so, add their object IDs to map and fill histograms</span></span>
+<span id="cb4-42"><a href="#cb4-42" tabindex="-1" aria-label="code-block-4-42"></a>        <span class="cf">if</span> <span class="op">(</span>decays<span class="op">.</span>size<span class="op">()</span> <span class="op">==</span> <span class="dv">2</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-43"><a href="#cb4-43" tabindex="-1" aria-label="code-block-4-43"></a>          daughter_to_daughter<span class="op">[</span>decays<span class="op">.</span>front<span class="op">().</span>getObjectID<span class="op">()]</span> <span class="op">=</span> decays<span class="op">.</span>back<span class="op">().</span>getObjectID<span class="op">();</span></span>
+<span id="cb4-44"><a href="#cb4-44" tabindex="-1" aria-label="code-block-4-44"></a>          daughter_to_daughter<span class="op">[</span>decays<span class="op">.</span>back<span class="op">().</span>getObjectID<span class="op">()]</span>  <span class="op">=</span> decays<span class="op">.</span>front<span class="op">().</span>getObjectID<span class="op">();</span></span>
+<span id="cb4-45"><a href="#cb4-45" tabindex="-1" aria-label="code-block-4-45"></a>          daughter_to_parent<span class="op">[</span>decays<span class="op">.</span>front<span class="op">().</span>getObjectID<span class="op">()]</span>   <span class="op">=</span> particle<span class="op">;</span></span>
+<span id="cb4-46"><a href="#cb4-46" tabindex="-1" aria-label="code-block-4-46"></a>          daughter_to_parent<span class="op">[</span>decays<span class="op">.</span>back<span class="op">().</span>getObjectID<span class="op">()]</span>    <span class="op">=</span> particle<span class="op">;</span></span>
+<span id="cb4-47"><a href="#cb4-47" tabindex="-1" aria-label="code-block-4-47"></a></span>
+<span id="cb4-48"><a href="#cb4-48" tabindex="-1" aria-label="code-block-4-48"></a>          <span class="at">const</span> <span class="kw">auto</span> jpsi_lorentz <span class="op">=</span> get_lorentz_particle<span class="op">(</span>particle<span class="op">);</span></span>
+<span id="cb4-49"><a href="#cb4-49" tabindex="-1" aria-label="code-block-4-49"></a>          h_jpsi_momentum_all<span class="op">-&gt;</span>Fill<span class="op">(</span>jpsi_lorentz<span class="op">.</span>P<span class="op">());</span></span>
+<span id="cb4-50"><a href="#cb4-50" tabindex="-1" aria-label="code-block-4-50"></a>          h_jpsi_eta_all<span class="op">-&gt;</span>Fill<span class="op">(</span>jpsi_lorentz<span class="op">.</span>Eta<span class="op">());</span></span>
+<span id="cb4-51"><a href="#cb4-51" tabindex="-1" aria-label="code-block-4-51"></a>        <span class="op">}</span></span>
+<span id="cb4-52"><a href="#cb4-52" tabindex="-1" aria-label="code-block-4-52"></a>      <span class="op">}</span></span>
+<span id="cb4-53"><a href="#cb4-53" tabindex="-1" aria-label="code-block-4-53"></a>    <span class="op">}</span>  <span class="co">// end particle loop</span></span></code></pre>
 </div>
 <p>And confirm that the code still runs!</p>
 </div>
@@ -569,7 +570,7 @@ helpers/bookkeepers.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>After this step <code>h_daughter_momentum_all</code> should hold two
 entries per event (both decay leptons; 2318 in the example file), and
@@ -684,7 +685,7 @@ reconstructed as tracks?</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>With the example file, <code>h_jpsi_momentum_reco</code> ends up with
 about 190 entries out of the 1159 generated <span class="math inline">\(J/\psi\)</span>, i.e. a reconstruction efficiency
@@ -702,28 +703,40 @@ the following snippets into your code just after the event loop.</p>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a>    <span class="co"># Calculate efficiencies and save output ==================================</span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1" aria-label="code-block-7-2"></a></span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1" aria-label="code-block-7-3"></a>    h_track_momentum_efficiency <span class="op">=</span> h_track_momentum_all.Clone()</span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1" aria-label="code-block-7-4"></a>    h_track_momentum_efficiency.SetNameTitle(<span class="st">"h_track_momentum_efficiency"</span>, <span class="st">"Efficiency of matching tracks to clusters vs. track #it</span><span class="sc">{p}</span><span class="st">"</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1" aria-label="code-block-7-5"></a>    h_track_momentum_efficiency.Divide(h_track_momentum_match, h_track_momentum_all)</span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1" aria-label="code-block-7-6"></a></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1" aria-label="code-block-7-7"></a>    h_track_eta_efficiency <span class="op">=</span> h_track_eta_all.Clone()</span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1" aria-label="code-block-7-8"></a>    h_track_eta_efficiency.SetNameTitle(<span class="st">"h_track_eta_efficiency"</span>, <span class="st">"Efficiency of matching of tracks to clusters vs. track #eta"</span>)</span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1" aria-label="code-block-7-9"></a>    h_track_eta_efficiency.Divide(h_track_eta_match, h_track_eta_all)</span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1" aria-label="code-block-7-10"></a></span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1" aria-label="code-block-7-11"></a>    h_daughter_momentum_efficiency <span class="op">=</span> h_daughter_momentum_all.Clone()</span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1" aria-label="code-block-7-12"></a>    h_daughter_momentum_efficiency.SetNameTitle(<span class="st">"h_daughter_momentum_efficiency"</span>, <span class="st">"Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #it</span><span class="sc">{p}</span><span class="st">"</span>)</span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1" aria-label="code-block-7-13"></a>    h_daughter_momentum_efficiency.Divide(h_daughter_momentum_reco, h_daughter_momentum_all)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1" aria-label="code-block-7-4"></a>    h_track_momentum_efficiency.SetNameTitle(</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1" aria-label="code-block-7-5"></a>        <span class="st">"h_track_momentum_efficiency"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1" aria-label="code-block-7-6"></a>        <span class="st">"Efficiency of matching tracks to clusters vs. track #it</span><span class="sc">{p}</span><span class="st">"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1" aria-label="code-block-7-7"></a>    h_track_momentum_efficiency.Divide(h_track_momentum_match, h_track_momentum_all)</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1" aria-label="code-block-7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1" aria-label="code-block-7-9"></a>    h_track_eta_efficiency <span class="op">=</span> h_track_eta_all.Clone()</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1" aria-label="code-block-7-10"></a>    h_track_eta_efficiency.SetNameTitle(</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1" aria-label="code-block-7-11"></a>        <span class="st">"h_track_eta_efficiency"</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1" aria-label="code-block-7-12"></a>        <span class="st">"Efficiency of matching of tracks to clusters vs. track #eta"</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1" aria-label="code-block-7-13"></a>    h_track_eta_efficiency.Divide(h_track_eta_match, h_track_eta_all)</span>
 <span id="cb7-14"><a href="#cb7-14" tabindex="-1" aria-label="code-block-7-14"></a></span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1" aria-label="code-block-7-15"></a>    h_daughter_eta_efficiency <span class="op">=</span> h_daughter_eta_all.Clone()</span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1" aria-label="code-block-7-16"></a>    h_daughter_eta_efficiency.SetNameTitle(<span class="st">"h_daughter_eta_efficiency"</span>, <span class="st">"Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #eta"</span>)</span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1" aria-label="code-block-7-17"></a>    h_daughter_eta_efficiency.Divide(h_daughter_eta_reco, h_daughter_eta_all)</span>
-<span id="cb7-18"><a href="#cb7-18" tabindex="-1" aria-label="code-block-7-18"></a></span>
-<span id="cb7-19"><a href="#cb7-19" tabindex="-1" aria-label="code-block-7-19"></a>    h_jpsi_momentum_efficiency <span class="op">=</span> h_jpsi_momentum_all.Clone()</span>
-<span id="cb7-20"><a href="#cb7-20" tabindex="-1" aria-label="code-block-7-20"></a>    h_jpsi_momentum_efficiency.SetNameTitle(<span class="st">"h_jpsi_momentum_efficiency"</span>, <span class="st">"Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #it</span><span class="sc">{p}</span><span class="st">"</span>)</span>
-<span id="cb7-21"><a href="#cb7-21" tabindex="-1" aria-label="code-block-7-21"></a>    h_jpsi_momentum_efficiency.Divide(h_jpsi_momentum_reco, h_jpsi_momentum_all)</span>
-<span id="cb7-22"><a href="#cb7-22" tabindex="-1" aria-label="code-block-7-22"></a></span>
-<span id="cb7-23"><a href="#cb7-23" tabindex="-1" aria-label="code-block-7-23"></a>    h_jpsi_eta_efficiency <span class="op">=</span> h_jpsi_eta_all.Clone()</span>
-<span id="cb7-24"><a href="#cb7-24" tabindex="-1" aria-label="code-block-7-24"></a>    h_jpsi_eta_efficiency.SetNameTitle(<span class="st">"h_jpsi_eta_efficiency"</span>, <span class="st">"Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #eta"</span>)</span>
-<span id="cb7-25"><a href="#cb7-25" tabindex="-1" aria-label="code-block-7-25"></a>    h_jpsi_eta_efficiency.Divide(h_jpsi_eta_reco, h_jpsi_eta_all)</span></code></pre>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1" aria-label="code-block-7-15"></a>    h_daughter_momentum_efficiency <span class="op">=</span> h_daughter_momentum_all.Clone()</span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1" aria-label="code-block-7-16"></a>    h_daughter_momentum_efficiency.SetNameTitle(</span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1" aria-label="code-block-7-17"></a>        <span class="st">"h_daughter_momentum_efficiency"</span>,</span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1" aria-label="code-block-7-18"></a>        <span class="st">"Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #it</span><span class="sc">{p}</span><span class="st">"</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1" aria-label="code-block-7-19"></a>    h_daughter_momentum_efficiency.Divide(h_daughter_momentum_reco, h_daughter_momentum_all)</span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1" aria-label="code-block-7-20"></a></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1" aria-label="code-block-7-21"></a>    h_daughter_eta_efficiency <span class="op">=</span> h_daughter_eta_all.Clone()</span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1" aria-label="code-block-7-22"></a>    h_daughter_eta_efficiency.SetNameTitle(</span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1" aria-label="code-block-7-23"></a>        <span class="st">"h_daughter_eta_efficiency"</span>,</span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1" aria-label="code-block-7-24"></a>        <span class="st">"Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #eta"</span>)</span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1" aria-label="code-block-7-25"></a>    h_daughter_eta_efficiency.Divide(h_daughter_eta_reco, h_daughter_eta_all)</span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1" aria-label="code-block-7-26"></a></span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1" aria-label="code-block-7-27"></a>    h_jpsi_momentum_efficiency <span class="op">=</span> h_jpsi_momentum_all.Clone()</span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1" aria-label="code-block-7-28"></a>    h_jpsi_momentum_efficiency.SetNameTitle(</span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1" aria-label="code-block-7-29"></a>        <span class="st">"h_jpsi_momentum_efficiency"</span>,</span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1" aria-label="code-block-7-30"></a>        <span class="st">"Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #it</span><span class="sc">{p}</span><span class="st">"</span>)</span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1" aria-label="code-block-7-31"></a>    h_jpsi_momentum_efficiency.Divide(h_jpsi_momentum_reco, h_jpsi_momentum_all)</span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1" aria-label="code-block-7-32"></a></span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1" aria-label="code-block-7-33"></a>    h_jpsi_eta_efficiency <span class="op">=</span> h_jpsi_eta_all.Clone()</span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1" aria-label="code-block-7-34"></a>    h_jpsi_eta_efficiency.SetNameTitle(</span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1" aria-label="code-block-7-35"></a>        <span class="st">"h_jpsi_eta_efficiency"</span>,</span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1" aria-label="code-block-7-36"></a>        <span class="st">"Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #eta"</span>)</span>
+<span id="cb7-37"><a href="#cb7-37" tabindex="-1" aria-label="code-block-7-37"></a>    h_jpsi_eta_efficiency.Divide(h_jpsi_eta_reco, h_jpsi_eta_all)</span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">CPP<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -731,28 +744,40 @@ the following snippets into your code just after the event loop.</p>
 <pre class="sourceCode cpp" tabindex="0"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a>  <span class="co">// Calculate efficiencies and save output ===================================</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1" aria-label="code-block-8-2"></a></span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1" aria-label="code-block-8-3"></a>  TH1D<span class="op">*</span> h_track_momentum_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_track_momentum_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1" aria-label="code-block-8-4"></a>  h_track_momentum_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span><span class="st">"h_track_momentum_efficiency"</span><span class="op">,</span> <span class="st">"Efficiency of matching tracks to clusters vs. track #it{p}"</span><span class="op">);</span></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1" aria-label="code-block-8-5"></a>  h_track_momentum_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_track_momentum_match<span class="op">,</span> h_track_momentum_all<span class="op">);</span></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1" aria-label="code-block-8-6"></a></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1" aria-label="code-block-8-7"></a>  TH1D<span class="op">*</span> h_track_eta_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_track_eta_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1" aria-label="code-block-8-8"></a>  h_track_eta_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span><span class="st">"h_track_eta_efficiency"</span><span class="op">,</span> <span class="st">"Efficiency of matching of tracks to clusters vs. track #eta"</span><span class="op">);</span></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1" aria-label="code-block-8-9"></a>  h_track_eta_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_track_eta_match<span class="op">,</span> h_track_eta_all<span class="op">);</span></span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1" aria-label="code-block-8-10"></a></span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1" aria-label="code-block-8-11"></a>  TH1D<span class="op">*</span> h_daughter_momentum_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_daughter_momentum_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1" aria-label="code-block-8-12"></a>  h_daughter_momentum_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span><span class="st">"h_daughter_momentum_efficiency"</span><span class="op">,</span> <span class="st">"Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #it{p}"</span><span class="op">);</span></span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1" aria-label="code-block-8-13"></a>  h_daughter_momentum_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_daughter_momentum_reco<span class="op">,</span> h_daughter_momentum_all<span class="op">);</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1" aria-label="code-block-8-4"></a>  h_track_momentum_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1" aria-label="code-block-8-5"></a>    <span class="st">"h_track_momentum_efficiency"</span><span class="op">,</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1" aria-label="code-block-8-6"></a>    <span class="st">"Efficiency of matching tracks to clusters vs. track #it{p}"</span><span class="op">);</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1" aria-label="code-block-8-7"></a>  h_track_momentum_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_track_momentum_match<span class="op">,</span> h_track_momentum_all<span class="op">);</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1" aria-label="code-block-8-8"></a></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1" aria-label="code-block-8-9"></a>  TH1D<span class="op">*</span> h_track_eta_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_track_eta_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1" aria-label="code-block-8-10"></a>  h_track_eta_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1" aria-label="code-block-8-11"></a>    <span class="st">"h_track_eta_efficiency"</span><span class="op">,</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1" aria-label="code-block-8-12"></a>    <span class="st">"Efficiency of matching of tracks to clusters vs. track #eta"</span><span class="op">);</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1" aria-label="code-block-8-13"></a>  h_track_eta_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_track_eta_match<span class="op">,</span> h_track_eta_all<span class="op">);</span></span>
 <span id="cb8-14"><a href="#cb8-14" tabindex="-1" aria-label="code-block-8-14"></a></span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1" aria-label="code-block-8-15"></a>  TH1D<span class="op">*</span> h_daughter_eta_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_daughter_eta_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
-<span id="cb8-16"><a href="#cb8-16" tabindex="-1" aria-label="code-block-8-16"></a>  h_daughter_eta_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span><span class="st">"h_daughter_eta_efficiency"</span><span class="op">,</span> <span class="st">"Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #eta"</span><span class="op">);</span></span>
-<span id="cb8-17"><a href="#cb8-17" tabindex="-1" aria-label="code-block-8-17"></a>  h_daughter_eta_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_daughter_eta_reco<span class="op">,</span> h_daughter_eta_all<span class="op">);</span></span>
-<span id="cb8-18"><a href="#cb8-18" tabindex="-1" aria-label="code-block-8-18"></a></span>
-<span id="cb8-19"><a href="#cb8-19" tabindex="-1" aria-label="code-block-8-19"></a>  TH1D<span class="op">*</span> h_jpsi_momentum_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_jpsi_momentum_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
-<span id="cb8-20"><a href="#cb8-20" tabindex="-1" aria-label="code-block-8-20"></a>  h_jpsi_momentum_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span><span class="st">"h_jpsi_momentum_efficiency"</span><span class="op">,</span> <span class="st">"Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #it{p}"</span><span class="op">);</span></span>
-<span id="cb8-21"><a href="#cb8-21" tabindex="-1" aria-label="code-block-8-21"></a>  h_jpsi_momentum_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_jpsi_momentum_reco<span class="op">,</span> h_jpsi_momentum_all<span class="op">);</span></span>
-<span id="cb8-22"><a href="#cb8-22" tabindex="-1" aria-label="code-block-8-22"></a></span>
-<span id="cb8-23"><a href="#cb8-23" tabindex="-1" aria-label="code-block-8-23"></a>  TH1D<span class="op">*</span> h_jpsi_eta_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_jpsi_eta_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
-<span id="cb8-24"><a href="#cb8-24" tabindex="-1" aria-label="code-block-8-24"></a>  h_jpsi_eta_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span><span class="st">"h_jpsi_eta_efficiency"</span><span class="op">,</span> <span class="st">"Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #eta"</span><span class="op">);</span></span>
-<span id="cb8-25"><a href="#cb8-25" tabindex="-1" aria-label="code-block-8-25"></a>  h_jpsi_eta_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_jpsi_eta_reco<span class="op">,</span> h_jpsi_eta_all<span class="op">);</span></span></code></pre>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1" aria-label="code-block-8-15"></a>  TH1D<span class="op">*</span> h_daughter_momentum_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_daughter_momentum_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1" aria-label="code-block-8-16"></a>  h_daughter_momentum_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1" aria-label="code-block-8-17"></a>    <span class="st">"h_daughter_momentum_efficiency"</span><span class="op">,</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1" aria-label="code-block-8-18"></a>    <span class="st">"Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #it{p}"</span><span class="op">);</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1" aria-label="code-block-8-19"></a>  h_daughter_momentum_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_daughter_momentum_reco<span class="op">,</span> h_daughter_momentum_all<span class="op">);</span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1" aria-label="code-block-8-20"></a></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1" aria-label="code-block-8-21"></a>  TH1D<span class="op">*</span> h_daughter_eta_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_daughter_eta_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1" aria-label="code-block-8-22"></a>  h_daughter_eta_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1" aria-label="code-block-8-23"></a>    <span class="st">"h_daughter_eta_efficiency"</span><span class="op">,</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1" aria-label="code-block-8-24"></a>    <span class="st">"Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #eta"</span><span class="op">);</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1" aria-label="code-block-8-25"></a>  h_daughter_eta_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_daughter_eta_reco<span class="op">,</span> h_daughter_eta_all<span class="op">);</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1" aria-label="code-block-8-26"></a></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1" aria-label="code-block-8-27"></a>  TH1D<span class="op">*</span> h_jpsi_momentum_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_jpsi_momentum_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1" aria-label="code-block-8-28"></a>  h_jpsi_momentum_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span></span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1" aria-label="code-block-8-29"></a>    <span class="st">"h_jpsi_momentum_efficiency"</span><span class="op">,</span></span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1" aria-label="code-block-8-30"></a>    <span class="st">"Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #it{p}"</span><span class="op">);</span></span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1" aria-label="code-block-8-31"></a>  h_jpsi_momentum_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_jpsi_momentum_reco<span class="op">,</span> h_jpsi_momentum_all<span class="op">);</span></span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1" aria-label="code-block-8-32"></a></span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1" aria-label="code-block-8-33"></a>  TH1D<span class="op">*</span> h_jpsi_eta_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_jpsi_eta_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1" aria-label="code-block-8-34"></a>  h_jpsi_eta_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span></span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1" aria-label="code-block-8-35"></a>    <span class="st">"h_jpsi_eta_efficiency"</span><span class="op">,</span></span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1" aria-label="code-block-8-36"></a>    <span class="st">"Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #eta"</span><span class="op">);</span></span>
+<span id="cb8-37"><a href="#cb8-37" tabindex="-1" aria-label="code-block-8-37"></a>  h_jpsi_eta_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_jpsi_eta_reco<span class="op">,</span> h_jpsi_eta_all<span class="op">);</span></span></code></pre>
 </div>
 <p>Don’t forget to save your new histograms in the Python case! You now
 have a complete analysis script!</p>

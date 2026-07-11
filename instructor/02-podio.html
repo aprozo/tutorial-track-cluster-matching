@@ -348,7 +348,7 @@
 In other words, a standardized set of data structures that we use to
 pass information between different parts of our software stack (DD4hep,
 EICrecon, etc.) and between different algorithms in those parts.</p>
-<figure><img src="../fig/EDM4eicOverview.png" alt="Overview of the EDM4eic data model" class="figure mx-auto d-block"><div class="figcaption">Overview of the EDM4eic data model</div>
+<figure><img src="../fig/EDM4eicOverview.png" alt="Boxes for each EDM4eic data structure connected by arrows indicating their relations" class="figure mx-auto d-block"><div class="figcaption">Overview of the EDM4eic data model</div>
 </figure><p>Our data model is <a href="https://github.com/eic/EDM4eic" class="external-link">EDM4eic</a>
 (<strong>E</strong>vent <strong>D</strong>ata <strong>M</strong>odel for
 EIC), and is summarized in the above figure. Each box corresponds to a
@@ -375,7 +375,7 @@ above: notice how the arrows correspond to the fields labeled
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>For example, <code>edm4eic::Cluster</code> has one-to-many relations
 to <code>edm4eic::CalorimeterHit</code> (the hits combined to form the
@@ -444,7 +444,8 @@ defined in there.</p>
 <span id="cb1-16"><a href="#cb1-16" tabindex="-1" aria-label="code-block-1-16"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Trajectory trajectory // Trajectory of this track</span></span>
 <span id="cb1-17"><a href="#cb1-17" tabindex="-1" aria-label="code-block-1-17"></a><span class="at">  </span><span class="fu">OneToManyRelations</span><span class="kw">:</span></span>
 <span id="cb1-18"><a href="#cb1-18" tabindex="-1" aria-label="code-block-1-18"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Measurement2D measurements // Measurements that were used for this track</span></span>
-<span id="cb1-19"><a href="#cb1-19" tabindex="-1" aria-label="code-block-1-19"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Track         tracks       // Tracks (segments) that have been combined to create this track</span></span></code></pre>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1" aria-label="code-block-1-19"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Track         tracks       // Tracks (segments) that have been</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1" aria-label="code-block-1-20"></a><span class="at">      // combined to create this track</span></span></code></pre>
 </div>
 <p>This is an example of a <em>class</em>. At the top of the definition,
 we see some basic info like the name of the structure, a brief
@@ -509,7 +510,7 @@ online version.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>On the doxygen page, the header is listed under
 <code>edm4eic/Track.h</code>. In eic-shell, the same file is at
@@ -632,29 +633,40 @@ can’t be written out <em>except</em> as part of a class such as
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1" aria-label="code-block-9-2"></a><span class="at">  </span><span class="fu">Description</span><span class="kw">:</span><span class="at"> </span><span class="st">"EIC hit cluster, reworked to more closely resemble EDM4hep"</span></span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1" aria-label="code-block-9-3"></a><span class="at">  </span><span class="fu">Author</span><span class="kw">:</span><span class="at"> </span><span class="st">"W. Armstrong, S. Joosten, C.Peng"</span></span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1" aria-label="code-block-9-4"></a><span class="at">  </span><span class="fu">Members</span><span class="kw">:</span></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1" aria-label="code-block-9-5"></a><span class="at">    </span><span class="kw">-</span><span class="at"> int32_t              type                         // Flag-word that defines the type of the cluster</span></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1" aria-label="code-block-9-6"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                energy                       // Reconstructed energy of the cluster [GeV].</span></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1" aria-label="code-block-9-7"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                energyError                  // Error on the cluster energy [GeV]</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1" aria-label="code-block-9-8"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                time                         // [ns]</span></span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1" aria-label="code-block-9-9"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                timeError                    // Error on the cluster time</span></span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1" aria-label="code-block-9-10"></a><span class="at">    </span><span class="kw">-</span><span class="at"> uint32_t             nhits                        // Number of hits in the cluster.</span></span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1" aria-label="code-block-9-11"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4hep::Vector3f    position                     // Global position of the cluster [mm].</span></span>
-<span id="cb9-12"><a href="#cb9-12" tabindex="-1" aria-label="code-block-9-12"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Cov3f       positionError                // Covariance matrix of the position (6 Parameters).</span></span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1" aria-label="code-block-9-13"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                radius                       // Cluster radius [mm].</span></span>
-<span id="cb9-14"><a href="#cb9-14" tabindex="-1" aria-label="code-block-9-14"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                dispersion                   // Cluster dispersion [mm].</span></span>
-<span id="cb9-15"><a href="#cb9-15" tabindex="-1" aria-label="code-block-9-15"></a><span class="at">    </span><span class="kw">-</span><span class="at"> std::array&lt;float, 3&gt; principalAxesLengthsXYZ      // Lengths along the cluster's principal axes [mm], sorted in descending order (equivalent to sqrt of eigenvalues of the position covariance). For an XY planar detector one can expect this to be [sigma_max, sigma_min, 0].</span></span>
-<span id="cb9-16"><a href="#cb9-16" tabindex="-1" aria-label="code-block-9-16"></a><span class="at">    </span><span class="kw">-</span><span class="at"> std::array&lt;float, 2&gt; principalAxesLengthsThetaPhi // Lengths along the cluster's principal axes [rad], sorted in descending order.</span></span>
-<span id="cb9-17"><a href="#cb9-17" tabindex="-1" aria-label="code-block-9-17"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                intrinsicTheta               // Intrinsic cluster propagation direction polar angle [rad].</span></span>
-<span id="cb9-18"><a href="#cb9-18" tabindex="-1" aria-label="code-block-9-18"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                intrinsicPhi                 // Intrinsic cluster propagation direction azimuthal angle [rad]. For an XY planar detector one can expect this to be the tilt of "sigma_max" axis.</span></span>
-<span id="cb9-19"><a href="#cb9-19" tabindex="-1" aria-label="code-block-9-19"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Cov2f        intrinsicDirectionError // Error on the intrinsic cluster propagation direction</span></span>
-<span id="cb9-20"><a href="#cb9-20" tabindex="-1" aria-label="code-block-9-20"></a><span class="at">  </span><span class="fu">VectorMembers</span><span class="kw">:</span></span>
-<span id="cb9-21"><a href="#cb9-21" tabindex="-1" aria-label="code-block-9-21"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float shapeParameters     // [DEPRECATED] use radius, dispersion, principalAxesLengthsXYZ/ThetaPhi instead.</span></span>
-<span id="cb9-22"><a href="#cb9-22" tabindex="-1" aria-label="code-block-9-22"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float hitContributions    // Energy contributions of the hits. Runs parallel to ::hits()</span></span>
-<span id="cb9-23"><a href="#cb9-23" tabindex="-1" aria-label="code-block-9-23"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float subdetectorEnergies // Energies observed in each subdetector used for this cluster.</span></span>
-<span id="cb9-24"><a href="#cb9-24" tabindex="-1" aria-label="code-block-9-24"></a><span class="at">  </span><span class="fu">OneToManyRelations</span><span class="kw">:</span></span>
-<span id="cb9-25"><a href="#cb9-25" tabindex="-1" aria-label="code-block-9-25"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Cluster        clusters    // Clusters that have been combined to form this cluster</span></span>
-<span id="cb9-26"><a href="#cb9-26" tabindex="-1" aria-label="code-block-9-26"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::CalorimeterHit hits        // Hits that have been combined to form this cluster</span></span>
-<span id="cb9-27"><a href="#cb9-27" tabindex="-1" aria-label="code-block-9-27"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4hep::ParticleID     particleIDs // Particle IDs sorted by likelihood</span></span></code></pre>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1" aria-label="code-block-9-5"></a><span class="at">    </span><span class="kw">-</span><span class="at"> int32_t              type                         // Flag-word that defines the</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1" aria-label="code-block-9-6"></a><span class="at">      // type of the cluster</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1" aria-label="code-block-9-7"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                energy                       // Reconstructed energy of the</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1" aria-label="code-block-9-8"></a><span class="at">      // cluster [GeV].</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1" aria-label="code-block-9-9"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                energyError                  // Error on the cluster energy [GeV]</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1" aria-label="code-block-9-10"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                time                         // [ns]</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1" aria-label="code-block-9-11"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                timeError                    // Error on the cluster time</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1" aria-label="code-block-9-12"></a><span class="at">    </span><span class="kw">-</span><span class="at"> uint32_t             nhits                        // Number of hits in the cluster.</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1" aria-label="code-block-9-13"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4hep::Vector3f    position                     // Global position of the cluster [mm].</span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1" aria-label="code-block-9-14"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Cov3f       positionError                // Covariance matrix of the</span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1" aria-label="code-block-9-15"></a><span class="at">      // position (6 Parameters).</span></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1" aria-label="code-block-9-16"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                radius                       // Cluster radius [mm].</span></span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1" aria-label="code-block-9-17"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                dispersion                   // Cluster dispersion [mm].</span></span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1" aria-label="code-block-9-18"></a><span class="at">    </span><span class="kw">-</span><span class="at"> std::array&lt;float, 3&gt; principalAxesLengthsXYZ      // Lengths along the cluster's principal</span></span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1" aria-label="code-block-9-19"></a><span class="at">      // axes [mm], sorted in descending order (equivalent to sqrt of eigenvalues of the position</span></span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1" aria-label="code-block-9-20"></a><span class="at">      // covariance). For an XY planar detector one can expect this to be [sigma_max, sigma_min, 0].</span></span>
+<span id="cb9-21"><a href="#cb9-21" tabindex="-1" aria-label="code-block-9-21"></a><span class="at">    </span><span class="kw">-</span><span class="at"> std::array&lt;float, 2&gt; principalAxesLengthsThetaPhi // Lengths along the cluster's principal</span></span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1" aria-label="code-block-9-22"></a><span class="at">      // axes [rad], sorted in descending order.</span></span>
+<span id="cb9-23"><a href="#cb9-23" tabindex="-1" aria-label="code-block-9-23"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                intrinsicTheta               // Intrinsic cluster propagation</span></span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1" aria-label="code-block-9-24"></a><span class="at">      // direction polar angle [rad].</span></span>
+<span id="cb9-25"><a href="#cb9-25" tabindex="-1" aria-label="code-block-9-25"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                intrinsicPhi                 // Intrinsic cluster propagation direction</span></span>
+<span id="cb9-26"><a href="#cb9-26" tabindex="-1" aria-label="code-block-9-26"></a><span class="at">      // azimuthal angle [rad]. For an XY planar detector one can expect this to be the tilt of</span></span>
+<span id="cb9-27"><a href="#cb9-27" tabindex="-1" aria-label="code-block-9-27"></a><span class="at">      // "sigma_max" axis.</span></span>
+<span id="cb9-28"><a href="#cb9-28" tabindex="-1" aria-label="code-block-9-28"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Cov2f        intrinsicDirectionError // Error on the intrinsic cluster</span></span>
+<span id="cb9-29"><a href="#cb9-29" tabindex="-1" aria-label="code-block-9-29"></a><span class="at">      // propagation direction</span></span>
+<span id="cb9-30"><a href="#cb9-30" tabindex="-1" aria-label="code-block-9-30"></a><span class="at">  </span><span class="fu">VectorMembers</span><span class="kw">:</span></span>
+<span id="cb9-31"><a href="#cb9-31" tabindex="-1" aria-label="code-block-9-31"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float shapeParameters     // [DEPRECATED] use radius, dispersion,</span></span>
+<span id="cb9-32"><a href="#cb9-32" tabindex="-1" aria-label="code-block-9-32"></a><span class="at">      // principalAxesLengthsXYZ/ThetaPhi instead.</span></span>
+<span id="cb9-33"><a href="#cb9-33" tabindex="-1" aria-label="code-block-9-33"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float hitContributions    // Energy contributions of the hits. Runs parallel to ::hits()</span></span>
+<span id="cb9-34"><a href="#cb9-34" tabindex="-1" aria-label="code-block-9-34"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float subdetectorEnergies // Energies observed in each subdetector used for this cluster.</span></span>
+<span id="cb9-35"><a href="#cb9-35" tabindex="-1" aria-label="code-block-9-35"></a><span class="at">  </span><span class="fu">OneToManyRelations</span><span class="kw">:</span></span>
+<span id="cb9-36"><a href="#cb9-36" tabindex="-1" aria-label="code-block-9-36"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Cluster        clusters    // Clusters that have been combined to form this cluster</span></span>
+<span id="cb9-37"><a href="#cb9-37" tabindex="-1" aria-label="code-block-9-37"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::CalorimeterHit hits        // Hits that have been combined to form this cluster</span></span>
+<span id="cb9-38"><a href="#cb9-38" tabindex="-1" aria-label="code-block-9-38"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4hep::ParticleID     particleIDs // Particle IDs sorted by likelihood</span></span></code></pre>
 </div>
 <p>You’ll see a block labeled <code>VectorMembers</code>. These are just
 <code>std::vector</code>s of data. For example,
@@ -690,7 +702,7 @@ Suppose we have an <code>edm4eic::Cluster</code> named
 these to define a direct, <em>necessary</em> relationship between an
 object and one other object (one-to-one) or many other objects
 (one-to-many).</p>
-<figure><img src="../fig/OneToOneRelation.png" alt="Diagram of a one-to-one relation" class="figure mx-auto d-block"><div class="figcaption">Diagram of a one-to-one relation</div>
+<figure><img src="../fig/OneToOneRelation.png" alt="A track pointing to the single trajectory it was computed from" class="figure mx-auto d-block"><div class="figcaption">Diagram of a one-to-one relation</div>
 </figure><p>The above figure schematically illustrates a one-to-one relation. A
 <em>track</em> should correspond to a charged particle with a defined
 momentum and charge. It’s computed from a <em>trajectory</em>, a path
@@ -712,7 +724,7 @@ get a value from a member:</p>
 <pre class="sourceCode c++" tabindex="0"><code class="sourceCode cpp"><span id="cb13-1"><a href="#cb13-1" tabindex="-1" aria-label="code-block-13-1"></a><span class="kw">auto</span>     trajectory    <span class="op">=</span> track<span class="op">.</span>getTrajectory<span class="op">();</span></span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1" aria-label="code-block-13-2"></a><span class="dt">uint32_t</span> n_points_used <span class="op">=</span> trajectory<span class="op">.</span>getNMeasurements<span class="op">();</span></span></code></pre>
 </div>
-<figure><img src="../fig/OneToManyRelation.png" alt="Diagram of a one-to-many relation" class="figure mx-auto d-block"><div class="figcaption">Diagram of a one-to-many relation</div>
+<figure><img src="../fig/OneToManyRelation.png" alt="A calorimeter cluster pointing to the several calorimeter hits it is built from" class="figure mx-auto d-block"><div class="figcaption">Diagram of a one-to-many relation</div>
 </figure><p>Then the above figure schematically illustrates a one-to-many
 relation. For example, a calorimeter cluster is group of calorimeter
 cells (hits). The cells that make up a given cluster are recorded in its
@@ -743,7 +755,7 @@ members.</p>
 two or more objects, <em>associations</em> express an indirect
 connection which might or might not exist. For example, the connection
 between a monte carlo particle and its reconstructed counterpart:</p>
-<figure><img src="../fig/MCRecoParticleAssociation.png" alt="Diagram of an association" class="figure mx-auto d-block"><div class="figcaption">Diagram of an association</div>
+<figure><img src="../fig/MCRecoParticleAssociation.png" alt="An association object connecting a simulated particle and a reconstructed particle" class="figure mx-auto d-block"><div class="figcaption">Diagram of an association</div>
 </figure><p>This is defined in edm4eic.yaml as:</p>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">YAML<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -807,7 +819,7 @@ expect:</p>
 block (labeled <code>links</code>), and only need you to specify which
 types they’re connecting (<code>edm4eic::ReconstructedParticle</code>
 and <code>edm4hep::MCParticle</code> in this case).</p>
-<figure><img src="../fig/MCRecoParticleLink.png" alt="Diagram of a link" class="figure mx-auto d-block"><div class="figcaption">Diagram of a link</div>
+<figure><img src="../fig/MCRecoParticleLink.png" alt="A link object pointing from a reconstructed particle to a simulated particle" class="figure mx-auto d-block"><div class="figcaption">Diagram of a link</div>
 </figure><p>They provide the same functionality as association, but there are a
 few key differences:</p>
 <ol style="list-style-type: decimal"><li>Links <em>always</em> have the same fields: <code>from</code>,

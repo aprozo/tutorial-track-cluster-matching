@@ -407,7 +407,7 @@ calorimeters.</p>
 indicate the tracking layers (orange), cherenkov detector (pink),
 electromagnetic calorimeter (ECal, purple), magnet solenoid (grey), and
 hadronic calorimeter (HCal, blue) in ePIC’s barrel.</p>
-<figure><img src="fig/ParticleTrajectory.png" alt="Illustration of a particle leaving signals in several detectors" class="figure mx-auto d-block"><div class="figcaption">Illustration of a particle leaving signals in
+<figure><img src="fig/ParticleTrajectory.png" alt="Particle trajectory crossing tracking layers and showering in the barrel calorimeter" class="figure mx-auto d-block"><div class="figcaption">Illustration of a particle leaving signals in
 several detectors</div>
 </figure><p>Accurately reconstructing the particle — its momentum, energy,
 charge, mass — will require us to make use of all of this information.
@@ -417,7 +417,7 @@ all of its energy into an ECal. In contrast, a charged hadron like a
 energy into HCal, while a <span class="math inline">\(\pi^{0}\)</span>
 will deposit energy into an ECal without creating a track. This is
 illustrated in the following figure.</p>
-<figure><img src="fig/DepthVsParticleSpecies.png" alt="Diagram of particle types vs. typical survival depth in a detector" class="figure mx-auto d-block"><div class="figcaption">Diagram of particle types vs. typical survival
+<figure><img src="fig/DepthVsParticleSpecies.png" alt="Different particle species penetrating to different depths of the detector" class="figure mx-auto d-block"><div class="figcaption">Diagram of particle types vs. typical survival
 depth in a detector</div>
 </figure><p>Therefore, track-cluster matching is a critical step in our
 reconstruction, which we use to identify leptons, measure neutral
@@ -498,7 +498,7 @@ any links that you are not going to use.
 In other words, a standardized set of data structures that we use to
 pass information between different parts of our software stack (DD4hep,
 EICrecon, etc.) and between different algorithms in those parts.</p>
-<figure><img src="fig/EDM4eicOverview.png" alt="Overview of the EDM4eic data model" class="figure mx-auto d-block"><div class="figcaption">Overview of the EDM4eic data model</div>
+<figure><img src="fig/EDM4eicOverview.png" alt="Boxes for each EDM4eic data structure connected by arrows indicating their relations" class="figure mx-auto d-block"><div class="figcaption">Overview of the EDM4eic data model</div>
 </figure><p>Our data model is <a href="https://github.com/eic/EDM4eic" class="external-link">EDM4eic</a>
 (<strong>E</strong>vent <strong>D</strong>ata <strong>M</strong>odel for
 EIC), and is summarized in the above figure. Each box corresponds to a
@@ -525,7 +525,7 @@ above: notice how the arrows correspond to the fields labeled
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>For example, <code>edm4eic::Cluster</code> has one-to-many relations
 to <code>edm4eic::CalorimeterHit</code> (the hits combined to form the
@@ -599,7 +599,8 @@ defined in there.</p>
 <span id="cb1-16"><a href="#cb1-16" tabindex="-1" aria-label="code-block-1-16"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Trajectory trajectory // Trajectory of this track</span></span>
 <span id="cb1-17"><a href="#cb1-17" tabindex="-1" aria-label="code-block-1-17"></a><span class="at">  </span><span class="fu">OneToManyRelations</span><span class="kw">:</span></span>
 <span id="cb1-18"><a href="#cb1-18" tabindex="-1" aria-label="code-block-1-18"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Measurement2D measurements // Measurements that were used for this track</span></span>
-<span id="cb1-19"><a href="#cb1-19" tabindex="-1" aria-label="code-block-1-19"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Track         tracks       // Tracks (segments) that have been combined to create this track</span></span></code></pre>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1" aria-label="code-block-1-19"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Track         tracks       // Tracks (segments) that have been</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1" aria-label="code-block-1-20"></a><span class="at">      // combined to create this track</span></span></code></pre>
 </div>
 <p>This is an example of a <em>class</em>. At the top of the definition,
 we see some basic info like the name of the structure, a brief
@@ -664,7 +665,7 @@ online version.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>On the doxygen page, the header is listed under
 <code>edm4eic/Track.h</code>. In eic-shell, the same file is at
@@ -790,29 +791,40 @@ can’t be written out <em>except</em> as part of a class such as
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1" aria-label="code-block-9-2"></a><span class="at">  </span><span class="fu">Description</span><span class="kw">:</span><span class="at"> </span><span class="st">"EIC hit cluster, reworked to more closely resemble EDM4hep"</span></span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1" aria-label="code-block-9-3"></a><span class="at">  </span><span class="fu">Author</span><span class="kw">:</span><span class="at"> </span><span class="st">"W. Armstrong, S. Joosten, C.Peng"</span></span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1" aria-label="code-block-9-4"></a><span class="at">  </span><span class="fu">Members</span><span class="kw">:</span></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1" aria-label="code-block-9-5"></a><span class="at">    </span><span class="kw">-</span><span class="at"> int32_t              type                         // Flag-word that defines the type of the cluster</span></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1" aria-label="code-block-9-6"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                energy                       // Reconstructed energy of the cluster [GeV].</span></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1" aria-label="code-block-9-7"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                energyError                  // Error on the cluster energy [GeV]</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1" aria-label="code-block-9-8"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                time                         // [ns]</span></span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1" aria-label="code-block-9-9"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                timeError                    // Error on the cluster time</span></span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1" aria-label="code-block-9-10"></a><span class="at">    </span><span class="kw">-</span><span class="at"> uint32_t             nhits                        // Number of hits in the cluster.</span></span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1" aria-label="code-block-9-11"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4hep::Vector3f    position                     // Global position of the cluster [mm].</span></span>
-<span id="cb9-12"><a href="#cb9-12" tabindex="-1" aria-label="code-block-9-12"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Cov3f       positionError                // Covariance matrix of the position (6 Parameters).</span></span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1" aria-label="code-block-9-13"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                radius                       // Cluster radius [mm].</span></span>
-<span id="cb9-14"><a href="#cb9-14" tabindex="-1" aria-label="code-block-9-14"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                dispersion                   // Cluster dispersion [mm].</span></span>
-<span id="cb9-15"><a href="#cb9-15" tabindex="-1" aria-label="code-block-9-15"></a><span class="at">    </span><span class="kw">-</span><span class="at"> std::array&lt;float, 3&gt; principalAxesLengthsXYZ      // Lengths along the cluster's principal axes [mm], sorted in descending order (equivalent to sqrt of eigenvalues of the position covariance). For an XY planar detector one can expect this to be [sigma_max, sigma_min, 0].</span></span>
-<span id="cb9-16"><a href="#cb9-16" tabindex="-1" aria-label="code-block-9-16"></a><span class="at">    </span><span class="kw">-</span><span class="at"> std::array&lt;float, 2&gt; principalAxesLengthsThetaPhi // Lengths along the cluster's principal axes [rad], sorted in descending order.</span></span>
-<span id="cb9-17"><a href="#cb9-17" tabindex="-1" aria-label="code-block-9-17"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                intrinsicTheta               // Intrinsic cluster propagation direction polar angle [rad].</span></span>
-<span id="cb9-18"><a href="#cb9-18" tabindex="-1" aria-label="code-block-9-18"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                intrinsicPhi                 // Intrinsic cluster propagation direction azimuthal angle [rad]. For an XY planar detector one can expect this to be the tilt of "sigma_max" axis.</span></span>
-<span id="cb9-19"><a href="#cb9-19" tabindex="-1" aria-label="code-block-9-19"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Cov2f        intrinsicDirectionError // Error on the intrinsic cluster propagation direction</span></span>
-<span id="cb9-20"><a href="#cb9-20" tabindex="-1" aria-label="code-block-9-20"></a><span class="at">  </span><span class="fu">VectorMembers</span><span class="kw">:</span></span>
-<span id="cb9-21"><a href="#cb9-21" tabindex="-1" aria-label="code-block-9-21"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float shapeParameters     // [DEPRECATED] use radius, dispersion, principalAxesLengthsXYZ/ThetaPhi instead.</span></span>
-<span id="cb9-22"><a href="#cb9-22" tabindex="-1" aria-label="code-block-9-22"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float hitContributions    // Energy contributions of the hits. Runs parallel to ::hits()</span></span>
-<span id="cb9-23"><a href="#cb9-23" tabindex="-1" aria-label="code-block-9-23"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float subdetectorEnergies // Energies observed in each subdetector used for this cluster.</span></span>
-<span id="cb9-24"><a href="#cb9-24" tabindex="-1" aria-label="code-block-9-24"></a><span class="at">  </span><span class="fu">OneToManyRelations</span><span class="kw">:</span></span>
-<span id="cb9-25"><a href="#cb9-25" tabindex="-1" aria-label="code-block-9-25"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Cluster        clusters    // Clusters that have been combined to form this cluster</span></span>
-<span id="cb9-26"><a href="#cb9-26" tabindex="-1" aria-label="code-block-9-26"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::CalorimeterHit hits        // Hits that have been combined to form this cluster</span></span>
-<span id="cb9-27"><a href="#cb9-27" tabindex="-1" aria-label="code-block-9-27"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4hep::ParticleID     particleIDs // Particle IDs sorted by likelihood</span></span></code></pre>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1" aria-label="code-block-9-5"></a><span class="at">    </span><span class="kw">-</span><span class="at"> int32_t              type                         // Flag-word that defines the</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1" aria-label="code-block-9-6"></a><span class="at">      // type of the cluster</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1" aria-label="code-block-9-7"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                energy                       // Reconstructed energy of the</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1" aria-label="code-block-9-8"></a><span class="at">      // cluster [GeV].</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1" aria-label="code-block-9-9"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                energyError                  // Error on the cluster energy [GeV]</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1" aria-label="code-block-9-10"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                time                         // [ns]</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1" aria-label="code-block-9-11"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                timeError                    // Error on the cluster time</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1" aria-label="code-block-9-12"></a><span class="at">    </span><span class="kw">-</span><span class="at"> uint32_t             nhits                        // Number of hits in the cluster.</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1" aria-label="code-block-9-13"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4hep::Vector3f    position                     // Global position of the cluster [mm].</span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1" aria-label="code-block-9-14"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Cov3f       positionError                // Covariance matrix of the</span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1" aria-label="code-block-9-15"></a><span class="at">      // position (6 Parameters).</span></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1" aria-label="code-block-9-16"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                radius                       // Cluster radius [mm].</span></span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1" aria-label="code-block-9-17"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                dispersion                   // Cluster dispersion [mm].</span></span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1" aria-label="code-block-9-18"></a><span class="at">    </span><span class="kw">-</span><span class="at"> std::array&lt;float, 3&gt; principalAxesLengthsXYZ      // Lengths along the cluster's principal</span></span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1" aria-label="code-block-9-19"></a><span class="at">      // axes [mm], sorted in descending order (equivalent to sqrt of eigenvalues of the position</span></span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1" aria-label="code-block-9-20"></a><span class="at">      // covariance). For an XY planar detector one can expect this to be [sigma_max, sigma_min, 0].</span></span>
+<span id="cb9-21"><a href="#cb9-21" tabindex="-1" aria-label="code-block-9-21"></a><span class="at">    </span><span class="kw">-</span><span class="at"> std::array&lt;float, 2&gt; principalAxesLengthsThetaPhi // Lengths along the cluster's principal</span></span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1" aria-label="code-block-9-22"></a><span class="at">      // axes [rad], sorted in descending order.</span></span>
+<span id="cb9-23"><a href="#cb9-23" tabindex="-1" aria-label="code-block-9-23"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                intrinsicTheta               // Intrinsic cluster propagation</span></span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1" aria-label="code-block-9-24"></a><span class="at">      // direction polar angle [rad].</span></span>
+<span id="cb9-25"><a href="#cb9-25" tabindex="-1" aria-label="code-block-9-25"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float                intrinsicPhi                 // Intrinsic cluster propagation direction</span></span>
+<span id="cb9-26"><a href="#cb9-26" tabindex="-1" aria-label="code-block-9-26"></a><span class="at">      // azimuthal angle [rad]. For an XY planar detector one can expect this to be the tilt of</span></span>
+<span id="cb9-27"><a href="#cb9-27" tabindex="-1" aria-label="code-block-9-27"></a><span class="at">      // "sigma_max" axis.</span></span>
+<span id="cb9-28"><a href="#cb9-28" tabindex="-1" aria-label="code-block-9-28"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Cov2f        intrinsicDirectionError // Error on the intrinsic cluster</span></span>
+<span id="cb9-29"><a href="#cb9-29" tabindex="-1" aria-label="code-block-9-29"></a><span class="at">      // propagation direction</span></span>
+<span id="cb9-30"><a href="#cb9-30" tabindex="-1" aria-label="code-block-9-30"></a><span class="at">  </span><span class="fu">VectorMembers</span><span class="kw">:</span></span>
+<span id="cb9-31"><a href="#cb9-31" tabindex="-1" aria-label="code-block-9-31"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float shapeParameters     // [DEPRECATED] use radius, dispersion,</span></span>
+<span id="cb9-32"><a href="#cb9-32" tabindex="-1" aria-label="code-block-9-32"></a><span class="at">      // principalAxesLengthsXYZ/ThetaPhi instead.</span></span>
+<span id="cb9-33"><a href="#cb9-33" tabindex="-1" aria-label="code-block-9-33"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float hitContributions    // Energy contributions of the hits. Runs parallel to ::hits()</span></span>
+<span id="cb9-34"><a href="#cb9-34" tabindex="-1" aria-label="code-block-9-34"></a><span class="at">    </span><span class="kw">-</span><span class="at"> float subdetectorEnergies // Energies observed in each subdetector used for this cluster.</span></span>
+<span id="cb9-35"><a href="#cb9-35" tabindex="-1" aria-label="code-block-9-35"></a><span class="at">  </span><span class="fu">OneToManyRelations</span><span class="kw">:</span></span>
+<span id="cb9-36"><a href="#cb9-36" tabindex="-1" aria-label="code-block-9-36"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::Cluster        clusters    // Clusters that have been combined to form this cluster</span></span>
+<span id="cb9-37"><a href="#cb9-37" tabindex="-1" aria-label="code-block-9-37"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4eic::CalorimeterHit hits        // Hits that have been combined to form this cluster</span></span>
+<span id="cb9-38"><a href="#cb9-38" tabindex="-1" aria-label="code-block-9-38"></a><span class="at">    </span><span class="kw">-</span><span class="at"> edm4hep::ParticleID     particleIDs // Particle IDs sorted by likelihood</span></span></code></pre>
 </div>
 <p>You’ll see a block labeled <code>VectorMembers</code>. These are just
 <code>std::vector</code>s of data. For example,
@@ -849,7 +861,7 @@ Suppose we have an <code>edm4eic::Cluster</code> named
 these to define a direct, <em>necessary</em> relationship between an
 object and one other object (one-to-one) or many other objects
 (one-to-many).</p>
-<figure><img src="fig/OneToOneRelation.png" alt="Diagram of a one-to-one relation" class="figure mx-auto d-block"><div class="figcaption">Diagram of a one-to-one relation</div>
+<figure><img src="fig/OneToOneRelation.png" alt="A track pointing to the single trajectory it was computed from" class="figure mx-auto d-block"><div class="figcaption">Diagram of a one-to-one relation</div>
 </figure><p>The above figure schematically illustrates a one-to-one relation. A
 <em>track</em> should correspond to a charged particle with a defined
 momentum and charge. It’s computed from a <em>trajectory</em>, a path
@@ -871,7 +883,7 @@ get a value from a member:</p>
 <pre class="sourceCode c++" tabindex="0"><code class="sourceCode cpp"><span id="cb13-1"><a href="#cb13-1" tabindex="-1" aria-label="code-block-13-1"></a><span class="kw">auto</span>     trajectory    <span class="op">=</span> track<span class="op">.</span>getTrajectory<span class="op">();</span></span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1" aria-label="code-block-13-2"></a><span class="dt">uint32_t</span> n_points_used <span class="op">=</span> trajectory<span class="op">.</span>getNMeasurements<span class="op">();</span></span></code></pre>
 </div>
-<figure><img src="fig/OneToManyRelation.png" alt="Diagram of a one-to-many relation" class="figure mx-auto d-block"><div class="figcaption">Diagram of a one-to-many relation</div>
+<figure><img src="fig/OneToManyRelation.png" alt="A calorimeter cluster pointing to the several calorimeter hits it is built from" class="figure mx-auto d-block"><div class="figcaption">Diagram of a one-to-many relation</div>
 </figure><p>Then the above figure schematically illustrates a one-to-many
 relation. For example, a calorimeter cluster is group of calorimeter
 cells (hits). The cells that make up a given cluster are recorded in its
@@ -904,7 +916,7 @@ members.</p>
 two or more objects, <em>associations</em> express an indirect
 connection which might or might not exist. For example, the connection
 between a monte carlo particle and its reconstructed counterpart:</p>
-<figure><img src="fig/MCRecoParticleAssociation.png" alt="Diagram of an association" class="figure mx-auto d-block"><div class="figcaption">Diagram of an association</div>
+<figure><img src="fig/MCRecoParticleAssociation.png" alt="An association object connecting a simulated particle and a reconstructed particle" class="figure mx-auto d-block"><div class="figcaption">Diagram of an association</div>
 </figure><p>This is defined in edm4eic.yaml as:</p>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">YAML<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -968,7 +980,7 @@ expect:</p>
 block (labeled <code>links</code>), and only need you to specify which
 types they’re connecting (<code>edm4eic::ReconstructedParticle</code>
 and <code>edm4hep::MCParticle</code> in this case).</p>
-<figure><img src="fig/MCRecoParticleLink.png" alt="Diagram of a link" class="figure mx-auto d-block"><div class="figcaption">Diagram of a link</div>
+<figure><img src="fig/MCRecoParticleLink.png" alt="A link object pointing from a reconstructed particle to a simulated particle" class="figure mx-auto d-block"><div class="figcaption">Diagram of a link</div>
 </figure><p>They provide the same functionality as association, but there are a
 few key differences:</p>
 <ol style="list-style-type: decimal">
@@ -1302,18 +1314,19 @@ called <code>FindJPsi.py</code> (for the Python version) or
 <span id="cb2-49"><a href="#cb2-49" tabindex="-1" aria-label="code-block-2-49"></a>    <span class="kw">auto</span><span class="op">&amp;</span> clusters_neg <span class="op">=</span> frame<span class="op">.</span>get<span class="op">&lt;</span>edm4eic<span class="op">::</span>ClusterCollection<span class="op">&gt;(</span><span class="st">"EcalEndcapNClusters"</span><span class="op">);</span></span>
 <span id="cb2-50"><a href="#cb2-50" tabindex="-1" aria-label="code-block-2-50"></a>    <span class="kw">auto</span><span class="op">&amp;</span> clusters_cen <span class="op">=</span> frame<span class="op">.</span>get<span class="op">&lt;</span>edm4eic<span class="op">::</span>ClusterCollection<span class="op">&gt;(</span><span class="st">"EcalBarrelClusters"</span><span class="op">);</span></span>
 <span id="cb2-51"><a href="#cb2-51" tabindex="-1" aria-label="code-block-2-51"></a>    <span class="kw">auto</span><span class="op">&amp;</span> clusters_pos <span class="op">=</span> frame<span class="op">.</span>get<span class="op">&lt;</span>edm4eic<span class="op">::</span>ClusterCollection<span class="op">&gt;(</span><span class="st">"EcalEndcapPClusters"</span><span class="op">);</span></span>
-<span id="cb2-52"><a href="#cb2-52" tabindex="-1" aria-label="code-block-2-52"></a>    <span class="kw">auto</span><span class="op">&amp;</span> associations <span class="op">=</span> frame<span class="op">.</span>get<span class="op">&lt;</span>edm4eic<span class="op">::</span>MCRecoTrackParticleAssociationCollection<span class="op">&gt;(</span><span class="st">"CentralCKFTrackAssociations"</span><span class="op">);</span></span>
-<span id="cb2-53"><a href="#cb2-53" tabindex="-1" aria-label="code-block-2-53"></a></span>
-<span id="cb2-54"><a href="#cb2-54" tabindex="-1" aria-label="code-block-2-54"></a>  <span class="op">}</span>  <span class="co">// end event loop</span></span>
-<span id="cb2-55"><a href="#cb2-55" tabindex="-1" aria-label="code-block-2-55"></a></span>
-<span id="cb2-56"><a href="#cb2-56" tabindex="-1" aria-label="code-block-2-56"></a>  <span class="co">// Calculate efficiencies and save output ===================================</span></span>
-<span id="cb2-57"><a href="#cb2-57" tabindex="-1" aria-label="code-block-2-57"></a></span>
-<span id="cb2-58"><a href="#cb2-58" tabindex="-1" aria-label="code-block-2-58"></a>  output<span class="op">-&gt;</span>cd<span class="op">();</span></span>
-<span id="cb2-59"><a href="#cb2-59" tabindex="-1" aria-label="code-block-2-59"></a>  output<span class="op">-&gt;</span>Write<span class="op">();</span></span>
-<span id="cb2-60"><a href="#cb2-60" tabindex="-1" aria-label="code-block-2-60"></a>  output<span class="op">-&gt;</span>Close<span class="op">();</span></span>
-<span id="cb2-61"><a href="#cb2-61" tabindex="-1" aria-label="code-block-2-61"></a>  <span class="cf">return</span><span class="op">;</span></span>
-<span id="cb2-62"><a href="#cb2-62" tabindex="-1" aria-label="code-block-2-62"></a></span>
-<span id="cb2-63"><a href="#cb2-63" tabindex="-1" aria-label="code-block-2-63"></a><span class="op">}</span></span></code></pre>
+<span id="cb2-52"><a href="#cb2-52" tabindex="-1" aria-label="code-block-2-52"></a>    <span class="kw">auto</span><span class="op">&amp;</span> associations <span class="op">=</span> frame<span class="op">.</span>get<span class="op">&lt;</span>edm4eic<span class="op">::</span>MCRecoTrackParticleAssociationCollection<span class="op">&gt;(</span></span>
+<span id="cb2-53"><a href="#cb2-53" tabindex="-1" aria-label="code-block-2-53"></a>      <span class="st">"CentralCKFTrackAssociations"</span><span class="op">);</span></span>
+<span id="cb2-54"><a href="#cb2-54" tabindex="-1" aria-label="code-block-2-54"></a></span>
+<span id="cb2-55"><a href="#cb2-55" tabindex="-1" aria-label="code-block-2-55"></a>  <span class="op">}</span>  <span class="co">// end event loop</span></span>
+<span id="cb2-56"><a href="#cb2-56" tabindex="-1" aria-label="code-block-2-56"></a></span>
+<span id="cb2-57"><a href="#cb2-57" tabindex="-1" aria-label="code-block-2-57"></a>  <span class="co">// Calculate efficiencies and save output ===================================</span></span>
+<span id="cb2-58"><a href="#cb2-58" tabindex="-1" aria-label="code-block-2-58"></a></span>
+<span id="cb2-59"><a href="#cb2-59" tabindex="-1" aria-label="code-block-2-59"></a>  output<span class="op">-&gt;</span>cd<span class="op">();</span></span>
+<span id="cb2-60"><a href="#cb2-60" tabindex="-1" aria-label="code-block-2-60"></a>  output<span class="op">-&gt;</span>Write<span class="op">();</span></span>
+<span id="cb2-61"><a href="#cb2-61" tabindex="-1" aria-label="code-block-2-61"></a>  output<span class="op">-&gt;</span>Close<span class="op">();</span></span>
+<span id="cb2-62"><a href="#cb2-62" tabindex="-1" aria-label="code-block-2-62"></a>  <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb2-63"><a href="#cb2-63" tabindex="-1" aria-label="code-block-2-63"></a></span>
+<span id="cb2-64"><a href="#cb2-64" tabindex="-1" aria-label="code-block-2-64"></a><span class="op">}</span></span></code></pre>
 </div>
 <p>Now, just to make sure there are no typos, try running your script
 with either</p>
@@ -1384,40 +1397,68 @@ after you create your output file.</p>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a>    <span class="co"># Create histograms ======================================================</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1" aria-label="code-block-5-3"></a>    h_track_momentum_all     <span class="op">=</span> ROOT.TH1D(<span class="st">"h_track_momentum_all"</span>, <span class="st">"Track #it</span><span class="sc">{p}</span><span class="st"> (all)"</span>, <span class="dv">50</span>, <span class="fl">0.0</span>, <span class="fl">10.0</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1" aria-label="code-block-5-4"></a>    h_track_momentum_match   <span class="op">=</span> ROOT.TH1D(<span class="st">"h_track_momentum_match"</span>, <span class="st">"Track #it</span><span class="sc">{p}</span><span class="st"> (matched to cluster)"</span>, <span class="dv">50</span>, <span class="fl">0.0</span>, <span class="fl">10.0</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1" aria-label="code-block-5-5"></a>    h_track_eta_all          <span class="op">=</span> ROOT.TH1D(<span class="st">"h_track_eta_all"</span>, <span class="st">"Track #eta (all)"</span>, <span class="dv">250</span>, <span class="op">-</span><span class="fl">5.0</span>, <span class="fl">5.0</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1" aria-label="code-block-5-6"></a>    h_track_eta_match        <span class="op">=</span> ROOT.TH1D(<span class="st">"h_track_eta_match"</span>, <span class="st">"Track #eta (matched to cluster)"</span>, <span class="dv">250</span>, <span class="op">-</span><span class="fl">5.0</span>, <span class="fl">5.0</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1" aria-label="code-block-5-7"></a>    h_track_cluster_eop      <span class="op">=</span> ROOT.TH1D(<span class="st">"h_track_cluster_eop"</span>, <span class="st">"Track-cluster E/p"</span>, <span class="dv">40</span>, <span class="fl">0.0</span>, <span class="fl">2.0</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1" aria-label="code-block-5-8"></a>    h_invariant_mass         <span class="op">=</span> ROOT.TH1D(<span class="st">"h_invariant_mass"</span>, <span class="st">"Reconstructed invariant mass"</span>, <span class="dv">50</span>, <span class="fl">0.0</span>, <span class="fl">5.0</span>)</span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1" aria-label="code-block-5-9"></a>    h_daughter_momentum_all  <span class="op">=</span> ROOT.TH1D(<span class="st">"h_daughter_momentum_all"</span>, <span class="st">"Daughter e^{#pm} #it</span><span class="sc">{p}</span><span class="st"> (all)"</span>, <span class="dv">50</span>, <span class="fl">0.0</span>, <span class="fl">10.0</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1" aria-label="code-block-5-10"></a>    h_daughter_momentum_reco <span class="op">=</span> ROOT.TH1D(<span class="st">"h_daughter_momentum_reco"</span>, <span class="st">"Daughter e^{#pm} #it</span><span class="sc">{p}</span><span class="st"> (reconstructed)"</span>, <span class="dv">50</span>, <span class="fl">0.0</span>, <span class="fl">10.0</span>)</span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1" aria-label="code-block-5-11"></a>    h_daughter_eta_all       <span class="op">=</span> ROOT.TH1D(<span class="st">"h_daughter_eta_all"</span>, <span class="st">"Daughter e^{#pm} #eta (all)"</span>, <span class="dv">250</span>, <span class="op">-</span><span class="fl">5.0</span>, <span class="fl">5.0</span>)</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1" aria-label="code-block-5-12"></a>    h_daughter_eta_reco      <span class="op">=</span> ROOT.TH1D(<span class="st">"h_daughter_eta_reco"</span>, <span class="st">"Daughter e^{#pm} #eta (reconstructed)"</span>, <span class="dv">250</span>, <span class="op">-</span><span class="fl">5.0</span>, <span class="fl">5.0</span>)</span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1" aria-label="code-block-5-13"></a>    h_jpsi_momentum_all      <span class="op">=</span> ROOT.TH1D(<span class="st">"h_jpsi_momentum_all"</span>, <span class="st">"J/#psi #it</span><span class="sc">{p}</span><span class="st"> (all e^{#pm} decays)"</span>, <span class="dv">50</span>, <span class="fl">0.0</span>, <span class="fl">10.0</span>)</span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1" aria-label="code-block-5-14"></a>    h_jpsi_momentum_reco     <span class="op">=</span> ROOT.TH1D(<span class="st">"h_jpsi_momentum_reco"</span>, <span class="st">"J/#psi #it</span><span class="sc">{p}</span><span class="st"> (reconstructed e^{#pm} decays)"</span>, <span class="dv">50</span>, <span class="fl">0.0</span>, <span class="fl">10.0</span>)</span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1" aria-label="code-block-5-15"></a>    h_jpsi_eta_all           <span class="op">=</span> ROOT.TH1D(<span class="st">"h_jpsi_eta_all"</span>, <span class="st">"J/#psi #eta (all e^{#pm} decays)"</span>, <span class="dv">250</span>, <span class="op">-</span><span class="fl">5.0</span>, <span class="fl">5.0</span>)</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1" aria-label="code-block-5-16"></a>    h_jpsi_eta_reco          <span class="op">=</span> ROOT.TH1D(<span class="st">"h_jpsi_eta_reco"</span>, <span class="st">"J/#psi #eta (reconstructed e^{#pm} decays)"</span>, <span class="dv">250</span>, <span class="op">-</span><span class="fl">5.0</span>, <span class="fl">5.0</span>)</span></code></pre>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1" aria-label="code-block-5-3"></a>    h_track_momentum_all <span class="op">=</span> ROOT.TH1D(</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1" aria-label="code-block-5-4"></a>        <span class="st">"h_track_momentum_all"</span>, <span class="st">"Track #it</span><span class="sc">{p}</span><span class="st"> (all)"</span>, <span class="dv">50</span>, <span class="fl">0.0</span>, <span class="fl">10.0</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1" aria-label="code-block-5-5"></a>    h_track_momentum_match <span class="op">=</span> ROOT.TH1D(</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1" aria-label="code-block-5-6"></a>        <span class="st">"h_track_momentum_match"</span>, <span class="st">"Track #it</span><span class="sc">{p}</span><span class="st"> (matched to cluster)"</span>, <span class="dv">50</span>, <span class="fl">0.0</span>, <span class="fl">10.0</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1" aria-label="code-block-5-7"></a>    h_track_eta_all <span class="op">=</span> ROOT.TH1D(</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1" aria-label="code-block-5-8"></a>        <span class="st">"h_track_eta_all"</span>, <span class="st">"Track #eta (all)"</span>, <span class="dv">250</span>, <span class="op">-</span><span class="fl">5.0</span>, <span class="fl">5.0</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1" aria-label="code-block-5-9"></a>    h_track_eta_match <span class="op">=</span> ROOT.TH1D(</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1" aria-label="code-block-5-10"></a>        <span class="st">"h_track_eta_match"</span>, <span class="st">"Track #eta (matched to cluster)"</span>, <span class="dv">250</span>, <span class="op">-</span><span class="fl">5.0</span>, <span class="fl">5.0</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1" aria-label="code-block-5-11"></a>    h_track_cluster_eop <span class="op">=</span> ROOT.TH1D(</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1" aria-label="code-block-5-12"></a>        <span class="st">"h_track_cluster_eop"</span>, <span class="st">"Track-cluster E/p"</span>, <span class="dv">40</span>, <span class="fl">0.0</span>, <span class="fl">2.0</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1" aria-label="code-block-5-13"></a>    h_invariant_mass <span class="op">=</span> ROOT.TH1D(</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1" aria-label="code-block-5-14"></a>        <span class="st">"h_invariant_mass"</span>, <span class="st">"Reconstructed invariant mass"</span>, <span class="dv">50</span>, <span class="fl">0.0</span>, <span class="fl">5.0</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1" aria-label="code-block-5-15"></a>    h_daughter_momentum_all <span class="op">=</span> ROOT.TH1D(</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1" aria-label="code-block-5-16"></a>        <span class="st">"h_daughter_momentum_all"</span>, <span class="st">"Daughter e^{#pm} #it</span><span class="sc">{p}</span><span class="st"> (all)"</span>, <span class="dv">50</span>, <span class="fl">0.0</span>, <span class="fl">10.0</span>)</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1" aria-label="code-block-5-17"></a>    h_daughter_momentum_reco <span class="op">=</span> ROOT.TH1D(</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1" aria-label="code-block-5-18"></a>        <span class="st">"h_daughter_momentum_reco"</span>, <span class="st">"Daughter e^{#pm} #it</span><span class="sc">{p}</span><span class="st"> (reconstructed)"</span>, <span class="dv">50</span>, <span class="fl">0.0</span>, <span class="fl">10.0</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1" aria-label="code-block-5-19"></a>    h_daughter_eta_all <span class="op">=</span> ROOT.TH1D(</span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1" aria-label="code-block-5-20"></a>        <span class="st">"h_daughter_eta_all"</span>, <span class="st">"Daughter e^{#pm} #eta (all)"</span>, <span class="dv">250</span>, <span class="op">-</span><span class="fl">5.0</span>, <span class="fl">5.0</span>)</span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1" aria-label="code-block-5-21"></a>    h_daughter_eta_reco <span class="op">=</span> ROOT.TH1D(</span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1" aria-label="code-block-5-22"></a>        <span class="st">"h_daughter_eta_reco"</span>, <span class="st">"Daughter e^{#pm} #eta (reconstructed)"</span>, <span class="dv">250</span>, <span class="op">-</span><span class="fl">5.0</span>, <span class="fl">5.0</span>)</span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1" aria-label="code-block-5-23"></a>    h_jpsi_momentum_all <span class="op">=</span> ROOT.TH1D(</span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1" aria-label="code-block-5-24"></a>        <span class="st">"h_jpsi_momentum_all"</span>, <span class="st">"J/#psi #it</span><span class="sc">{p}</span><span class="st"> (all e^{#pm} decays)"</span>, <span class="dv">50</span>, <span class="fl">0.0</span>, <span class="fl">10.0</span>)</span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1" aria-label="code-block-5-25"></a>    h_jpsi_momentum_reco <span class="op">=</span> ROOT.TH1D(</span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1" aria-label="code-block-5-26"></a>        <span class="st">"h_jpsi_momentum_reco"</span>, <span class="st">"J/#psi #it</span><span class="sc">{p}</span><span class="st"> (reconstructed e^{#pm} decays)"</span>, <span class="dv">50</span>, <span class="fl">0.0</span>, <span class="fl">10.0</span>)</span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1" aria-label="code-block-5-27"></a>    h_jpsi_eta_all <span class="op">=</span> ROOT.TH1D(</span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1" aria-label="code-block-5-28"></a>        <span class="st">"h_jpsi_eta_all"</span>, <span class="st">"J/#psi #eta (all e^{#pm} decays)"</span>, <span class="dv">250</span>, <span class="op">-</span><span class="fl">5.0</span>, <span class="fl">5.0</span>)</span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1" aria-label="code-block-5-29"></a>    h_jpsi_eta_reco <span class="op">=</span> ROOT.TH1D(</span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1" aria-label="code-block-5-30"></a>        <span class="st">"h_jpsi_eta_reco"</span>, <span class="st">"J/#psi #eta (reconstructed e^{#pm} decays)"</span>, <span class="dv">250</span>, <span class="op">-</span><span class="fl">5.0</span>, <span class="fl">5.0</span>)</span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">CPP<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode cpp" tabindex="0"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a>  <span class="co">// Create histograms ========================================================</span></span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a>  TH1D<span class="op">*</span> h_track_momentum_all     <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span><span class="st">"h_track_momentum_all"</span><span class="op">,</span> <span class="st">"Track #it{p} (all)"</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">,</span> <span class="fl">10.0</span><span class="op">);</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1" aria-label="code-block-6-4"></a>  TH1D<span class="op">*</span> h_track_momentum_match   <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span><span class="st">"h_track_momentum_match"</span><span class="op">,</span> <span class="st">"Track #it{p} (matched to cluster)"</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">,</span> <span class="fl">10.0</span><span class="op">);</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1" aria-label="code-block-6-5"></a>  TH1D<span class="op">*</span> h_track_eta_all          <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span><span class="st">"h_track_eta_all"</span><span class="op">,</span> <span class="st">"Track #eta (all)"</span><span class="op">,</span> <span class="dv">250</span><span class="op">,</span> <span class="op">-</span><span class="fl">5.0</span><span class="op">,</span> <span class="fl">5.0</span><span class="op">);</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1" aria-label="code-block-6-6"></a>  TH1D<span class="op">*</span> h_track_eta_match        <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span><span class="st">"h_track_eta_match"</span><span class="op">,</span> <span class="st">"Track #eta (matched to cluster)"</span><span class="op">,</span> <span class="dv">250</span><span class="op">,</span> <span class="op">-</span><span class="fl">5.0</span><span class="op">,</span> <span class="fl">5.0</span><span class="op">);</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1" aria-label="code-block-6-7"></a>  TH1D<span class="op">*</span> h_track_cluster_eop      <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span><span class="st">"h_track_cluster_eop"</span><span class="op">,</span> <span class="st">"Track-cluster E/p"</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">,</span> <span class="fl">2.0</span><span class="op">);</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1" aria-label="code-block-6-8"></a>  TH1D<span class="op">*</span> h_invariant_mass         <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span><span class="st">"h_invariant_mass"</span><span class="op">,</span> <span class="st">"Reconstructed invariant mass"</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">,</span> <span class="fl">5.0</span><span class="op">);</span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1" aria-label="code-block-6-9"></a>  TH1D<span class="op">*</span> h_daughter_momentum_all  <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span><span class="st">"h_daughter_momentum_all"</span><span class="op">,</span> <span class="st">"Daughter e^{#pm} #it{p} (all)"</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">,</span> <span class="fl">10.0</span><span class="op">);</span></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1" aria-label="code-block-6-10"></a>  TH1D<span class="op">*</span> h_daughter_momentum_reco <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span><span class="st">"h_daughter_momentum_reco"</span><span class="op">,</span> <span class="st">"Daughter e^{#pm} #it{p} (reconstructed)"</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">,</span> <span class="fl">10.0</span><span class="op">);</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1" aria-label="code-block-6-11"></a>  TH1D<span class="op">*</span> h_daughter_eta_all       <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span><span class="st">"h_daughter_eta_all"</span><span class="op">,</span> <span class="st">"Daughter e^{#pm} #eta (all)"</span><span class="op">,</span> <span class="dv">250</span><span class="op">,</span> <span class="op">-</span><span class="fl">5.0</span><span class="op">,</span> <span class="fl">5.0</span><span class="op">);</span></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1" aria-label="code-block-6-12"></a>  TH1D<span class="op">*</span> h_daughter_eta_reco      <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span><span class="st">"h_daughter_eta_reco"</span><span class="op">,</span> <span class="st">"Daughter e^{#pm} #eta (reconstructed)"</span><span class="op">,</span> <span class="dv">250</span><span class="op">,</span> <span class="op">-</span><span class="fl">5.0</span><span class="op">,</span> <span class="fl">5.0</span><span class="op">);</span></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1" aria-label="code-block-6-13"></a>  TH1D<span class="op">*</span> h_jpsi_momentum_all      <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span><span class="st">"h_jpsi_momentum_all"</span><span class="op">,</span> <span class="st">"J/#psi #it{p} (all e^{#pm} decays)"</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">,</span> <span class="fl">10.0</span><span class="op">);</span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1" aria-label="code-block-6-14"></a>  TH1D<span class="op">*</span> h_jpsi_momentum_reco     <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span><span class="st">"h_jpsi_momentum_reco"</span><span class="op">,</span> <span class="st">"J/#psi #it{p} (reconstructed e^{#pm} decays)"</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">,</span> <span class="fl">10.0</span><span class="op">);</span></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1" aria-label="code-block-6-15"></a>  TH1D<span class="op">*</span> h_jpsi_eta_all           <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span><span class="st">"h_jpsi_eta_all"</span><span class="op">,</span> <span class="st">"J/#psi #eta (all e^{#pm} decays)"</span><span class="op">,</span> <span class="dv">250</span><span class="op">,</span> <span class="op">-</span><span class="fl">5.0</span><span class="op">,</span> <span class="fl">5.0</span><span class="op">);</span></span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1" aria-label="code-block-6-16"></a>  TH1D<span class="op">*</span> h_jpsi_eta_reco          <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span><span class="st">"h_jpsi_eta_reco"</span><span class="op">,</span> <span class="st">"J/#psi #eta (reconstructed e^{#pm} decays)"</span><span class="op">,</span> <span class="dv">250</span><span class="op">,</span> <span class="op">-</span><span class="fl">5.0</span><span class="op">,</span> <span class="fl">5.0</span><span class="op">);</span></span></code></pre>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a>  TH1D<span class="op">*</span> h_track_momentum_all <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1" aria-label="code-block-6-4"></a>    <span class="st">"h_track_momentum_all"</span><span class="op">,</span> <span class="st">"Track #it{p} (all)"</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">,</span> <span class="fl">10.0</span><span class="op">);</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1" aria-label="code-block-6-5"></a>  TH1D<span class="op">*</span> h_track_momentum_match <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1" aria-label="code-block-6-6"></a>    <span class="st">"h_track_momentum_match"</span><span class="op">,</span> <span class="st">"Track #it{p} (matched to cluster)"</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">,</span> <span class="fl">10.0</span><span class="op">);</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1" aria-label="code-block-6-7"></a>  TH1D<span class="op">*</span> h_track_eta_all <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1" aria-label="code-block-6-8"></a>    <span class="st">"h_track_eta_all"</span><span class="op">,</span> <span class="st">"Track #eta (all)"</span><span class="op">,</span> <span class="dv">250</span><span class="op">,</span> <span class="op">-</span><span class="fl">5.0</span><span class="op">,</span> <span class="fl">5.0</span><span class="op">);</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1" aria-label="code-block-6-9"></a>  TH1D<span class="op">*</span> h_track_eta_match <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1" aria-label="code-block-6-10"></a>    <span class="st">"h_track_eta_match"</span><span class="op">,</span> <span class="st">"Track #eta (matched to cluster)"</span><span class="op">,</span> <span class="dv">250</span><span class="op">,</span> <span class="op">-</span><span class="fl">5.0</span><span class="op">,</span> <span class="fl">5.0</span><span class="op">);</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1" aria-label="code-block-6-11"></a>  TH1D<span class="op">*</span> h_track_cluster_eop <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1" aria-label="code-block-6-12"></a>    <span class="st">"h_track_cluster_eop"</span><span class="op">,</span> <span class="st">"Track-cluster E/p"</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">,</span> <span class="fl">2.0</span><span class="op">);</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1" aria-label="code-block-6-13"></a>  TH1D<span class="op">*</span> h_invariant_mass <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1" aria-label="code-block-6-14"></a>    <span class="st">"h_invariant_mass"</span><span class="op">,</span> <span class="st">"Reconstructed invariant mass"</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">,</span> <span class="fl">5.0</span><span class="op">);</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1" aria-label="code-block-6-15"></a>  TH1D<span class="op">*</span> h_daughter_momentum_all <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1" aria-label="code-block-6-16"></a>    <span class="st">"h_daughter_momentum_all"</span><span class="op">,</span> <span class="st">"Daughter e^{#pm} #it{p} (all)"</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">,</span> <span class="fl">10.0</span><span class="op">);</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1" aria-label="code-block-6-17"></a>  TH1D<span class="op">*</span> h_daughter_momentum_reco <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1" aria-label="code-block-6-18"></a>    <span class="st">"h_daughter_momentum_reco"</span><span class="op">,</span> <span class="st">"Daughter e^{#pm} #it{p} (reconstructed)"</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">,</span> <span class="fl">10.0</span><span class="op">);</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1" aria-label="code-block-6-19"></a>  TH1D<span class="op">*</span> h_daughter_eta_all <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1" aria-label="code-block-6-20"></a>    <span class="st">"h_daughter_eta_all"</span><span class="op">,</span> <span class="st">"Daughter e^{#pm} #eta (all)"</span><span class="op">,</span> <span class="dv">250</span><span class="op">,</span> <span class="op">-</span><span class="fl">5.0</span><span class="op">,</span> <span class="fl">5.0</span><span class="op">);</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1" aria-label="code-block-6-21"></a>  TH1D<span class="op">*</span> h_daughter_eta_reco <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1" aria-label="code-block-6-22"></a>    <span class="st">"h_daughter_eta_reco"</span><span class="op">,</span> <span class="st">"Daughter e^{#pm} #eta (reconstructed)"</span><span class="op">,</span> <span class="dv">250</span><span class="op">,</span> <span class="op">-</span><span class="fl">5.0</span><span class="op">,</span> <span class="fl">5.0</span><span class="op">);</span></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1" aria-label="code-block-6-23"></a>  TH1D<span class="op">*</span> h_jpsi_momentum_all <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span></span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1" aria-label="code-block-6-24"></a>    <span class="st">"h_jpsi_momentum_all"</span><span class="op">,</span> <span class="st">"J/#psi #it{p} (all e^{#pm} decays)"</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">,</span> <span class="fl">10.0</span><span class="op">);</span></span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1" aria-label="code-block-6-25"></a>  TH1D<span class="op">*</span> h_jpsi_momentum_reco <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span></span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1" aria-label="code-block-6-26"></a>    <span class="st">"h_jpsi_momentum_reco"</span><span class="op">,</span> <span class="st">"J/#psi #it{p} (reconstructed e^{#pm} decays)"</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">,</span> <span class="fl">10.0</span><span class="op">);</span></span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1" aria-label="code-block-6-27"></a>  TH1D<span class="op">*</span> h_jpsi_eta_all <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span></span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1" aria-label="code-block-6-28"></a>    <span class="st">"h_jpsi_eta_all"</span><span class="op">,</span> <span class="st">"J/#psi #eta (all e^{#pm} decays)"</span><span class="op">,</span> <span class="dv">250</span><span class="op">,</span> <span class="op">-</span><span class="fl">5.0</span><span class="op">,</span> <span class="fl">5.0</span><span class="op">);</span></span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1" aria-label="code-block-6-29"></a>  TH1D<span class="op">*</span> h_jpsi_eta_reco <span class="op">=</span> <span class="kw">new</span> TH1D<span class="op">(</span></span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1" aria-label="code-block-6-30"></a>    <span class="st">"h_jpsi_eta_reco"</span><span class="op">,</span> <span class="st">"J/#psi #eta (reconstructed e^{#pm} decays)"</span><span class="op">,</span> <span class="dv">250</span><span class="op">,</span> <span class="op">-</span><span class="fl">5.0</span><span class="op">,</span> <span class="fl">5.0</span><span class="op">);</span></span></code></pre>
 </div>
 <p>And for those using Python, add the following at the very end of your
 <code>FindJPsi()</code> function:</p>
@@ -2220,7 +2261,7 @@ electron-pairs.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>The code should run exactly as before: the maps are declared but not
 filled until the next exercise.</p>
@@ -2318,40 +2359,41 @@ helpers/bookkeepers.</p>
 <span id="cb4-16"><a href="#cb4-16" tabindex="-1" aria-label="code-block-4-16"></a></span>
 <span id="cb4-17"><a href="#cb4-17" tabindex="-1" aria-label="code-block-4-17"></a>            <span class="at">const</span> <span class="kw">auto</span>  ele_mom <span class="op">=</span> convert_vector_double<span class="op">(</span>particle<span class="op">.</span>getMomentum<span class="op">());</span></span>
 <span id="cb4-18"><a href="#cb4-18" tabindex="-1" aria-label="code-block-4-18"></a>            <span class="at">const</span> <span class="dt">float</span> ele_eta <span class="op">=</span> ele_mom<span class="op">.</span>Eta<span class="op">();</span></span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1" aria-label="code-block-4-19"></a>            <span class="at">const</span> <span class="dt">float</span> ele_mag <span class="op">=</span> <span class="bu">std::</span>sqrt<span class="op">(</span>ele_mom<span class="op">.</span>Mag2<span class="op">());</span>  <span class="co">// Mag() isn't implemented for XYZVector</span></span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1" aria-label="code-block-4-20"></a>            h_daughter_momentum_all<span class="op">-&gt;</span>Fill<span class="op">(</span>ele_mag<span class="op">);</span></span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1" aria-label="code-block-4-21"></a>            h_daughter_eta_all<span class="op">-&gt;</span>Fill<span class="op">(</span>ele_eta<span class="op">);</span></span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1" aria-label="code-block-4-22"></a></span>
-<span id="cb4-23"><a href="#cb4-23" tabindex="-1" aria-label="code-block-4-23"></a>            <span class="bu">std::</span>optional<span class="op">&lt;</span>edm4eic<span class="op">::</span>Track<span class="op">&gt;</span> rec_ele<span class="op">;</span></span>
-<span id="cb4-24"><a href="#cb4-24" tabindex="-1" aria-label="code-block-4-24"></a>            <span class="cf">for</span> <span class="op">(</span><span class="at">const</span> <span class="kw">auto</span><span class="op">&amp;</span> association <span class="op">:</span> associations<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb4-25"><a href="#cb4-25" tabindex="-1" aria-label="code-block-4-25"></a>              <span class="cf">if</span> <span class="op">(</span>association<span class="op">.</span>getSim<span class="op">()</span> <span class="op">==</span> daughter<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb4-26"><a href="#cb4-26" tabindex="-1" aria-label="code-block-4-26"></a>                rec_ele <span class="op">=</span> association<span class="op">.</span>getRec<span class="op">();</span></span>
-<span id="cb4-27"><a href="#cb4-27" tabindex="-1" aria-label="code-block-4-27"></a>                <span class="cf">break</span><span class="op">;</span></span>
-<span id="cb4-28"><a href="#cb4-28" tabindex="-1" aria-label="code-block-4-28"></a>              <span class="op">}</span></span>
-<span id="cb4-29"><a href="#cb4-29" tabindex="-1" aria-label="code-block-4-29"></a>            <span class="op">}</span></span>
-<span id="cb4-30"><a href="#cb4-30" tabindex="-1" aria-label="code-block-4-30"></a></span>
-<span id="cb4-31"><a href="#cb4-31" tabindex="-1" aria-label="code-block-4-31"></a>            <span class="cf">if</span> <span class="op">(</span>rec_ele<span class="op">.</span>has_value<span class="op">())</span> <span class="op">{</span></span>
-<span id="cb4-32"><a href="#cb4-32" tabindex="-1" aria-label="code-block-4-32"></a>              h_daughter_momentum_reco<span class="op">-&gt;</span>Fill<span class="op">(</span>ele_mag<span class="op">);</span></span>
-<span id="cb4-33"><a href="#cb4-33" tabindex="-1" aria-label="code-block-4-33"></a>              h_daughter_eta_reco<span class="op">-&gt;</span>Fill<span class="op">(</span>ele_eta<span class="op">);</span></span>
-<span id="cb4-34"><a href="#cb4-34" tabindex="-1" aria-label="code-block-4-34"></a>              track_to_daughter<span class="op">[</span>rec_ele<span class="op">.</span>value<span class="op">().</span>getObjectID<span class="op">()]</span> <span class="op">=</span> daughter<span class="op">.</span>getObjectID<span class="op">();</span></span>
-<span id="cb4-35"><a href="#cb4-35" tabindex="-1" aria-label="code-block-4-35"></a>            <span class="op">}</span></span>
-<span id="cb4-36"><a href="#cb4-36" tabindex="-1" aria-label="code-block-4-36"></a>          <span class="op">}</span></span>
-<span id="cb4-37"><a href="#cb4-37" tabindex="-1" aria-label="code-block-4-37"></a>        <span class="op">}</span>  <span class="co">// end daughter loop</span></span>
-<span id="cb4-38"><a href="#cb4-38" tabindex="-1" aria-label="code-block-4-38"></a></span>
-<span id="cb4-39"><a href="#cb4-39" tabindex="-1" aria-label="code-block-4-39"></a>        <span class="co">// Sanity check: should have found 2 leptons</span></span>
-<span id="cb4-40"><a href="#cb4-40" tabindex="-1" aria-label="code-block-4-40"></a>        <span class="co">//   --&gt; If so, add their object IDs to map and fill histograms</span></span>
-<span id="cb4-41"><a href="#cb4-41" tabindex="-1" aria-label="code-block-4-41"></a>        <span class="cf">if</span> <span class="op">(</span>decays<span class="op">.</span>size<span class="op">()</span> <span class="op">==</span> <span class="dv">2</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb4-42"><a href="#cb4-42" tabindex="-1" aria-label="code-block-4-42"></a>          daughter_to_daughter<span class="op">[</span>decays<span class="op">.</span>front<span class="op">().</span>getObjectID<span class="op">()]</span> <span class="op">=</span> decays<span class="op">.</span>back<span class="op">().</span>getObjectID<span class="op">();</span></span>
-<span id="cb4-43"><a href="#cb4-43" tabindex="-1" aria-label="code-block-4-43"></a>          daughter_to_daughter<span class="op">[</span>decays<span class="op">.</span>back<span class="op">().</span>getObjectID<span class="op">()]</span>  <span class="op">=</span> decays<span class="op">.</span>front<span class="op">().</span>getObjectID<span class="op">();</span></span>
-<span id="cb4-44"><a href="#cb4-44" tabindex="-1" aria-label="code-block-4-44"></a>          daughter_to_parent<span class="op">[</span>decays<span class="op">.</span>front<span class="op">().</span>getObjectID<span class="op">()]</span>   <span class="op">=</span> particle<span class="op">;</span></span>
-<span id="cb4-45"><a href="#cb4-45" tabindex="-1" aria-label="code-block-4-45"></a>          daughter_to_parent<span class="op">[</span>decays<span class="op">.</span>back<span class="op">().</span>getObjectID<span class="op">()]</span>    <span class="op">=</span> particle<span class="op">;</span></span>
-<span id="cb4-46"><a href="#cb4-46" tabindex="-1" aria-label="code-block-4-46"></a></span>
-<span id="cb4-47"><a href="#cb4-47" tabindex="-1" aria-label="code-block-4-47"></a>          <span class="at">const</span> <span class="kw">auto</span> jpsi_lorentz <span class="op">=</span> get_lorentz_particle<span class="op">(</span>particle<span class="op">);</span></span>
-<span id="cb4-48"><a href="#cb4-48" tabindex="-1" aria-label="code-block-4-48"></a>          h_jpsi_momentum_all<span class="op">-&gt;</span>Fill<span class="op">(</span>jpsi_lorentz<span class="op">.</span>P<span class="op">());</span></span>
-<span id="cb4-49"><a href="#cb4-49" tabindex="-1" aria-label="code-block-4-49"></a>          h_jpsi_eta_all<span class="op">-&gt;</span>Fill<span class="op">(</span>jpsi_lorentz<span class="op">.</span>Eta<span class="op">());</span></span>
-<span id="cb4-50"><a href="#cb4-50" tabindex="-1" aria-label="code-block-4-50"></a>        <span class="op">}</span></span>
-<span id="cb4-51"><a href="#cb4-51" tabindex="-1" aria-label="code-block-4-51"></a>      <span class="op">}</span></span>
-<span id="cb4-52"><a href="#cb4-52" tabindex="-1" aria-label="code-block-4-52"></a>    <span class="op">}</span>  <span class="co">// end particle loop</span></span></code></pre>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1" aria-label="code-block-4-19"></a>            <span class="co">// Mag() isn't implemented for XYZVector</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1" aria-label="code-block-4-20"></a>            <span class="at">const</span> <span class="dt">float</span> ele_mag <span class="op">=</span> <span class="bu">std::</span>sqrt<span class="op">(</span>ele_mom<span class="op">.</span>Mag2<span class="op">());</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1" aria-label="code-block-4-21"></a>            h_daughter_momentum_all<span class="op">-&gt;</span>Fill<span class="op">(</span>ele_mag<span class="op">);</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1" aria-label="code-block-4-22"></a>            h_daughter_eta_all<span class="op">-&gt;</span>Fill<span class="op">(</span>ele_eta<span class="op">);</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1" aria-label="code-block-4-23"></a></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1" aria-label="code-block-4-24"></a>            <span class="bu">std::</span>optional<span class="op">&lt;</span>edm4eic<span class="op">::</span>Track<span class="op">&gt;</span> rec_ele<span class="op">;</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1" aria-label="code-block-4-25"></a>            <span class="cf">for</span> <span class="op">(</span><span class="at">const</span> <span class="kw">auto</span><span class="op">&amp;</span> association <span class="op">:</span> associations<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1" aria-label="code-block-4-26"></a>              <span class="cf">if</span> <span class="op">(</span>association<span class="op">.</span>getSim<span class="op">()</span> <span class="op">==</span> daughter<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1" aria-label="code-block-4-27"></a>                rec_ele <span class="op">=</span> association<span class="op">.</span>getRec<span class="op">();</span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1" aria-label="code-block-4-28"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1" aria-label="code-block-4-29"></a>              <span class="op">}</span></span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1" aria-label="code-block-4-30"></a>            <span class="op">}</span></span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1" aria-label="code-block-4-31"></a></span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1" aria-label="code-block-4-32"></a>            <span class="cf">if</span> <span class="op">(</span>rec_ele<span class="op">.</span>has_value<span class="op">())</span> <span class="op">{</span></span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1" aria-label="code-block-4-33"></a>              h_daughter_momentum_reco<span class="op">-&gt;</span>Fill<span class="op">(</span>ele_mag<span class="op">);</span></span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1" aria-label="code-block-4-34"></a>              h_daughter_eta_reco<span class="op">-&gt;</span>Fill<span class="op">(</span>ele_eta<span class="op">);</span></span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1" aria-label="code-block-4-35"></a>              track_to_daughter<span class="op">[</span>rec_ele<span class="op">.</span>value<span class="op">().</span>getObjectID<span class="op">()]</span> <span class="op">=</span> daughter<span class="op">.</span>getObjectID<span class="op">();</span></span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1" aria-label="code-block-4-36"></a>            <span class="op">}</span></span>
+<span id="cb4-37"><a href="#cb4-37" tabindex="-1" aria-label="code-block-4-37"></a>          <span class="op">}</span></span>
+<span id="cb4-38"><a href="#cb4-38" tabindex="-1" aria-label="code-block-4-38"></a>        <span class="op">}</span>  <span class="co">// end daughter loop</span></span>
+<span id="cb4-39"><a href="#cb4-39" tabindex="-1" aria-label="code-block-4-39"></a></span>
+<span id="cb4-40"><a href="#cb4-40" tabindex="-1" aria-label="code-block-4-40"></a>        <span class="co">// Sanity check: should have found 2 leptons</span></span>
+<span id="cb4-41"><a href="#cb4-41" tabindex="-1" aria-label="code-block-4-41"></a>        <span class="co">//   --&gt; If so, add their object IDs to map and fill histograms</span></span>
+<span id="cb4-42"><a href="#cb4-42" tabindex="-1" aria-label="code-block-4-42"></a>        <span class="cf">if</span> <span class="op">(</span>decays<span class="op">.</span>size<span class="op">()</span> <span class="op">==</span> <span class="dv">2</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-43"><a href="#cb4-43" tabindex="-1" aria-label="code-block-4-43"></a>          daughter_to_daughter<span class="op">[</span>decays<span class="op">.</span>front<span class="op">().</span>getObjectID<span class="op">()]</span> <span class="op">=</span> decays<span class="op">.</span>back<span class="op">().</span>getObjectID<span class="op">();</span></span>
+<span id="cb4-44"><a href="#cb4-44" tabindex="-1" aria-label="code-block-4-44"></a>          daughter_to_daughter<span class="op">[</span>decays<span class="op">.</span>back<span class="op">().</span>getObjectID<span class="op">()]</span>  <span class="op">=</span> decays<span class="op">.</span>front<span class="op">().</span>getObjectID<span class="op">();</span></span>
+<span id="cb4-45"><a href="#cb4-45" tabindex="-1" aria-label="code-block-4-45"></a>          daughter_to_parent<span class="op">[</span>decays<span class="op">.</span>front<span class="op">().</span>getObjectID<span class="op">()]</span>   <span class="op">=</span> particle<span class="op">;</span></span>
+<span id="cb4-46"><a href="#cb4-46" tabindex="-1" aria-label="code-block-4-46"></a>          daughter_to_parent<span class="op">[</span>decays<span class="op">.</span>back<span class="op">().</span>getObjectID<span class="op">()]</span>    <span class="op">=</span> particle<span class="op">;</span></span>
+<span id="cb4-47"><a href="#cb4-47" tabindex="-1" aria-label="code-block-4-47"></a></span>
+<span id="cb4-48"><a href="#cb4-48" tabindex="-1" aria-label="code-block-4-48"></a>          <span class="at">const</span> <span class="kw">auto</span> jpsi_lorentz <span class="op">=</span> get_lorentz_particle<span class="op">(</span>particle<span class="op">);</span></span>
+<span id="cb4-49"><a href="#cb4-49" tabindex="-1" aria-label="code-block-4-49"></a>          h_jpsi_momentum_all<span class="op">-&gt;</span>Fill<span class="op">(</span>jpsi_lorentz<span class="op">.</span>P<span class="op">());</span></span>
+<span id="cb4-50"><a href="#cb4-50" tabindex="-1" aria-label="code-block-4-50"></a>          h_jpsi_eta_all<span class="op">-&gt;</span>Fill<span class="op">(</span>jpsi_lorentz<span class="op">.</span>Eta<span class="op">());</span></span>
+<span id="cb4-51"><a href="#cb4-51" tabindex="-1" aria-label="code-block-4-51"></a>        <span class="op">}</span></span>
+<span id="cb4-52"><a href="#cb4-52" tabindex="-1" aria-label="code-block-4-52"></a>      <span class="op">}</span></span>
+<span id="cb4-53"><a href="#cb4-53" tabindex="-1" aria-label="code-block-4-53"></a>    <span class="op">}</span>  <span class="co">// end particle loop</span></span></code></pre>
 </div>
 <p>And confirm that the code still runs!</p>
 </div>
@@ -2362,7 +2404,7 @@ helpers/bookkeepers.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>After this step <code>h_daughter_momentum_all</code> should hold two
 entries per event (both decay leptons; 2318 in the example file), and
@@ -2480,7 +2522,7 @@ reconstructed as tracks?</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>With the example file, <code>h_jpsi_momentum_reco</code> ends up with
 about 190 entries out of the 1159 generated <span class="math inline">\(J/\psi\)</span>, i.e. a reconstruction efficiency
@@ -2498,28 +2540,40 @@ the following snippets into your code just after the event loop.</p>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a>    <span class="co"># Calculate efficiencies and save output ==================================</span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1" aria-label="code-block-7-2"></a></span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1" aria-label="code-block-7-3"></a>    h_track_momentum_efficiency <span class="op">=</span> h_track_momentum_all.Clone()</span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1" aria-label="code-block-7-4"></a>    h_track_momentum_efficiency.SetNameTitle(<span class="st">"h_track_momentum_efficiency"</span>, <span class="st">"Efficiency of matching tracks to clusters vs. track #it</span><span class="sc">{p}</span><span class="st">"</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1" aria-label="code-block-7-5"></a>    h_track_momentum_efficiency.Divide(h_track_momentum_match, h_track_momentum_all)</span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1" aria-label="code-block-7-6"></a></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1" aria-label="code-block-7-7"></a>    h_track_eta_efficiency <span class="op">=</span> h_track_eta_all.Clone()</span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1" aria-label="code-block-7-8"></a>    h_track_eta_efficiency.SetNameTitle(<span class="st">"h_track_eta_efficiency"</span>, <span class="st">"Efficiency of matching of tracks to clusters vs. track #eta"</span>)</span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1" aria-label="code-block-7-9"></a>    h_track_eta_efficiency.Divide(h_track_eta_match, h_track_eta_all)</span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1" aria-label="code-block-7-10"></a></span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1" aria-label="code-block-7-11"></a>    h_daughter_momentum_efficiency <span class="op">=</span> h_daughter_momentum_all.Clone()</span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1" aria-label="code-block-7-12"></a>    h_daughter_momentum_efficiency.SetNameTitle(<span class="st">"h_daughter_momentum_efficiency"</span>, <span class="st">"Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #it</span><span class="sc">{p}</span><span class="st">"</span>)</span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1" aria-label="code-block-7-13"></a>    h_daughter_momentum_efficiency.Divide(h_daughter_momentum_reco, h_daughter_momentum_all)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1" aria-label="code-block-7-4"></a>    h_track_momentum_efficiency.SetNameTitle(</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1" aria-label="code-block-7-5"></a>        <span class="st">"h_track_momentum_efficiency"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1" aria-label="code-block-7-6"></a>        <span class="st">"Efficiency of matching tracks to clusters vs. track #it</span><span class="sc">{p}</span><span class="st">"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1" aria-label="code-block-7-7"></a>    h_track_momentum_efficiency.Divide(h_track_momentum_match, h_track_momentum_all)</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1" aria-label="code-block-7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1" aria-label="code-block-7-9"></a>    h_track_eta_efficiency <span class="op">=</span> h_track_eta_all.Clone()</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1" aria-label="code-block-7-10"></a>    h_track_eta_efficiency.SetNameTitle(</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1" aria-label="code-block-7-11"></a>        <span class="st">"h_track_eta_efficiency"</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1" aria-label="code-block-7-12"></a>        <span class="st">"Efficiency of matching of tracks to clusters vs. track #eta"</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1" aria-label="code-block-7-13"></a>    h_track_eta_efficiency.Divide(h_track_eta_match, h_track_eta_all)</span>
 <span id="cb7-14"><a href="#cb7-14" tabindex="-1" aria-label="code-block-7-14"></a></span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1" aria-label="code-block-7-15"></a>    h_daughter_eta_efficiency <span class="op">=</span> h_daughter_eta_all.Clone()</span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1" aria-label="code-block-7-16"></a>    h_daughter_eta_efficiency.SetNameTitle(<span class="st">"h_daughter_eta_efficiency"</span>, <span class="st">"Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #eta"</span>)</span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1" aria-label="code-block-7-17"></a>    h_daughter_eta_efficiency.Divide(h_daughter_eta_reco, h_daughter_eta_all)</span>
-<span id="cb7-18"><a href="#cb7-18" tabindex="-1" aria-label="code-block-7-18"></a></span>
-<span id="cb7-19"><a href="#cb7-19" tabindex="-1" aria-label="code-block-7-19"></a>    h_jpsi_momentum_efficiency <span class="op">=</span> h_jpsi_momentum_all.Clone()</span>
-<span id="cb7-20"><a href="#cb7-20" tabindex="-1" aria-label="code-block-7-20"></a>    h_jpsi_momentum_efficiency.SetNameTitle(<span class="st">"h_jpsi_momentum_efficiency"</span>, <span class="st">"Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #it</span><span class="sc">{p}</span><span class="st">"</span>)</span>
-<span id="cb7-21"><a href="#cb7-21" tabindex="-1" aria-label="code-block-7-21"></a>    h_jpsi_momentum_efficiency.Divide(h_jpsi_momentum_reco, h_jpsi_momentum_all)</span>
-<span id="cb7-22"><a href="#cb7-22" tabindex="-1" aria-label="code-block-7-22"></a></span>
-<span id="cb7-23"><a href="#cb7-23" tabindex="-1" aria-label="code-block-7-23"></a>    h_jpsi_eta_efficiency <span class="op">=</span> h_jpsi_eta_all.Clone()</span>
-<span id="cb7-24"><a href="#cb7-24" tabindex="-1" aria-label="code-block-7-24"></a>    h_jpsi_eta_efficiency.SetNameTitle(<span class="st">"h_jpsi_eta_efficiency"</span>, <span class="st">"Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #eta"</span>)</span>
-<span id="cb7-25"><a href="#cb7-25" tabindex="-1" aria-label="code-block-7-25"></a>    h_jpsi_eta_efficiency.Divide(h_jpsi_eta_reco, h_jpsi_eta_all)</span></code></pre>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1" aria-label="code-block-7-15"></a>    h_daughter_momentum_efficiency <span class="op">=</span> h_daughter_momentum_all.Clone()</span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1" aria-label="code-block-7-16"></a>    h_daughter_momentum_efficiency.SetNameTitle(</span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1" aria-label="code-block-7-17"></a>        <span class="st">"h_daughter_momentum_efficiency"</span>,</span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1" aria-label="code-block-7-18"></a>        <span class="st">"Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #it</span><span class="sc">{p}</span><span class="st">"</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1" aria-label="code-block-7-19"></a>    h_daughter_momentum_efficiency.Divide(h_daughter_momentum_reco, h_daughter_momentum_all)</span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1" aria-label="code-block-7-20"></a></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1" aria-label="code-block-7-21"></a>    h_daughter_eta_efficiency <span class="op">=</span> h_daughter_eta_all.Clone()</span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1" aria-label="code-block-7-22"></a>    h_daughter_eta_efficiency.SetNameTitle(</span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1" aria-label="code-block-7-23"></a>        <span class="st">"h_daughter_eta_efficiency"</span>,</span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1" aria-label="code-block-7-24"></a>        <span class="st">"Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #eta"</span>)</span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1" aria-label="code-block-7-25"></a>    h_daughter_eta_efficiency.Divide(h_daughter_eta_reco, h_daughter_eta_all)</span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1" aria-label="code-block-7-26"></a></span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1" aria-label="code-block-7-27"></a>    h_jpsi_momentum_efficiency <span class="op">=</span> h_jpsi_momentum_all.Clone()</span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1" aria-label="code-block-7-28"></a>    h_jpsi_momentum_efficiency.SetNameTitle(</span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1" aria-label="code-block-7-29"></a>        <span class="st">"h_jpsi_momentum_efficiency"</span>,</span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1" aria-label="code-block-7-30"></a>        <span class="st">"Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #it</span><span class="sc">{p}</span><span class="st">"</span>)</span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1" aria-label="code-block-7-31"></a>    h_jpsi_momentum_efficiency.Divide(h_jpsi_momentum_reco, h_jpsi_momentum_all)</span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1" aria-label="code-block-7-32"></a></span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1" aria-label="code-block-7-33"></a>    h_jpsi_eta_efficiency <span class="op">=</span> h_jpsi_eta_all.Clone()</span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1" aria-label="code-block-7-34"></a>    h_jpsi_eta_efficiency.SetNameTitle(</span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1" aria-label="code-block-7-35"></a>        <span class="st">"h_jpsi_eta_efficiency"</span>,</span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1" aria-label="code-block-7-36"></a>        <span class="st">"Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #eta"</span>)</span>
+<span id="cb7-37"><a href="#cb7-37" tabindex="-1" aria-label="code-block-7-37"></a>    h_jpsi_eta_efficiency.Divide(h_jpsi_eta_reco, h_jpsi_eta_all)</span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">CPP<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2527,28 +2581,40 @@ the following snippets into your code just after the event loop.</p>
 <pre class="sourceCode cpp" tabindex="0"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a>  <span class="co">// Calculate efficiencies and save output ===================================</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1" aria-label="code-block-8-2"></a></span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1" aria-label="code-block-8-3"></a>  TH1D<span class="op">*</span> h_track_momentum_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_track_momentum_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1" aria-label="code-block-8-4"></a>  h_track_momentum_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span><span class="st">"h_track_momentum_efficiency"</span><span class="op">,</span> <span class="st">"Efficiency of matching tracks to clusters vs. track #it{p}"</span><span class="op">);</span></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1" aria-label="code-block-8-5"></a>  h_track_momentum_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_track_momentum_match<span class="op">,</span> h_track_momentum_all<span class="op">);</span></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1" aria-label="code-block-8-6"></a></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1" aria-label="code-block-8-7"></a>  TH1D<span class="op">*</span> h_track_eta_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_track_eta_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1" aria-label="code-block-8-8"></a>  h_track_eta_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span><span class="st">"h_track_eta_efficiency"</span><span class="op">,</span> <span class="st">"Efficiency of matching of tracks to clusters vs. track #eta"</span><span class="op">);</span></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1" aria-label="code-block-8-9"></a>  h_track_eta_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_track_eta_match<span class="op">,</span> h_track_eta_all<span class="op">);</span></span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1" aria-label="code-block-8-10"></a></span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1" aria-label="code-block-8-11"></a>  TH1D<span class="op">*</span> h_daughter_momentum_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_daughter_momentum_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1" aria-label="code-block-8-12"></a>  h_daughter_momentum_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span><span class="st">"h_daughter_momentum_efficiency"</span><span class="op">,</span> <span class="st">"Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #it{p}"</span><span class="op">);</span></span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1" aria-label="code-block-8-13"></a>  h_daughter_momentum_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_daughter_momentum_reco<span class="op">,</span> h_daughter_momentum_all<span class="op">);</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1" aria-label="code-block-8-4"></a>  h_track_momentum_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1" aria-label="code-block-8-5"></a>    <span class="st">"h_track_momentum_efficiency"</span><span class="op">,</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1" aria-label="code-block-8-6"></a>    <span class="st">"Efficiency of matching tracks to clusters vs. track #it{p}"</span><span class="op">);</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1" aria-label="code-block-8-7"></a>  h_track_momentum_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_track_momentum_match<span class="op">,</span> h_track_momentum_all<span class="op">);</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1" aria-label="code-block-8-8"></a></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1" aria-label="code-block-8-9"></a>  TH1D<span class="op">*</span> h_track_eta_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_track_eta_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1" aria-label="code-block-8-10"></a>  h_track_eta_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1" aria-label="code-block-8-11"></a>    <span class="st">"h_track_eta_efficiency"</span><span class="op">,</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1" aria-label="code-block-8-12"></a>    <span class="st">"Efficiency of matching of tracks to clusters vs. track #eta"</span><span class="op">);</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1" aria-label="code-block-8-13"></a>  h_track_eta_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_track_eta_match<span class="op">,</span> h_track_eta_all<span class="op">);</span></span>
 <span id="cb8-14"><a href="#cb8-14" tabindex="-1" aria-label="code-block-8-14"></a></span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1" aria-label="code-block-8-15"></a>  TH1D<span class="op">*</span> h_daughter_eta_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_daughter_eta_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
-<span id="cb8-16"><a href="#cb8-16" tabindex="-1" aria-label="code-block-8-16"></a>  h_daughter_eta_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span><span class="st">"h_daughter_eta_efficiency"</span><span class="op">,</span> <span class="st">"Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #eta"</span><span class="op">);</span></span>
-<span id="cb8-17"><a href="#cb8-17" tabindex="-1" aria-label="code-block-8-17"></a>  h_daughter_eta_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_daughter_eta_reco<span class="op">,</span> h_daughter_eta_all<span class="op">);</span></span>
-<span id="cb8-18"><a href="#cb8-18" tabindex="-1" aria-label="code-block-8-18"></a></span>
-<span id="cb8-19"><a href="#cb8-19" tabindex="-1" aria-label="code-block-8-19"></a>  TH1D<span class="op">*</span> h_jpsi_momentum_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_jpsi_momentum_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
-<span id="cb8-20"><a href="#cb8-20" tabindex="-1" aria-label="code-block-8-20"></a>  h_jpsi_momentum_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span><span class="st">"h_jpsi_momentum_efficiency"</span><span class="op">,</span> <span class="st">"Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #it{p}"</span><span class="op">);</span></span>
-<span id="cb8-21"><a href="#cb8-21" tabindex="-1" aria-label="code-block-8-21"></a>  h_jpsi_momentum_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_jpsi_momentum_reco<span class="op">,</span> h_jpsi_momentum_all<span class="op">);</span></span>
-<span id="cb8-22"><a href="#cb8-22" tabindex="-1" aria-label="code-block-8-22"></a></span>
-<span id="cb8-23"><a href="#cb8-23" tabindex="-1" aria-label="code-block-8-23"></a>  TH1D<span class="op">*</span> h_jpsi_eta_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_jpsi_eta_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
-<span id="cb8-24"><a href="#cb8-24" tabindex="-1" aria-label="code-block-8-24"></a>  h_jpsi_eta_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span><span class="st">"h_jpsi_eta_efficiency"</span><span class="op">,</span> <span class="st">"Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #eta"</span><span class="op">);</span></span>
-<span id="cb8-25"><a href="#cb8-25" tabindex="-1" aria-label="code-block-8-25"></a>  h_jpsi_eta_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_jpsi_eta_reco<span class="op">,</span> h_jpsi_eta_all<span class="op">);</span></span></code></pre>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1" aria-label="code-block-8-15"></a>  TH1D<span class="op">*</span> h_daughter_momentum_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_daughter_momentum_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1" aria-label="code-block-8-16"></a>  h_daughter_momentum_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1" aria-label="code-block-8-17"></a>    <span class="st">"h_daughter_momentum_efficiency"</span><span class="op">,</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1" aria-label="code-block-8-18"></a>    <span class="st">"Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #it{p}"</span><span class="op">);</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1" aria-label="code-block-8-19"></a>  h_daughter_momentum_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_daughter_momentum_reco<span class="op">,</span> h_daughter_momentum_all<span class="op">);</span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1" aria-label="code-block-8-20"></a></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1" aria-label="code-block-8-21"></a>  TH1D<span class="op">*</span> h_daughter_eta_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_daughter_eta_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1" aria-label="code-block-8-22"></a>  h_daughter_eta_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1" aria-label="code-block-8-23"></a>    <span class="st">"h_daughter_eta_efficiency"</span><span class="op">,</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1" aria-label="code-block-8-24"></a>    <span class="st">"Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #eta"</span><span class="op">);</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1" aria-label="code-block-8-25"></a>  h_daughter_eta_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_daughter_eta_reco<span class="op">,</span> h_daughter_eta_all<span class="op">);</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1" aria-label="code-block-8-26"></a></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1" aria-label="code-block-8-27"></a>  TH1D<span class="op">*</span> h_jpsi_momentum_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_jpsi_momentum_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1" aria-label="code-block-8-28"></a>  h_jpsi_momentum_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span></span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1" aria-label="code-block-8-29"></a>    <span class="st">"h_jpsi_momentum_efficiency"</span><span class="op">,</span></span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1" aria-label="code-block-8-30"></a>    <span class="st">"Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #it{p}"</span><span class="op">);</span></span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1" aria-label="code-block-8-31"></a>  h_jpsi_momentum_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_jpsi_momentum_reco<span class="op">,</span> h_jpsi_momentum_all<span class="op">);</span></span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1" aria-label="code-block-8-32"></a></span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1" aria-label="code-block-8-33"></a>  TH1D<span class="op">*</span> h_jpsi_eta_efficiency <span class="op">=</span> <span class="op">(</span>TH1D<span class="op">*)</span> h_jpsi_eta_all<span class="op">-&gt;</span>Clone<span class="op">();</span></span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1" aria-label="code-block-8-34"></a>  h_jpsi_eta_efficiency<span class="op">-&gt;</span>SetNameTitle<span class="op">(</span></span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1" aria-label="code-block-8-35"></a>    <span class="st">"h_jpsi_eta_efficiency"</span><span class="op">,</span></span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1" aria-label="code-block-8-36"></a>    <span class="st">"Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #eta"</span><span class="op">);</span></span>
+<span id="cb8-37"><a href="#cb8-37" tabindex="-1" aria-label="code-block-8-37"></a>  h_jpsi_eta_efficiency<span class="op">-&gt;</span>Divide<span class="op">(</span>h_jpsi_eta_reco<span class="op">,</span> h_jpsi_eta_all<span class="op">);</span></span></code></pre>
 </div>
 <p>Don’t forget to save your new histograms in the Python case! You now
 have a complete analysis script!</p>
