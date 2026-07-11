@@ -2,20 +2,22 @@
 title: "Using PODIO to Work With Our Data Model"
 teaching: 20
 exercises: 5
-questions:
-- "What is our data model?"
-- "What is PODIO?"
-- "How do I interface with our data model?"
-objectives:
-- "Understand relationship between the data model and PODIO"
-- "Become familiar with PODIO concepts and synatx"
-keypoints:
-- "A data model is how represent our data in software"
-- "PODIO is a toolkit to generate and interface with data models like EDM4eic"
-- "Classes have their accessors prefixed by get/set, components don't"
-- "Relations are references to objects in other collections"
-- "Associations/links define indirect connections between objects" 
 ---
+
+::::::::::::::::::::::::::::::::::::::::::::: questions
+
+- What is our data model?
+- What is PODIO?
+- How do I interface with our data model?
+
+:::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::: objectives
+
+- Understand relationship between the data model and PODIO
+- Become familiar with PODIO concepts and synatx
+
+:::::::::::::::::::::::::::::::::::::::::::::
 
 ## The EDM4eic Data Model
 
@@ -23,20 +25,35 @@ A _data model_ is how we represent our data in our software.  In other words, a 
 set of data structures that we use to pass information between different parts of our
 software stack (DD4hep, EICrecon, etc.) and between different algorithms in those parts.
 
-![Overview of the EDM4eic data model](./../assets/img/tutorial/EDM4eicOverview.png)
+![Overview of the EDM4eic data model](fig/EDM4eicOverview.png)
 
 Our data model is [EDM4eic][edm4eic] (**E**vent **D**ata **M**odel for EIC), and is summarized
 in the above figure.  Each box corresponds to a data structure, and the arrows correspond to
 connections between these structures.  The entire model is defined in a single YAML file,
 [edm4eic.yaml][eicyaml], which we'll break down in detail below.
 
-> ## `Exercise:`
-> Take a moment to scan the figure, paying attention to the names of structures.  Then pick
-> a structure and find it in the YAML file mentioned above: notice how the arrows correspond
-> to the fields labeled `OneToOneRelations` or `OneToManyRelations`. 
-{: .challenge}
+::::::::::::::::::::::::::::::::::::::::::::: challenge
+
+## Exercise
+
+Take a moment to scan the figure, paying attention to the names of structures.  Then pick
+a structure and find it in the YAML file mentioned above: notice how the arrows correspond
+to the fields labeled `OneToOneRelations` or `OneToManyRelations`. 
+
+
+:::::::::::::::  solution
+
+For example, `edm4eic::Cluster` has one-to-many relations to `edm4eic::CalorimeterHit`
+(the hits combined to form the cluster), to other `edm4eic::Cluster`s, and to
+`edm4hep::ParticleID`.  Each of these corresponds to an arrow leaving the cluster box
+in the figure.
+
+:::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::::::::
 
 A few things comments before we move on:
+
 - Using a _standardized_ set of structures helps keep our software _modular_, meaning we
   can easily swap out parts, since all our data adheres to standardized interfaces;
 - The data model does _not_ say anything about input/output formats: we write our data
@@ -44,12 +61,16 @@ A few things comments before we move on:
 - And we want our model to be _predictable_ and _intuitive_: accessing the energy of
   a calorimeter cluster should be identical to accessing the energy of a particle.
 
-> ## `Note:`
-> We also utilize the [EDM4hep][edm4hep] data model in our software.  This is a data model
-> developed by the [Key4hep][key4hep] project, which is developing common software to support
-> the FCC, ILC/CLIC, Muon Collider, and more.  Just like with our data model, the EDM4hep
-> model is also defined in a single YAML file, [edm4hep.yaml][hepyaml]. 
-{: .callout}
+::::::::::::::::::::::::::::::::::::::::::::: callout
+
+## Note
+
+We also utilize the [EDM4hep][edm4hep] data model in our software.  This is a data model
+developed by the [Key4hep][key4hep] project, which is developing common software to support
+the FCC, ILC/CLIC, Muon Collider, and more.  Just like with our data model, the EDM4hep
+model is also defined in a single YAML file, [edm4hep.yaml][hepyaml]. 
+
+:::::::::::::::::::::::::::::::::::::::::::::
 
 ## An Introduction to PODIO
 
@@ -123,11 +144,25 @@ Wait! But how would I know that the accessors start with `get` or `set`?
   2. You can also look at the generated classes on our [EDM4eic doxygen page][eicdoc]. Or
      while you're in eic-shell, you can look at them in the path `/opt/local/include/edm4eic`.
 
-> ## `Exercise:`
-> Follow the link to [the doxygen page][eicdoc], and locate the header file for `edm4eic::Track`.
-> Once you found it, give it a quick scan.  Then in eic-shell, find the same header file and
-> compare it to the online version.
-{: .challenge}
+::::::::::::::::::::::::::::::::::::::::::::: challenge
+
+## Exercise
+
+Follow the link to [the doxygen page][eicdoc], and locate the header file for `edm4eic::Track`.
+Once you found it, give it a quick scan.  Then in eic-shell, find the same header file and
+compare it to the online version.
+
+
+:::::::::::::::  solution
+
+On the doxygen page, the header is listed under `edm4eic/Track.h`.  In eic-shell, the
+same file is at `/opt/local/include/edm4eic/Track.h` — you can view it with, e.g.,
+`less /opt/local/include/edm4eic/Track.h`.  You'll find the same `getTime()`, `getNdf()`,
+etc. accessors that the YAML file implies.
+
+:::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::::::::
 
 ### Collections and Frames
 
@@ -154,10 +189,14 @@ The `frame` in the above snippets is a `Frame`, which holds and organizes severa
 collections.  We'll see frames and collections in action in the following episodes.
 However, a detailed explanation of their usage is outside the scope of this tutorial.
 
-> ## `Warning:`
-> The big thing to note here is that collections are **read-only**!  This means that
-> you _can't_ modify an object you are reading from a collection!
-{: .caution}
+::::::::::::::::::::::::::::::::::::::::::::: caution
+
+## Warning
+
+The big thing to note here is that collections are **read-only**!  This means that
+you _can't_ modify an object you are reading from a collection!
+
+:::::::::::::::::::::::::::::::::::::::::::::
 
 ### Components
 
@@ -276,7 +315,7 @@ are examples of _relations_, references to objects in other collections.  We use
 these to define a direct, _necessary_ relationship between an object and one other
 object (one-to-one) or many other objects (one-to-many).
 
-![Diagram of a one-to-one relation](./../assets/img/tutorial/OneToOneRelation.png)
+![Diagram of a one-to-one relation](fig/OneToOneRelation.png)
 
 The above figure schematically illustrates a one-to-one relation.  A _track_ should
 correspond to a charged particle with a defined momentum and charge.  It's computed
@@ -299,7 +338,7 @@ auto     trajectory    = track.getTrajectory();
 uint32_t n_points_used = trajectory.getNMeasurements();
 ```
 
-![Diagram of a one-to-many relation](./../assets/img/tutorial/OneToManyRelation.png)
+![Diagram of a one-to-many relation](fig/OneToManyRelation.png)
 
 Then the above figure schematically illustrates a one-to-many relation.  For example,
 a calorimeter cluster is group of calorimeter cells (hits).  The cells that make up a
@@ -319,6 +358,7 @@ for (const auto& hit : cluster.getHits()) {
   double energy = hit.getEnergy();
 }
 ```
+
 When you call `getHits()` in the above snippets, it returns a `List` (Python)
 or `std::vector` (C++) of `edm4eic::CalorimeterHit`s just like with vector
 members.
@@ -330,7 +370,7 @@ objects, _associations_ express an indirect connection which might or might not
 exist.  For example, the connection between a monte carlo particle and its
 reconstructed counterpart:
 
-![Diagram of an association](./../assets/img/tutorial/MCRecoParticleAssociation.png)
+![Diagram of an association](fig/MCRecoParticleAssociation.png)
 
 This is defined in edm4eic.yaml as:
 
@@ -392,9 +432,10 @@ There's a lot less!  _Links_ are defined in their own specific block (labeled `l
 need you to specify which types they're connecting (`edm4eic::ReconstructedParticle` and
 `edm4hep::MCParticle` in this case).
 
-![Diagram of a link](./../assets/img/tutorial/MCRecoParticleLink.png)
+![Diagram of a link](fig/MCRecoParticleLink.png)
 
 They provide the same functionality as association, but there are a few key differences:
+
 1. Links _always_ have the same fields: `from`, `to`, and `weight` (which is implied);
 2. And they have _directionality_ (illustrated in the above figure).
 
@@ -422,12 +463,16 @@ extremely fast lookup of linked objects.  This is, however, outside the scope
 of this tutorial.
 
 
-> ## `Warning:`
-> We're in the process of deprecating of associations in favor of links (EDM4hep
-> has already done this).  Currently we write out both associations and their
-> equivalent links where needed to not break analysis code.  However, we will
-> in the near future remove associations and write out only links
-{: .caution}
+::::::::::::::::::::::::::::::::::::::::::::: caution
+
+## Warning
+
+We're in the process of deprecating of associations in favor of links (EDM4hep
+has already done this).  Currently we write out both associations and their
+equivalent links where needed to not break analysis code.  However, we will
+in the near future remove associations and write out only links
+
+:::::::::::::::::::::::::::::::::::::::::::::
 
 ## User vs. Storage Layer
 
@@ -450,6 +495,7 @@ of interfaces to make working with the data easy.  A third layer, _the Object
 Layer_, interfaces between the POD and User Layers.
 
 There are clear benefits to working with the User Layer over the POD Layer:
+
 - Significantly less boilerplate code to write,
 - Easy, intuitive syntax to deal with relations, associations, and vector
   members; and
@@ -459,6 +505,7 @@ There are clear benefits to working with the User Layer over the POD Layer:
 The first two points will be illustrated very clearly in the following
 episodes.  However, there may be cases where working directly with the 
 POD Layer is actually preferable.  For example:
+
 - You may want to histogram just one or two members directly, or
 - You're working with a ML pipeline where you'll need to load the data
   as a dataframe.
@@ -491,4 +538,12 @@ Layer, PODIO gives us the tools to do that.
 [navigator]: https://key4hep.web.cern.ch/podio/links.html#the-linknavigator-utility
 [analysis]: https://eic.github.io/tutorial-analysis/
 
-{% include links.md %}
+::::::::::::::::::::::::::::::::::::::::::::: keypoints
+
+- A data model is how represent our data in software
+- PODIO is a toolkit to generate and interface with data models like EDM4eic
+- Classes have their accessors prefixed by get/set, components don't
+- Relations are references to objects in other collections
+- Associations/links define indirect connections between objects
+
+:::::::::::::::::::::::::::::::::::::::::::::
