@@ -25,7 +25,7 @@ A _data model_ is how we represent our data in our software.  In other words, a 
 set of data structures that we use to pass information between different parts of our
 software stack (DD4hep, EICrecon, etc.) and between different algorithms in those parts.
 
-![Overview of the EDM4eic data model](fig/EDM4eicOverview.png)
+![Overview of the EDM4eic data model](fig/EDM4eicOverview.png){alt='Boxes for each EDM4eic data structure connected by arrows indicating their relations'}
 
 Our data model is [EDM4eic][edm4eic] (**E**vent **D**ata **M**odel for EIC), and is summarized
 in the above figure.  Each box corresponds to a data structure, and the arrows correspond to
@@ -89,7 +89,7 @@ edm4eic::Track:
   Author: "S. Joosten, J. Osborn"
   Members:
     - int32_t           type                       // Flag that defines the type of track
-    - edm4hep::Vector3f position                   // Track 3-position at the vertex 
+    - edm4hep::Vector3f position                   // Track 3-position at the vertex
     - edm4hep::Vector3f momentum                   // Track 3-momentum at the vertex [GeV]
     - edm4eic::Cov6f    positionMomentumCovariance // Covariance matrix in basis [x,y,z,px,py,pz]
     - float             time                       // Track time at the vertex [ns]
@@ -102,7 +102,8 @@ edm4eic::Track:
     - edm4eic::Trajectory trajectory // Trajectory of this track
   OneToManyRelations:
     - edm4eic::Measurement2D measurements // Measurements that were used for this track
-    - edm4eic::Track         tracks       // Tracks (segments) that have been combined to create this track
+    - edm4eic::Track         tracks       // Tracks (segments) that have been
+                                          // combined to create this track
 ```
 
 This is an example of a _class_.  At the top of the definition, we see some basic info like
@@ -261,23 +262,38 @@ edm4eic::Cluster:
   Description: "EIC hit cluster, reworked to more closely resemble EDM4hep"
   Author: "W. Armstrong, S. Joosten, C.Peng"
   Members:
-    - int32_t              type                         // Flag-word that defines the type of the cluster
-    - float                energy                       // Reconstructed energy of the cluster [GeV].
+    - int32_t              type                         // Flag-word that defines the
+                                                        // type of the cluster
+    - float                energy                       // Reconstructed energy of the
+                                                        // cluster [GeV].
     - float                energyError                  // Error on the cluster energy [GeV]
     - float                time                         // [ns]
     - float                timeError                    // Error on the cluster time
     - uint32_t             nhits                        // Number of hits in the cluster.
     - edm4hep::Vector3f    position                     // Global position of the cluster [mm].
-    - edm4eic::Cov3f       positionError                // Covariance matrix of the position (6 Parameters).
+    - edm4eic::Cov3f       positionError                // Covariance matrix of the
+                                                        // position (6 Parameters).
     - float                radius                       // Cluster radius [mm].
     - float                dispersion                   // Cluster dispersion [mm].
-    - std::array<float, 3> principalAxesLengthsXYZ      // Lengths along the cluster's principal axes [mm], sorted in descending order (equivalent to sqrt of eigenvalues of the position covariance). For an XY planar detector one can expect this to be [sigma_max, sigma_min, 0].
-    - std::array<float, 2> principalAxesLengthsThetaPhi // Lengths along the cluster's principal axes [rad], sorted in descending order.
-    - float                intrinsicTheta               // Intrinsic cluster propagation direction polar angle [rad].
-    - float                intrinsicPhi                 // Intrinsic cluster propagation direction azimuthal angle [rad]. For an XY planar detector one can expect this to be the tilt of "sigma_max" axis.
-    - edm4eic::Cov2f        intrinsicDirectionError // Error on the intrinsic cluster propagation direction
+    - std::array<float, 3> principalAxesLengthsXYZ      // Lengths along the cluster's principal
+                                                        // axes [mm], sorted in descending order
+                                                        // (equivalent to sqrt of eigenvalues of the
+                                                        // position covariance). For an XY planar
+                                                        // detector one can expect this to be
+                                                        // [sigma_max, sigma_min, 0].
+    - std::array<float, 2> principalAxesLengthsThetaPhi // Lengths along the cluster's principal
+                                                        // axes [rad], sorted in descending order.
+    - float                intrinsicTheta               // Intrinsic cluster propagation direction
+                                                        // polar angle [rad].
+    - float                intrinsicPhi                 // Intrinsic cluster propagation direction
+                                                        // azimuthal angle [rad]. For an XY planar
+                                                        // detector one can expect this to be the
+                                                        // tilt of "sigma_max" axis.
+    - edm4eic::Cov2f        intrinsicDirectionError     // Error on the intrinsic cluster
+                                                        // propagation direction
   VectorMembers:
-    - float shapeParameters     // [DEPRECATED] use radius, dispersion, principalAxesLengthsXYZ/ThetaPhi instead.
+    - float shapeParameters     // [DEPRECATED] use radius, dispersion,
+                                // principalAxesLengthsXYZ/ThetaPhi instead.
     - float hitContributions    // Energy contributions of the hits. Runs parallel to ::hits()
     - float subdetectorEnergies // Energies observed in each subdetector used for this cluster.
   OneToManyRelations:
@@ -315,7 +331,7 @@ are examples of _relations_, references to objects in other collections.  We use
 these to define a direct, _necessary_ relationship between an object and one other
 object (one-to-one) or many other objects (one-to-many).
 
-![Diagram of a one-to-one relation](fig/OneToOneRelation.png)
+![Diagram of a one-to-one relation](fig/OneToOneRelation.png){alt='A track pointing to the single trajectory it was computed from'}
 
 The above figure schematically illustrates a one-to-one relation.  A _track_ should
 correspond to a charged particle with a defined momentum and charge.  It's computed
@@ -338,7 +354,7 @@ auto     trajectory    = track.getTrajectory();
 uint32_t n_points_used = trajectory.getNMeasurements();
 ```
 
-![Diagram of a one-to-many relation](fig/OneToManyRelation.png)
+![Diagram of a one-to-many relation](fig/OneToManyRelation.png){alt='A calorimeter cluster pointing to the several calorimeter hits it is built from'}
 
 Then the above figure schematically illustrates a one-to-many relation.  For example,
 a calorimeter cluster is group of calorimeter cells (hits).  The cells that make up a
@@ -370,7 +386,7 @@ objects, _associations_ express an indirect connection which might or might not
 exist.  For example, the connection between a monte carlo particle and its
 reconstructed counterpart:
 
-![Diagram of an association](fig/MCRecoParticleAssociation.png)
+![Diagram of an association](fig/MCRecoParticleAssociation.png){alt='An association object connecting a simulated particle and a reconstructed particle'}
 
 This is defined in edm4eic.yaml as:
 
@@ -432,7 +448,7 @@ There's a lot less!  _Links_ are defined in their own specific block (labeled `l
 need you to specify which types they're connecting (`edm4eic::ReconstructedParticle` and
 `edm4hep::MCParticle` in this case).
 
-![Diagram of a link](fig/MCRecoParticleLink.png)
+![Diagram of a link](fig/MCRecoParticleLink.png){alt='A link object pointing from a reconstructed particle to a simulated particle'}
 
 They provide the same functionality as association, but there are a few key differences:
 

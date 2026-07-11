@@ -16,6 +16,10 @@ We will need a file to process for the example code, so if you havent done so ye
 [tutorial on accessing EIC/ePIC simulation data](https://eic.github.io/tutorial-file-access/) with Rucio.
 We suggest using a file with an enhanced rate of $J/\psi$.  For example, you can run the following command in the eic-shell:
 
+<style>
+pre.bash code { white-space: pre-wrap; word-break: break-all; }
+</style>
+
 ```bash
 xrdcp root://epicxrd1.sdcc.bnl.gov:1095//eic/EPIC//RECO/26.04.1/epic_craterlake/EXCLUSIVE/DIFFRACTIVE_JPSI_ABCONV/lAger3.6.1-1.0/10x130/hiAcc/lAger3.6.1-1.0_jpsi_10x130_hiAcc_run1.0009.eicrecon.edm4eic.root ./
 ```

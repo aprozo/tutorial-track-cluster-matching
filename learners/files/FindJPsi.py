@@ -316,27 +316,39 @@ def FindJPsi(
     # Calculate efficiencies and save output ==================================
 
     h_track_momentum_efficiency = h_track_momentum_all.Clone()
-    h_track_momentum_efficiency.SetNameTitle("h_track_momentum_efficiency", "Efficiency of matching tracks to clusters vs. track #it{p}")
+    h_track_momentum_efficiency.SetNameTitle(
+        "h_track_momentum_efficiency",
+        "Efficiency of matching tracks to clusters vs. track #it{p}")
     h_track_momentum_efficiency.Divide(h_track_momentum_match, h_track_momentum_all)
 
     h_track_eta_efficiency = h_track_eta_all.Clone()
-    h_track_eta_efficiency.SetNameTitle("h_track_eta_efficiency", "Efficiency of matching of tracks to clusters vs. track #eta")
+    h_track_eta_efficiency.SetNameTitle(
+        "h_track_eta_efficiency",
+        "Efficiency of matching of tracks to clusters vs. track #eta")
     h_track_eta_efficiency.Divide(h_track_eta_match, h_track_eta_all)
 
     h_daughter_momentum_efficiency = h_daughter_momentum_all.Clone()
-    h_daughter_momentum_efficiency.SetNameTitle("h_daughter_momentum_efficiency", "Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #it{p}")
+    h_daughter_momentum_efficiency.SetNameTitle(
+        "h_daughter_momentum_efficiency",
+        "Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #it{p}")
     h_daughter_momentum_efficiency.Divide(h_daughter_momentum_reco, h_daughter_momentum_all)
 
     h_daughter_eta_efficiency = h_daughter_eta_all.Clone()
-    h_daughter_eta_efficiency.SetNameTitle("h_daughter_eta_efficiency", "Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #eta")
+    h_daughter_eta_efficiency.SetNameTitle(
+        "h_daughter_eta_efficiency",
+        "Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #eta")
     h_daughter_eta_efficiency.Divide(h_daughter_eta_reco, h_daughter_eta_all)
 
     h_jpsi_momentum_efficiency = h_jpsi_momentum_all.Clone()
-    h_jpsi_momentum_efficiency.SetNameTitle("h_jpsi_momentum_efficiency", "Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #it{p}")
+    h_jpsi_momentum_efficiency.SetNameTitle(
+        "h_jpsi_momentum_efficiency",
+        "Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #it{p}")
     h_jpsi_momentum_efficiency.Divide(h_jpsi_momentum_reco, h_jpsi_momentum_all)
 
     h_jpsi_eta_efficiency = h_jpsi_eta_all.Clone()
-    h_jpsi_eta_efficiency.SetNameTitle("h_jpsi_eta_efficiency", "Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #eta")
+    h_jpsi_eta_efficiency.SetNameTitle(
+        "h_jpsi_eta_efficiency",
+        "Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #eta")
     h_jpsi_eta_efficiency.Divide(h_jpsi_eta_reco, h_jpsi_eta_all)
 
     with ROOT.TFile(out_file, "recreate") as ofile:

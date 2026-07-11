@@ -177,7 +177,8 @@ void FindJPsi(
     auto& clusters_neg = frame.get<edm4eic::ClusterCollection>("EcalEndcapNClusters");
     auto& clusters_cen = frame.get<edm4eic::ClusterCollection>("EcalBarrelClusters");
     auto& clusters_pos = frame.get<edm4eic::ClusterCollection>("EcalEndcapPClusters");
-    auto& associations = frame.get<edm4eic::MCRecoTrackParticleAssociationCollection>("CentralCKFTrackAssociations");
+    auto& associations = frame.get<edm4eic::MCRecoTrackParticleAssociationCollection>(
+      "CentralCKFTrackAssociations");
 
   }  // end event loop
 
