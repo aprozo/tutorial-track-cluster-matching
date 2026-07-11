@@ -1,3 +1,7 @@
+---
+title: 'Instructor Notes'
+---
+
 # Outline
 
 Key points:

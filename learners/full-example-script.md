@@ -6,6 +6,9 @@ Here you can find the full analysis script in both C++
 and Python that was used in episodes 3 and 4 of this
 tutorial.
 
+You can also download the scripts directly:
+[FindJPsi.py](files/FindJPsi.py) and [FindJPsi.cxx](files/FindJPsi.cxx).
+
 ## Python Version
 
 We'll assume the file is called `FindJPsi.py`.  You
@@ -823,5 +826,3 @@ void FindJPsi(
 
 }
 ```
-
-{% include links.md %}
