@@ -177,7 +177,8 @@ void FindJPsi(
     auto& clusters_neg = frame.get<edm4eic::ClusterCollection>("EcalEndcapNClusters");
     auto& clusters_cen = frame.get<edm4eic::ClusterCollection>("EcalBarrelClusters");
     auto& clusters_pos = frame.get<edm4eic::ClusterCollection>("EcalEndcapPClusters");
-    auto& associations = frame.get<edm4eic::MCRecoTrackParticleAssociationCollection>("CentralCKFTrackAssociations");
+    auto& associations = frame.get<edm4eic::MCRecoTrackParticleAssociationCollection>(
+      "CentralCKFTrackAssociations");
 
   }  // end event loop
 
@@ -248,39 +249,67 @@ your output file.
 ```python
     # Create histograms ======================================================
 
-    h_track_momentum_all     = ROOT.TH1D("h_track_momentum_all", "Track #it{p} (all)", 50, 0.0, 10.0)
-    h_track_momentum_match   = ROOT.TH1D("h_track_momentum_match", "Track #it{p} (matched to cluster)", 50, 0.0, 10.0)
-    h_track_eta_all          = ROOT.TH1D("h_track_eta_all", "Track #eta (all)", 250, -5.0, 5.0)
-    h_track_eta_match        = ROOT.TH1D("h_track_eta_match", "Track #eta (matched to cluster)", 250, -5.0, 5.0)
-    h_track_cluster_eop      = ROOT.TH1D("h_track_cluster_eop", "Track-cluster E/p", 40, 0.0, 2.0)
-    h_invariant_mass         = ROOT.TH1D("h_invariant_mass", "Reconstructed invariant mass", 50, 0.0, 5.0)
-    h_daughter_momentum_all  = ROOT.TH1D("h_daughter_momentum_all", "Daughter e^{#pm} #it{p} (all)", 50, 0.0, 10.0)
-    h_daughter_momentum_reco = ROOT.TH1D("h_daughter_momentum_reco", "Daughter e^{#pm} #it{p} (reconstructed)", 50, 0.0, 10.0)
-    h_daughter_eta_all       = ROOT.TH1D("h_daughter_eta_all", "Daughter e^{#pm} #eta (all)", 250, -5.0, 5.0)
-    h_daughter_eta_reco      = ROOT.TH1D("h_daughter_eta_reco", "Daughter e^{#pm} #eta (reconstructed)", 250, -5.0, 5.0)
-    h_jpsi_momentum_all      = ROOT.TH1D("h_jpsi_momentum_all", "J/#psi #it{p} (all e^{#pm} decays)", 50, 0.0, 10.0)
-    h_jpsi_momentum_reco     = ROOT.TH1D("h_jpsi_momentum_reco", "J/#psi #it{p} (reconstructed e^{#pm} decays)", 50, 0.0, 10.0)
-    h_jpsi_eta_all           = ROOT.TH1D("h_jpsi_eta_all", "J/#psi #eta (all e^{#pm} decays)", 250, -5.0, 5.0)
-    h_jpsi_eta_reco          = ROOT.TH1D("h_jpsi_eta_reco", "J/#psi #eta (reconstructed e^{#pm} decays)", 250, -5.0, 5.0)
+    h_track_momentum_all = ROOT.TH1D(
+        "h_track_momentum_all", "Track #it{p} (all)", 50, 0.0, 10.0)
+    h_track_momentum_match = ROOT.TH1D(
+        "h_track_momentum_match", "Track #it{p} (matched to cluster)", 50, 0.0, 10.0)
+    h_track_eta_all = ROOT.TH1D(
+        "h_track_eta_all", "Track #eta (all)", 250, -5.0, 5.0)
+    h_track_eta_match = ROOT.TH1D(
+        "h_track_eta_match", "Track #eta (matched to cluster)", 250, -5.0, 5.0)
+    h_track_cluster_eop = ROOT.TH1D(
+        "h_track_cluster_eop", "Track-cluster E/p", 40, 0.0, 2.0)
+    h_invariant_mass = ROOT.TH1D(
+        "h_invariant_mass", "Reconstructed invariant mass", 50, 0.0, 5.0)
+    h_daughter_momentum_all = ROOT.TH1D(
+        "h_daughter_momentum_all", "Daughter e^{#pm} #it{p} (all)", 50, 0.0, 10.0)
+    h_daughter_momentum_reco = ROOT.TH1D(
+        "h_daughter_momentum_reco", "Daughter e^{#pm} #it{p} (reconstructed)", 50, 0.0, 10.0)
+    h_daughter_eta_all = ROOT.TH1D(
+        "h_daughter_eta_all", "Daughter e^{#pm} #eta (all)", 250, -5.0, 5.0)
+    h_daughter_eta_reco = ROOT.TH1D(
+        "h_daughter_eta_reco", "Daughter e^{#pm} #eta (reconstructed)", 250, -5.0, 5.0)
+    h_jpsi_momentum_all = ROOT.TH1D(
+        "h_jpsi_momentum_all", "J/#psi #it{p} (all e^{#pm} decays)", 50, 0.0, 10.0)
+    h_jpsi_momentum_reco = ROOT.TH1D(
+        "h_jpsi_momentum_reco", "J/#psi #it{p} (reconstructed e^{#pm} decays)", 50, 0.0, 10.0)
+    h_jpsi_eta_all = ROOT.TH1D(
+        "h_jpsi_eta_all", "J/#psi #eta (all e^{#pm} decays)", 250, -5.0, 5.0)
+    h_jpsi_eta_reco = ROOT.TH1D(
+        "h_jpsi_eta_reco", "J/#psi #eta (reconstructed e^{#pm} decays)", 250, -5.0, 5.0)
 ```
 
 ```c++
   // Create histograms ========================================================
 
-  TH1D* h_track_momentum_all     = new TH1D("h_track_momentum_all", "Track #it{p} (all)", 50, 0.0, 10.0);
-  TH1D* h_track_momentum_match   = new TH1D("h_track_momentum_match", "Track #it{p} (matched to cluster)", 50, 0.0, 10.0);
-  TH1D* h_track_eta_all          = new TH1D("h_track_eta_all", "Track #eta (all)", 250, -5.0, 5.0);
-  TH1D* h_track_eta_match        = new TH1D("h_track_eta_match", "Track #eta (matched to cluster)", 250, -5.0, 5.0);
-  TH1D* h_track_cluster_eop      = new TH1D("h_track_cluster_eop", "Track-cluster E/p", 40, 0.0, 2.0);
-  TH1D* h_invariant_mass         = new TH1D("h_invariant_mass", "Reconstructed invariant mass", 50, 0.0, 5.0);
-  TH1D* h_daughter_momentum_all  = new TH1D("h_daughter_momentum_all", "Daughter e^{#pm} #it{p} (all)", 50, 0.0, 10.0);
-  TH1D* h_daughter_momentum_reco = new TH1D("h_daughter_momentum_reco", "Daughter e^{#pm} #it{p} (reconstructed)", 50, 0.0, 10.0);
-  TH1D* h_daughter_eta_all       = new TH1D("h_daughter_eta_all", "Daughter e^{#pm} #eta (all)", 250, -5.0, 5.0);
-  TH1D* h_daughter_eta_reco      = new TH1D("h_daughter_eta_reco", "Daughter e^{#pm} #eta (reconstructed)", 250, -5.0, 5.0);
-  TH1D* h_jpsi_momentum_all      = new TH1D("h_jpsi_momentum_all", "J/#psi #it{p} (all e^{#pm} decays)", 50, 0.0, 10.0);
-  TH1D* h_jpsi_momentum_reco     = new TH1D("h_jpsi_momentum_reco", "J/#psi #it{p} (reconstructed e^{#pm} decays)", 50, 0.0, 10.0);
-  TH1D* h_jpsi_eta_all           = new TH1D("h_jpsi_eta_all", "J/#psi #eta (all e^{#pm} decays)", 250, -5.0, 5.0);
-  TH1D* h_jpsi_eta_reco          = new TH1D("h_jpsi_eta_reco", "J/#psi #eta (reconstructed e^{#pm} decays)", 250, -5.0, 5.0);
+  TH1D* h_track_momentum_all = new TH1D(
+    "h_track_momentum_all", "Track #it{p} (all)", 50, 0.0, 10.0);
+  TH1D* h_track_momentum_match = new TH1D(
+    "h_track_momentum_match", "Track #it{p} (matched to cluster)", 50, 0.0, 10.0);
+  TH1D* h_track_eta_all = new TH1D(
+    "h_track_eta_all", "Track #eta (all)", 250, -5.0, 5.0);
+  TH1D* h_track_eta_match = new TH1D(
+    "h_track_eta_match", "Track #eta (matched to cluster)", 250, -5.0, 5.0);
+  TH1D* h_track_cluster_eop = new TH1D(
+    "h_track_cluster_eop", "Track-cluster E/p", 40, 0.0, 2.0);
+  TH1D* h_invariant_mass = new TH1D(
+    "h_invariant_mass", "Reconstructed invariant mass", 50, 0.0, 5.0);
+  TH1D* h_daughter_momentum_all = new TH1D(
+    "h_daughter_momentum_all", "Daughter e^{#pm} #it{p} (all)", 50, 0.0, 10.0);
+  TH1D* h_daughter_momentum_reco = new TH1D(
+    "h_daughter_momentum_reco", "Daughter e^{#pm} #it{p} (reconstructed)", 50, 0.0, 10.0);
+  TH1D* h_daughter_eta_all = new TH1D(
+    "h_daughter_eta_all", "Daughter e^{#pm} #eta (all)", 250, -5.0, 5.0);
+  TH1D* h_daughter_eta_reco = new TH1D(
+    "h_daughter_eta_reco", "Daughter e^{#pm} #eta (reconstructed)", 250, -5.0, 5.0);
+  TH1D* h_jpsi_momentum_all = new TH1D(
+    "h_jpsi_momentum_all", "J/#psi #it{p} (all e^{#pm} decays)", 50, 0.0, 10.0);
+  TH1D* h_jpsi_momentum_reco = new TH1D(
+    "h_jpsi_momentum_reco", "J/#psi #it{p} (reconstructed e^{#pm} decays)", 50, 0.0, 10.0);
+  TH1D* h_jpsi_eta_all = new TH1D(
+    "h_jpsi_eta_all", "J/#psi #eta (all e^{#pm} decays)", 250, -5.0, 5.0);
+  TH1D* h_jpsi_eta_reco = new TH1D(
+    "h_jpsi_eta_reco", "J/#psi #eta (reconstructed e^{#pm} decays)", 250, -5.0, 5.0);
 ```
 
 And for those using Python, add the following at the very end of your
