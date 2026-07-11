@@ -46,7 +46,7 @@ This is illustrated in the following image, where the colored bands indicate the
 layers (orange), cherenkov detector (pink), electromagnetic calorimeter (ECal, purple),
 magnet  solenoid (grey), and hadronic calorimeter (HCal, blue) in ePIC's barrel.
 
-![Illustration of a particle leaving signals in several detectors](fig/ParticleTrajectory.png)
+![Illustration of a particle leaving signals in several detectors](fig/ParticleTrajectory.png){alt='Particle trajectory crossing tracking layers and showering in the barrel calorimeter'}
 
 Accurately reconstructing the particle --- its momentum, energy, charge, mass --- will require
 us to make use of all of this information.  For example, an electron will create a track and will
@@ -54,7 +54,7 @@ usually deposit all of its energy into an ECal.  In contrast, a charged hadron  
 will frequently deposit energy into HCal, while a $\pi^{0}$ will deposit energy into an ECal without
 creating a track.  This is illustrated in the following figure.
 
-![Diagram of particle types vs. typical survival depth in a detector](fig/DepthVsParticleSpecies.png)
+![Diagram of particle types vs. typical survival depth in a detector](fig/DepthVsParticleSpecies.png){alt='Different particle species penetrating to different depths of the detector'}
 
 Therefore, track-cluster matching is a critical step in our reconstruction, which we use to
 identify leptons, measure neutral particles, and more.  In this tutorial, we'll use it identify

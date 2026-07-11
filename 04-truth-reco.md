@@ -187,7 +187,8 @@ Copy the following snippets just after your new helpers/bookkeepers.
 
             const auto  ele_mom = convert_vector_double(particle.getMomentum());
             const float ele_eta = ele_mom.Eta();
-            const float ele_mag = std::sqrt(ele_mom.Mag2());  // Mag() isn't implemented for XYZVector
+            // Mag() isn't implemented for XYZVector
+            const float ele_mag = std::sqrt(ele_mom.Mag2());
             h_daughter_momentum_all->Fill(ele_mag);
             h_daughter_eta_all->Fill(ele_eta);
 
@@ -346,27 +347,39 @@ snippets into your code just after the event loop.
     # Calculate efficiencies and save output ==================================
 
     h_track_momentum_efficiency = h_track_momentum_all.Clone()
-    h_track_momentum_efficiency.SetNameTitle("h_track_momentum_efficiency", "Efficiency of matching tracks to clusters vs. track #it{p}")
+    h_track_momentum_efficiency.SetNameTitle(
+        "h_track_momentum_efficiency",
+        "Efficiency of matching tracks to clusters vs. track #it{p}")
     h_track_momentum_efficiency.Divide(h_track_momentum_match, h_track_momentum_all)
 
     h_track_eta_efficiency = h_track_eta_all.Clone()
-    h_track_eta_efficiency.SetNameTitle("h_track_eta_efficiency", "Efficiency of matching of tracks to clusters vs. track #eta")
+    h_track_eta_efficiency.SetNameTitle(
+        "h_track_eta_efficiency",
+        "Efficiency of matching of tracks to clusters vs. track #eta")
     h_track_eta_efficiency.Divide(h_track_eta_match, h_track_eta_all)
 
     h_daughter_momentum_efficiency = h_daughter_momentum_all.Clone()
-    h_daughter_momentum_efficiency.SetNameTitle("h_daughter_momentum_efficiency", "Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #it{p}")
+    h_daughter_momentum_efficiency.SetNameTitle(
+        "h_daughter_momentum_efficiency",
+        "Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #it{p}")
     h_daughter_momentum_efficiency.Divide(h_daughter_momentum_reco, h_daughter_momentum_all)
 
     h_daughter_eta_efficiency = h_daughter_eta_all.Clone()
-    h_daughter_eta_efficiency.SetNameTitle("h_daughter_eta_efficiency", "Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #eta")
+    h_daughter_eta_efficiency.SetNameTitle(
+        "h_daughter_eta_efficiency",
+        "Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #eta")
     h_daughter_eta_efficiency.Divide(h_daughter_eta_reco, h_daughter_eta_all)
 
     h_jpsi_momentum_efficiency = h_jpsi_momentum_all.Clone()
-    h_jpsi_momentum_efficiency.SetNameTitle("h_jpsi_momentum_efficiency", "Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #it{p}")
+    h_jpsi_momentum_efficiency.SetNameTitle(
+        "h_jpsi_momentum_efficiency",
+        "Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #it{p}")
     h_jpsi_momentum_efficiency.Divide(h_jpsi_momentum_reco, h_jpsi_momentum_all)
 
     h_jpsi_eta_efficiency = h_jpsi_eta_all.Clone()
-    h_jpsi_eta_efficiency.SetNameTitle("h_jpsi_eta_efficiency", "Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #eta")
+    h_jpsi_eta_efficiency.SetNameTitle(
+        "h_jpsi_eta_efficiency",
+        "Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #eta")
     h_jpsi_eta_efficiency.Divide(h_jpsi_eta_reco, h_jpsi_eta_all)
 ```
 
@@ -374,27 +387,39 @@ snippets into your code just after the event loop.
   // Calculate efficiencies and save output ===================================
 
   TH1D* h_track_momentum_efficiency = (TH1D*) h_track_momentum_all->Clone();
-  h_track_momentum_efficiency->SetNameTitle("h_track_momentum_efficiency", "Efficiency of matching tracks to clusters vs. track #it{p}");
+  h_track_momentum_efficiency->SetNameTitle(
+    "h_track_momentum_efficiency",
+    "Efficiency of matching tracks to clusters vs. track #it{p}");
   h_track_momentum_efficiency->Divide(h_track_momentum_match, h_track_momentum_all);
 
   TH1D* h_track_eta_efficiency = (TH1D*) h_track_eta_all->Clone();
-  h_track_eta_efficiency->SetNameTitle("h_track_eta_efficiency", "Efficiency of matching of tracks to clusters vs. track #eta");
+  h_track_eta_efficiency->SetNameTitle(
+    "h_track_eta_efficiency",
+    "Efficiency of matching of tracks to clusters vs. track #eta");
   h_track_eta_efficiency->Divide(h_track_eta_match, h_track_eta_all);
 
   TH1D* h_daughter_momentum_efficiency = (TH1D*) h_daughter_momentum_all->Clone();
-  h_daughter_momentum_efficiency->SetNameTitle("h_daughter_momentum_efficiency", "Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #it{p}");
+  h_daughter_momentum_efficiency->SetNameTitle(
+    "h_daughter_momentum_efficiency",
+    "Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #it{p}");
   h_daughter_momentum_efficiency->Divide(h_daughter_momentum_reco, h_daughter_momentum_all);
 
   TH1D* h_daughter_eta_efficiency = (TH1D*) h_daughter_eta_all->Clone();
-  h_daughter_eta_efficiency->SetNameTitle("h_daughter_eta_efficiency", "Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #eta");
+  h_daughter_eta_efficiency->SetNameTitle(
+    "h_daughter_eta_efficiency",
+    "Efficiency of reconstructing J/#psi daughter e^{#pm} vs. daughter #eta");
   h_daughter_eta_efficiency->Divide(h_daughter_eta_reco, h_daughter_eta_all);
 
   TH1D* h_jpsi_momentum_efficiency = (TH1D*) h_jpsi_momentum_all->Clone();
-  h_jpsi_momentum_efficiency->SetNameTitle("h_jpsi_momentum_efficiency", "Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #it{p}");
+  h_jpsi_momentum_efficiency->SetNameTitle(
+    "h_jpsi_momentum_efficiency",
+    "Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #it{p}");
   h_jpsi_momentum_efficiency->Divide(h_jpsi_momentum_reco, h_jpsi_momentum_all);
 
   TH1D* h_jpsi_eta_efficiency = (TH1D*) h_jpsi_eta_all->Clone();
-  h_jpsi_eta_efficiency->SetNameTitle("h_jpsi_eta_efficiency", "Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #eta");
+  h_jpsi_eta_efficiency->SetNameTitle(
+    "h_jpsi_eta_efficiency",
+    "Efficiency of reconstructing J/#psi #rightarrow e^{+}+e^{-} vs. J/#psi #eta");
   h_jpsi_eta_efficiency->Divide(h_jpsi_eta_reco, h_jpsi_eta_all);
 ```
 
