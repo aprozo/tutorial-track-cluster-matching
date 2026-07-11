@@ -19,6 +19,10 @@ exercises: 5
 
 :::::::::::::::::::::::::::::::::::::::::::::
 
+<style>
+pre.yaml code { white-space: pre-wrap; }
+</style>
+
 ## The EDM4eic Data Model
 
 A _data model_ is how we represent our data in our software.  In other words, a standardized
@@ -102,8 +106,7 @@ edm4eic::Track:
     - edm4eic::Trajectory trajectory // Trajectory of this track
   OneToManyRelations:
     - edm4eic::Measurement2D measurements // Measurements that were used for this track
-    - edm4eic::Track         tracks       // Tracks (segments) that have been
-      // combined to create this track
+    - edm4eic::Track         tracks       // Tracks (segments) that have been combined to create this track
 ```
 
 This is an example of a _class_.  At the top of the definition, we see some basic info like
@@ -262,34 +265,23 @@ edm4eic::Cluster:
   Description: "EIC hit cluster, reworked to more closely resemble EDM4hep"
   Author: "W. Armstrong, S. Joosten, C.Peng"
   Members:
-    - int32_t              type                         // Flag-word that defines the
-      // type of the cluster
-    - float                energy                       // Reconstructed energy of the
-      // cluster [GeV].
+    - int32_t              type                         // Flag-word that defines the type of the cluster
+    - float                energy                       // Reconstructed energy of the cluster [GeV].
     - float                energyError                  // Error on the cluster energy [GeV]
     - float                time                         // [ns]
     - float                timeError                    // Error on the cluster time
     - uint32_t             nhits                        // Number of hits in the cluster.
     - edm4hep::Vector3f    position                     // Global position of the cluster [mm].
-    - edm4eic::Cov3f       positionError                // Covariance matrix of the
-      // position (6 Parameters).
+    - edm4eic::Cov3f       positionError                // Covariance matrix of the position (6 Parameters).
     - float                radius                       // Cluster radius [mm].
     - float                dispersion                   // Cluster dispersion [mm].
-    - std::array<float, 3> principalAxesLengthsXYZ      // Lengths along the cluster's principal
-      // axes [mm], sorted in descending order (equivalent to sqrt of eigenvalues of the position
-      // covariance). For an XY planar detector one can expect this to be [sigma_max, sigma_min, 0].
-    - std::array<float, 2> principalAxesLengthsThetaPhi // Lengths along the cluster's principal
-      // axes [rad], sorted in descending order.
-    - float                intrinsicTheta               // Intrinsic cluster propagation
-      // direction polar angle [rad].
-    - float                intrinsicPhi                 // Intrinsic cluster propagation direction
-      // azimuthal angle [rad]. For an XY planar detector one can expect this to be the tilt of
-      // "sigma_max" axis.
-    - edm4eic::Cov2f        intrinsicDirectionError // Error on the intrinsic cluster
-      // propagation direction
+    - std::array<float, 3> principalAxesLengthsXYZ      // Lengths along the cluster's principal axes [mm], sorted in descending order (equivalent to sqrt of eigenvalues of the position covariance). For an XY planar detector one can expect this to be [sigma_max, sigma_min, 0].
+    - std::array<float, 2> principalAxesLengthsThetaPhi // Lengths along the cluster's principal axes [rad], sorted in descending order.
+    - float                intrinsicTheta               // Intrinsic cluster propagation direction polar angle [rad].
+    - float                intrinsicPhi                 // Intrinsic cluster propagation direction azimuthal angle [rad]. For an XY planar detector one can expect this to be the tilt of "sigma_max" axis.
+    - edm4eic::Cov2f        intrinsicDirectionError // Error on the intrinsic cluster propagation direction
   VectorMembers:
-    - float shapeParameters     // [DEPRECATED] use radius, dispersion,
-      // principalAxesLengthsXYZ/ThetaPhi instead.
+    - float shapeParameters     // [DEPRECATED] use radius, dispersion, principalAxesLengthsXYZ/ThetaPhi instead.
     - float hitContributions    // Energy contributions of the hits. Runs parallel to ::hits()
     - float subdetectorEnergies // Energies observed in each subdetector used for this cluster.
   OneToManyRelations:
