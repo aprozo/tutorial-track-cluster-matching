@@ -19,10 +19,6 @@ exercises: 5
 
 :::::::::::::::::::::::::::::::::::::::::::::
 
-<style>
-pre.yaml code { white-space: pre-wrap; }
-</style>
-
 ## The EDM4eic Data Model
 
 A _data model_ is how we represent our data in our software.  In other words, a standardized
